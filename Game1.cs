@@ -8,6 +8,7 @@ namespace RogueSimulator
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Texture2D myTexture;
 
         public Game1()
         {
@@ -28,6 +29,7 @@ namespace RogueSimulator
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            myTexture = Content.Load<Texture2D>("SpriteSheets/WalkRight");
         }
 
         protected override void Update(GameTime gameTime)
@@ -45,7 +47,9 @@ namespace RogueSimulator
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(myTexture, new Vector2(0, 0), Color.Aqua);
+            _spriteBatch.End();
             base.Draw(gameTime);
         }
     }
