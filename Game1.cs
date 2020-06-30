@@ -2,13 +2,15 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using RogueSimulator.Classes;
+
 namespace RogueSimulator
 {
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Texture2D myTexture;
+        private Character _player;
 
         public Game1()
         {
@@ -22,6 +24,7 @@ namespace RogueSimulator
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            _player = new Character(Content.Load<Texture2D>("SpriteSheets/Wizard/Idle"), new Position { X = 150, Y = 150 });
         }
 
         protected override void LoadContent()
@@ -29,7 +32,6 @@ namespace RogueSimulator
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            myTexture = Content.Load<Texture2D>("SpriteSheets/WalkRight");
         }
 
         protected override void Update(GameTime gameTime)
@@ -48,7 +50,7 @@ namespace RogueSimulator
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            _spriteBatch.Draw(myTexture, new Vector2(0, 0), Color.Aqua);
+            _player.Draw(gameTime, _spriteBatch);
             _spriteBatch.End();
             base.Draw(gameTime);
         }
