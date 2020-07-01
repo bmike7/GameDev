@@ -40,6 +40,8 @@ namespace RogueSimulator
                 Exit();
 
             // TODO: Add your update logic here
+            _player.Update(gameTime, Keyboard.GetState());
+
 
             base.Update(gameTime);
         }
