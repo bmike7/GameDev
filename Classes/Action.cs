@@ -1,9 +1,13 @@
+using System;
 using Microsoft.Xna.Framework;
 
 namespace RogueSimulator.Classes
 {
     public struct Action
     {
+        private const int ELAPSED_MS = 90;
+        private int _prevElapsed;
+
         public Action(int firstX, int y, int width, int height, int offset, int numberOfFrames)
         {
             _xStart = firstX;
@@ -12,8 +16,10 @@ namespace RogueSimulator.Classes
             _height = height;
             _offset = offset;
             _numberOfFrames = numberOfFrames;
-            _numberOfSelectedFrame = 0;
+            _numberOfSelectedFrame = 1;
+            _prevElapsed = 0;
         }
+
         private int _xStart { get; }
         private int _y { get; }
 
@@ -22,23 +28,24 @@ namespace RogueSimulator.Classes
         private int _offset { get; }
         private int _numberOfFrames { get; }
 
-        private int _numberOfSelectedFrame;
-        private int numberOfSelectedFrame
+        private int _numberOfSelectedFrame { get; set; }
+
+
+        public Rectangle getActionFrame(GameTime gt)
         {
-            get
+            int elapsed = Convert.ToInt32(gt.TotalGameTime.TotalMilliseconds / ELAPSED_MS);
+
+            if (elapsed > _prevElapsed)
             {
+                _prevElapsed = elapsed;
                 _numberOfSelectedFrame = _numberOfSelectedFrame++ >= _numberOfFrames
                     ? 1
                     : _numberOfSelectedFrame++;
-                return _numberOfSelectedFrame - 1;
             }
-        }
 
-        public Rectangle getActionFrame()
-        {
             return new Rectangle
             {
-                X = _xStart + numberOfSelectedFrame * _offset,
+                X = _xStart + (_numberOfSelectedFrame - 1) * _offset,
                 Y = _y,
                 Width = _width,
                 Height = _height,

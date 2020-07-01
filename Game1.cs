@@ -24,7 +24,7 @@ namespace RogueSimulator
             // TODO: Add your initialization logic here
 
             base.Initialize();
-            _player = new Character(Content.Load<Texture2D>("SpriteSheets/Wizard/allActions"), new Position { X = 150, Y = 150 });
+            _player = new Character(Content.Load<Texture2D>("SpriteSheets/Wizard/allActions"), new Vector2 { X = 150, Y = 150 });
         }
 
         protected override void LoadContent()
