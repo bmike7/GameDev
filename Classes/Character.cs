@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -7,9 +10,22 @@ namespace RogueSimulator.Classes
 
     public class Character
     {
+        private enum CharacterActions
+        {
+            IDLE,
+            RUN,
+            JUMP,
+            ATTACK,
+        }
+
         private Position _position;
         private Texture2D _texture;
-        private Action _idle = new Action(87, 1035, 58, 87, 231, 6);
+        // private Action _idle = new Action(87, 1035, 58, 87, 231, 6);
+
+        private Dictionary<CharacterActions, Action> _actions = new Dictionary<CharacterActions, Action>
+        {
+            {CharacterActions.IDLE, new Action(87, 1035, 58, 87, 231, 6)},
+        };
 
         public Character(Texture2D texture, Position pos)
         {
@@ -26,7 +42,7 @@ namespace RogueSimulator.Classes
             spriteBatch.Draw(
                 _texture,
                 _position,
-                _idle.getActionFrame(gameTime),
+                _actions.Single(action => action.Key == CharacterActions.IDLE).Value.getActionFrame(gameTime),
                 Color.White
             );
         }

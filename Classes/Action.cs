@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace RogueSimulator.Classes
 {
-    public struct Action
+    public class Action
     {
         private const int ELAPSED_MS = 90;
         private int _prevElapsed;
@@ -34,7 +34,6 @@ namespace RogueSimulator.Classes
         public Rectangle getActionFrame(GameTime gt)
         {
             int elapsed = Convert.ToInt32(gt.TotalGameTime.TotalMilliseconds / ELAPSED_MS);
-
             if (elapsed > _prevElapsed)
             {
                 _prevElapsed = elapsed;
