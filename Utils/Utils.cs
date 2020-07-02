@@ -1,14 +1,12 @@
 namespace RogueSimulator
 {
-    enum CharacterActions
+    public enum CharacterAction
     {
         IDLE,
         RUN,
-        JUMP,
-        ATTACK,
     }
 
-    enum CharacterDirection
+    public enum CharacterDirection
     {
         LEFT,
         RIGHT,
