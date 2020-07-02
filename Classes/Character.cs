@@ -1,27 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Position = Microsoft.Xna.Framework.Vector2;
 
 namespace RogueSimulator.Classes
 {
-    using Position = Microsoft.Xna.Framework.Vector2;
-
-    enum CharacterActions
-    {
-        IDLE,
-        RUN,
-        JUMP,
-        ATTACK,
-    }
-
-    enum CharacterDirection
-    {
-        LEFT,
-        RIGHT,
-    }
 
     public class Character
     {
