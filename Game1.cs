@@ -36,6 +36,8 @@ namespace RogueSimulator
             // TODO: use this.Content to load your game content here
             _player = new Character(Content.Load<Texture2D>("SpriteSheets/Wizard/allActions"), new Vector2 { X = 150, Y = 150 });
             _level = new Level(Content.Load<Texture2D>("SpriteSheets/Tileset/jungleTileSet"));
+
+            _level.CreateWorld();
         }
 
         protected override void Update(GameTime gameTime)
@@ -56,6 +58,7 @@ namespace RogueSimulator
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
+            _level.DrawLevel(_spriteBatch);
             _player.Draw(_spriteBatch);
 
             _spriteBatch.End();
