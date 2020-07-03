@@ -16,7 +16,7 @@ namespace RogueSimulator.Classes
         public CharacterDirection Direction { get; private set; }
         public Position Position { get; private set; }
 
-        public void UpdateMovement(GameTime gameTime, KeyboardState keyboardState)
+        public void Update(GameTime gameTime, KeyboardState keyboardState)
         {
             Vector2 nextPos = Position.GetNextPosition(gameTime, keyboardState, Direction, Action);
 

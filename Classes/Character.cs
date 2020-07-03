@@ -26,7 +26,7 @@ namespace RogueSimulator.Classes
 
         public virtual void Update(GameTime gameTime, KeyboardState keyboardState)
         {
-            _movement.UpdateMovement(gameTime, keyboardState);
+            _movement.Update(gameTime, keyboardState);
         }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
