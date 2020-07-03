@@ -12,10 +12,10 @@ namespace RogueSimulator.Classes
         private Movement _movement;
         private Texture2D _texture;
 
-        private Dictionary<CharacterAction, Action> _actions = new Dictionary<CharacterAction, Action>
+        private Dictionary<CharacterAction, Animation> _actions = new Dictionary<CharacterAction, Animation>
         {
-            {CharacterAction.IDLE, new Action(87, 1035, 58, 87, 231, 6)},
-            {CharacterAction.RUN, new Action(75, 1432, 78, 85, 231, 8)},
+            {CharacterAction.IDLE, new Animation(87, 1035, 58, 87, 231, 6)},
+            {CharacterAction.RUN, new Animation(75, 1432, 78, 85, 231, 8)},
         };
 
         public Character(Texture2D texture, Vector2 pos)
@@ -26,15 +26,16 @@ namespace RogueSimulator.Classes
 
         public virtual void Update(GameTime gameTime, KeyboardState keyboardState)
         {
+            getCurrentAnimation().Update(gameTime);
             _movement.Update(gameTime, keyboardState);
         }
 
-        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
                 _texture,
                 new Vector2(_movement.Position.X, _movement.Position.Y),
-                _actions.Single(action => action.Key == _movement.Action).Value.getActionFrame(gameTime),
+                getCurrentAnimation().getAnimationFrame(),
                 Color.White,
                 0,
                 new Vector2(0, 0),
@@ -42,6 +43,11 @@ namespace RogueSimulator.Classes
                 _movement.Direction == CharacterDirection.LEFT ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
                 0
             );
+        }
+
+        private Animation getCurrentAnimation()
+        {
+            return _actions.Single(action => action.Key == _movement.Action).Value;
         }
     }
 }

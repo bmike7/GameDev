@@ -3,12 +3,12 @@ using Microsoft.Xna.Framework;
 
 namespace RogueSimulator.Classes
 {
-    public class Action
+    public class Animation
     {
         private const int ELAPSED_MS = 90;
         private int _prevElapsed;
 
-        public Action(int firstX, int y, int width, int height, int offset, int numberOfFrames)
+        public Animation(int firstX, int y, int width, int height, int offset, int numberOfFrames)
         {
             _xStart = firstX;
             _y = y;
@@ -31,7 +31,7 @@ namespace RogueSimulator.Classes
         private int _numberOfSelectedFrame { get; set; }
 
 
-        public Rectangle getActionFrame(GameTime gt)
+        public void Update(GameTime gt)
         {
             int elapsed = Convert.ToInt32(gt.TotalGameTime.TotalMilliseconds / ELAPSED_MS);
             if (elapsed > _prevElapsed)
@@ -41,7 +41,10 @@ namespace RogueSimulator.Classes
                     ? 1
                     : _numberOfSelectedFrame++;
             }
+        }
 
+        public Rectangle getAnimationFrame()
+        {
             return new Rectangle
             {
                 X = _xStart + (_numberOfSelectedFrame - 1) * _offset,

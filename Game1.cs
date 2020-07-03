@@ -53,7 +53,7 @@ namespace RogueSimulator
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
-            _player.Draw(gameTime, _spriteBatch);
+            _player.Draw(_spriteBatch);
 
             _spriteBatch.End();
             base.Draw(gameTime);
