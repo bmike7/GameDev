@@ -4,7 +4,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace RogueSimulator.Classes
+using RogueSimulator.Classes.Mechanics;
+
+namespace RogueSimulator.Classes.Characters
 {
 
     public class Character

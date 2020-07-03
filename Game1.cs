@@ -2,7 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using RogueSimulator.Classes;
+using RogueSimulator.Classes.Characters;
+using RogueSimulator.Classes.Mechanics;
+using RogueSimulator.Classes.Level;
 
 namespace RogueSimulator
 {
@@ -11,6 +13,7 @@ namespace RogueSimulator
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Character _player;
+        private Level _level;
 
         public Game1()
         {
@@ -32,6 +35,7 @@ namespace RogueSimulator
 
             // TODO: use this.Content to load your game content here
             _player = new Character(Content.Load<Texture2D>("SpriteSheets/Wizard/allActions"), new Vector2 { X = 150, Y = 150 });
+            _level = new Level(Content.Load<Texture2D>("SpriteSheets/Tileset/jungleTileSet"));
         }
 
         protected override void Update(GameTime gameTime)
