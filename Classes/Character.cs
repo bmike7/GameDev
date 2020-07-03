@@ -3,7 +3,6 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Position = Microsoft.Xna.Framework.Vector2;
 
 namespace RogueSimulator.Classes
 {
@@ -19,7 +18,7 @@ namespace RogueSimulator.Classes
             {CharacterAction.RUN, new Action(75, 1432, 78, 85, 231, 8)},
         };
 
-        public Character(Texture2D texture, Position pos)
+        public Character(Texture2D texture, Vector2 pos)
         {
             _texture = texture;
             _movement = new Movement(pos);
@@ -34,7 +33,7 @@ namespace RogueSimulator.Classes
         {
             spriteBatch.Draw(
                 _texture,
-                _movement.Position,
+                new Vector2(_movement.Position.X, _movement.Position.Y),
                 _actions.Single(action => action.Key == _movement.Action).Value.getActionFrame(gameTime),
                 Color.White,
                 0,
