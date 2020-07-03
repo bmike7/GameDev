@@ -12,7 +12,7 @@ namespace RogueSimulator.Classes
         private Movement _movement;
         private Texture2D _texture;
 
-        private Dictionary<CharacterAction, Animation> _actions = new Dictionary<CharacterAction, Animation>
+        private Dictionary<CharacterAction, Animation> _actionAnimations = new Dictionary<CharacterAction, Animation>
         {
             {CharacterAction.IDLE, new Animation(87, 1035, 58, 87, 231, 6)},
             {CharacterAction.RUN, new Animation(75, 1432, 78, 85, 231, 8)},
@@ -47,7 +47,7 @@ namespace RogueSimulator.Classes
 
         private Animation getCurrentAnimation()
         {
-            return _actions.Single(action => action.Key == _movement.Action).Value;
+            return _actionAnimations.Single(action => action.Key == _movement.Action).Value;
         }
     }
 }
