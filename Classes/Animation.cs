@@ -31,9 +31,9 @@ namespace RogueSimulator.Classes
         private int _numberOfSelectedFrame { get; set; }
 
 
-        public void Update(GameTime gt)
+        public void Update(GameTime gameTime)
         {
-            int elapsed = Convert.ToInt32(gt.TotalGameTime.TotalMilliseconds / ELAPSED_MS);
+            int elapsed = Convert.ToInt32(gameTime.TotalGameTime.TotalMilliseconds / ELAPSED_MS);
             if (elapsed > _prevElapsed)
             {
                 _prevElapsed = elapsed;

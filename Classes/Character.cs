@@ -24,10 +24,10 @@ namespace RogueSimulator.Classes
             _movement = new Movement(pos);
         }
 
-        public virtual void Update(GameTime gameTime, KeyboardState keyboardState)
+        public virtual void Update(GameTime gameTime)
         {
             getCurrentAnimation().Update(gameTime);
-            _movement.Update(gameTime, keyboardState);
+            _movement.Update(gameTime);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

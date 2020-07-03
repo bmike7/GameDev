@@ -40,12 +40,11 @@ namespace RogueSimulator
                 Exit();
 
             // TODO: Add your update logic here
-            _player.Update(gameTime, Keyboard.GetState());
+            _player.Update(gameTime);
 
 
             base.Update(gameTime);
         }
-
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);

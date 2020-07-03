@@ -36,7 +36,6 @@ namespace RogueSimulator.Classes
 
         public Vector2 GetNextPosition(
             GameTime gameTime,
-            KeyboardState keyboardState,
             CharacterDirection prevCharDir,
             CharacterAction prevCharAct
         )
@@ -45,8 +44,9 @@ namespace RogueSimulator.Classes
             _prevCharDir = prevCharDir;
             _prevCharAct = prevCharAct;
 
-            bool isRight = keyboardState.IsKeyDown(Keys.D);
-            bool isLeft = keyboardState.IsKeyDown(Keys.A);
+            KeyboardState kb = Keyboard.GetState();
+            bool isRight = kb.IsKeyDown(Keys.D);
+            bool isLeft = kb.IsKeyDown(Keys.A);
 
             float x = getNewX(isRight, isLeft);
 
