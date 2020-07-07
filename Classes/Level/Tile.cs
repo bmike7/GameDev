@@ -16,7 +16,12 @@ namespace RogueSimulator.Classes.Level
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, Position, Color.White);
+            spriteBatch.Draw(
+                _texture,
+                Position,
+                new Rectangle(159, 31, 31, 31),
+                Color.White
+            );
         }
     }
 }
