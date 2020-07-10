@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 
 using RogueSimulator.Classes.Characters;
 using RogueSimulator.Classes.Level;
+using RogueSimulator.Classes.Mechanics;
 
 namespace RogueSimulator
 {
@@ -13,6 +14,7 @@ namespace RogueSimulator
         private SpriteBatch _spriteBatch;
         private Character _player;
         private BaseLevel _currentLevel;
+        private Camera2D _camera;
 
         public Game1()
         {
@@ -24,7 +26,7 @@ namespace RogueSimulator
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            _camera = new Camera2D(GraphicsDevice.Viewport);
             base.Initialize();
         }
 
@@ -45,8 +47,8 @@ namespace RogueSimulator
                 Exit();
 
             // TODO: Add your update logic here
+            _camera.Update();
             _player.Update(gameTime);
-
 
             base.Update(gameTime);
         }
@@ -55,7 +57,7 @@ namespace RogueSimulator
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix());
 
             _currentLevel.Draw(_spriteBatch);
             _player.Draw(_spriteBatch);
