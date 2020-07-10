@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Xna.Framework;
 
-namespace RogueSimulator.Classes
+namespace RogueSimulator.Classes.Mechanics
 {
     public class Animation
     {

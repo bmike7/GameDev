@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace RogueSimulator.Classes
+namespace RogueSimulator.Classes.Mechanics
 {
     public class Movement
     {
