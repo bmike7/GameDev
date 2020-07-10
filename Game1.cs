@@ -47,8 +47,8 @@ namespace RogueSimulator
                 Exit();
 
             // TODO: Add your update logic here
-            _camera.Update();
             _player.Update(gameTime);
+            _camera.UpdatePosition(_player.GetPosition());
 
             base.Update(gameTime);
         }

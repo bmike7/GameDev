@@ -18,24 +18,14 @@ namespace RogueSimulator.Classes.Mechanics
             Position = Vector2.Zero;
         }
 
-        public void Update()
+        public void UpdatePosition(Vector2 playerPosition)
         {
-            if (Utility.IsKeyPressed(Keys.F1))
-            {
-                var tempPos = Position;
-                tempPos.X += 1;
-                Position = tempPos;
-            }
-            if (Utility.IsKeyPressed(Keys.F2))
-            {
-                var tempPos = Position;
-                tempPos.X -= 1;
-                Position = tempPos;
-            }
-            if (Utility.IsKeyPressed(Keys.F3)) Rotation += .1f;
-            if (Utility.IsKeyPressed(Keys.F4)) Rotation -= .1f;
-            if (Utility.IsKeyPressed(Keys.F5)) Zoom += .1f;
-            if (Utility.IsKeyPressed(Keys.F6)) Zoom -= .1f;
+            var tempPos = Position;
+            tempPos.X = playerPosition.X - _viewport.Width * 0.25f;
+            Position = tempPos;
+            // Example of updating camera before camera followed player
+            // But removed those because it was obselete and KISS
+            // if (Utility.IsKeyPressed(Keys.F3)) Rotation += .1f;
         }
 
         public Vector2 ViewportCenter
