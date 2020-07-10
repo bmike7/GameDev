@@ -46,6 +46,11 @@ namespace RogueSimulator.Classes.Characters
             );
         }
 
+        public Vector2 GetPosition()
+        {
+            return new Vector2(_movement.Position.X, _movement.Position.Y);
+        }
+
         private Animation getCurrentAnimation()
         {
             return _actionAnimations.Single(action => action.Key == _movement.Action).Value;

@@ -44,9 +44,8 @@ namespace RogueSimulator.Classes.Mechanics
             _prevCharDir = prevCharDir;
             _prevCharAct = prevCharAct;
 
-            KeyboardState kb = Keyboard.GetState();
-            bool isRight = kb.IsKeyDown(Keys.D);
-            bool isLeft = kb.IsKeyDown(Keys.A);
+            bool isRight = Utility.IsKeyPressed(Keys.D);
+            bool isLeft = Utility.IsKeyPressed(Keys.A);
 
             float x = getNewX(isRight, isLeft);
 
