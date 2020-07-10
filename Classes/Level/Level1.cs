@@ -8,7 +8,7 @@ namespace RogueSimulator.Classes.Level
     {
         private enum TileType
         {
-            None,
+            NONE,
             GROUND,
             LEFTWALL,
             RIGHTWALL,
@@ -25,8 +25,8 @@ namespace RogueSimulator.Classes.Level
         private const int NUMBER_OF_COLUMNS = 30;
         private int[,] _levelDesign = new int[NUMBER_OF_LINES, NUMBER_OF_COLUMNS]
         {
-            {0,0,0,0,0,0,4,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,2,3,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,4,0,0,4,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,2,3,0,0,4,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
         };
         private List<Tile<TileType>> _tiles = new List<Tile<TileType>>();
@@ -48,7 +48,7 @@ namespace RogueSimulator.Classes.Level
 
                     TileType type = (TileType)_levelDesign[line, block];
 
-                    if (type != TileType.None)
+                    if (type != TileType.NONE)
                     {
                         Tile<TileType> newTile = new Tile<TileType>(_texture, position, _tileType[type], type);
                         _tiles.Add(newTile);

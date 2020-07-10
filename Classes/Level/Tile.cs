@@ -7,15 +7,15 @@ namespace RogueSimulator.Classes.Level
     {
         public static int SIZE = 50;
         private Texture2D _texture;
-        private Rectangle _spriteSheetLocation;
+        private Rectangle _tileRectangle;
         private T _type;
         public Vector2 Position { get; set; }
 
-        public Tile(Texture2D texture, Vector2 position, Rectangle spriteSheetLocation, T type)
+        public Tile(Texture2D texture, Vector2 position, Rectangle tileRectangle, T type)
         {
             _texture = texture;
             Position = position;
-            _spriteSheetLocation = spriteSheetLocation;
+            _tileRectangle = tileRectangle;
             _type = type;
         }
 
@@ -24,11 +24,11 @@ namespace RogueSimulator.Classes.Level
             spriteBatch.Draw(
                 _texture,
                 Position,
-                _spriteSheetLocation,
+                _tileRectangle,
                 Color.White,
                 0,
                 new Vector2(0, 0),
-                (float)SIZE / _spriteSheetLocation.Height,
+                (float)SIZE / _tileRectangle.Height,
                 SpriteEffects.None,
                 0
             );
