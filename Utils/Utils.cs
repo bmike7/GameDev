@@ -18,8 +18,7 @@ namespace RogueSimulator
     {
         public static bool IsKeyPressed(Keys key)
         {
-            KeyboardState stateKey = Keyboard.GetState();
-            return stateKey.IsKeyDown(key);
+            return Keyboard.GetState().IsKeyDown(key);
         }
     }
 }

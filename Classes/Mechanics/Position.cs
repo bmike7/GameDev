@@ -44,10 +44,13 @@ namespace RogueSimulator.Classes.Mechanics
             _prevCharDir = prevCharDir;
             _prevCharAct = prevCharAct;
 
-            bool isRight = Utility.IsKeyPressed(Keys.D);
-            bool isLeft = Utility.IsKeyPressed(Keys.A);
+            bool isMovingRight = Utility.IsKeyPressed(Keys.D);
+            bool isMovingLeft = Utility.IsKeyPressed(Keys.A);
+            bool isMovingUp = Utility.IsKeyPressed(Keys.W);
+            bool isMovingDown = Utility.IsKeyPressed(Keys.S);
 
-            float x = getNewX(isRight, isLeft);
+            float x = getNewX(isMovingRight, isMovingLeft);
+            float y = getNewY(isMovingUp, isMovingDown);
 
             return new Vector2(x, Y);
         }
@@ -59,6 +62,11 @@ namespace RogueSimulator.Classes.Mechanics
                 : isLeft
                     ? X - numberOfHorizontalPixelsToTravel(CharacterDirection.LEFT, CharacterAction.RUN)
                     : X;
+        }
+
+        private float getNewY(bool isUp, bool isDown)
+        {
+            return 0f;
         }
 
         private float numberOfHorizontalPixelsToTravel(CharacterDirection newCharDir, CharacterAction newCharAct)
