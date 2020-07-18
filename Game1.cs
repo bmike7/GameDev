@@ -47,11 +47,14 @@ namespace RogueSimulator
                 Exit();
 
             // TODO: Add your update logic here
-            _player.Update(gameTime);
+            CollisionBlock[] nearTiles = _currentLevel.GetCollisionBlocks(_player.GetPosition());
+
+            _player.Update(gameTime, nearTiles);
             _camera.UpdatePosition(_player.GetPosition());
 
             base.Update(gameTime);
         }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);

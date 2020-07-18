@@ -5,7 +5,7 @@ namespace RogueSimulator.Classes.Mechanics
 {
     public class Position
     {
-        private const int NUMBER_OF_PIXELS_TO_TRAVEL_P_S = 250;
+        private const int NUMBER_OF_PIXELS_TO_TRAVEL_P_S = 300;
         private double _prevElapsed = 0;
 
         /* Normally you would think a Position wouldn't need a Direction and an Action,
@@ -17,6 +17,7 @@ namespace RogueSimulator.Classes.Mechanics
         private CharacterDirection _prevCharDir = CharacterDirection.RIGHT;
         private CharacterAction _prevCharAct = CharacterAction.IDLE;
         private GameTime _tempGameTime;
+        private CollisionBlock[] _tempCollisionBlocks;
 
 
         public Position(float x, float y)
@@ -37,10 +38,12 @@ namespace RogueSimulator.Classes.Mechanics
         public Vector2 GetNextPosition(
             GameTime gameTime,
             CharacterDirection prevCharDir,
-            CharacterAction prevCharAct
+            CharacterAction prevCharAct,
+            CollisionBlock[] collisionBlocks
         )
         {
             _tempGameTime = gameTime;
+            _tempCollisionBlocks = collisionBlocks;
             _prevCharDir = prevCharDir;
             _prevCharAct = prevCharAct;
 
@@ -67,9 +70,9 @@ namespace RogueSimulator.Classes.Mechanics
         private float getNewY(bool isDown, bool isUp)
         {
             return isDown
-                ? Y + numberOfVerticalPixelsToTravel(CharacterDirection.DOWN, CharacterAction.FALL)
+                ? Y + numberOfVerticalPixelsToTravel()
                 : isUp
-                    ? Y - numberOfVerticalPixelsToTravel(CharacterDirection.UP, CharacterAction.JUMP)
+                    ? Y - numberOfVerticalPixelsToTravel()
                     : Y;
         }
 
@@ -91,20 +94,8 @@ namespace RogueSimulator.Classes.Mechanics
             return toTravel != 0 ? toTravel : 1;
         }
 
-        private float numberOfVerticalPixelsToTravel(CharacterDirection newCharDir, CharacterAction newCharAct)
+        private float numberOfVerticalPixelsToTravel()
         {
-            //to implement collision kinda copied horizontal travel, later this needs to be jumping and falling
-            // double elapsed = _tempGameTime.TotalGameTime.TotalMilliseconds;
-
-            // if (newCharDir != _prevCharDir || newCharAct != _prevCharAct)
-            //     _prevElapsed = elapsed;
-
-            // float toTravel = (float)(NUMBER_OF_PIXELS_TO_TRAVEL_P_S * 10 * (elapsed - _prevElapsed) / 1000);
-
-            // _prevElapsed = elapsed;
-
-            // System.Console.WriteLine(toTravel);
-            // return toTravel != 0 ? toTravel : 1;
             return 3;
         }
     }

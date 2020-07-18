@@ -27,26 +27,26 @@ namespace RogueSimulator.Classes.Characters
             _movement = new Movement(pos);
         }
 
-        public virtual void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime, CollisionBlock[] collisionTiles)
         {
             Animation currentAnimation = getCurrentAnimation();
 
             currentAnimation.Update(gameTime);
-            _movement.Update(gameTime);
+            _movement.Update(gameTime, collisionTiles);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
-                _texture,
-                new Vector2(_movement.Position.X, _movement.Position.Y),
-                getCurrentAnimation().getAnimationFrame(),
-                Color.White,
-                0,
-                new Vector2(0, 0),
-                new Vector2(1, 1),
-                _movement.Direction == CharacterDirection.LEFT ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
-                0
+                texture: _texture,
+                position: new Vector2(_movement.Position.X, _movement.Position.Y),
+                sourceRectangle: getCurrentAnimation().getAnimationFrame(),
+                color: Color.White,
+                rotation: 0,
+                origin: new Vector2(0, 0),
+                scale: new Vector2(1, 1),
+                effects: _movement.Direction == CharacterDirection.LEFT ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                layerDepth: 0
             );
         }
 
