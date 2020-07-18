@@ -17,6 +17,8 @@ namespace RogueSimulator.Classes.Characters
         {
             {CharacterAction.IDLE, new Animation(87, 1035, 58, 87, 231, 6)},
             {CharacterAction.RUN, new Animation(75, 1432, 78, 85, 231, 8)},
+            {CharacterAction.JUMP, new Animation(68, 1229, 65, 87, 231, 2)},
+            {CharacterAction.FALL, new Animation(74, 621, 59, 100, 231, 2)},
         };
 
         public Character(Texture2D texture, Vector2 pos)
@@ -27,7 +29,9 @@ namespace RogueSimulator.Classes.Characters
 
         public virtual void Update(GameTime gameTime)
         {
-            getCurrentAnimation().Update(gameTime);
+            Animation currentAnimation = getCurrentAnimation();
+
+            currentAnimation.Update(gameTime);
             _movement.Update(gameTime);
         }
 

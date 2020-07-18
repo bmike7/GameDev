@@ -9,7 +9,7 @@ namespace RogueSimulator.Classes.Mechanics
         private double _prevElapsed = 0;
 
         /* Normally you would think a Position wouldn't need a Direction and an Action,
-         * but these variables are saved here as a private field
+         * but these variables are saved here as private fields
          * because then they can get stored and I wouldn't need to pass it through al
          * the methods manually and methods wouldn't have like a zillion parameters.
          * So it was for readability reasons
@@ -50,9 +50,9 @@ namespace RogueSimulator.Classes.Mechanics
             bool isMovingDown = Utility.IsKeyPressed(Keys.S);
 
             float x = getNewX(isMovingRight, isMovingLeft);
-            float y = getNewY(isMovingUp, isMovingDown);
+            float y = getNewY(isMovingDown, isMovingUp);
 
-            return new Vector2(x, Y);
+            return new Vector2(x, y);
         }
 
         private float getNewX(bool isRight, bool isLeft)
@@ -64,9 +64,13 @@ namespace RogueSimulator.Classes.Mechanics
                     : X;
         }
 
-        private float getNewY(bool isUp, bool isDown)
+        private float getNewY(bool isDown, bool isUp)
         {
-            return 0f;
+            return isDown
+                ? Y + numberOfVerticalPixelsToTravel(CharacterDirection.DOWN, CharacterAction.FALL)
+                : isUp
+                    ? Y - numberOfVerticalPixelsToTravel(CharacterDirection.UP, CharacterAction.JUMP)
+                    : Y;
         }
 
         private float numberOfHorizontalPixelsToTravel(CharacterDirection newCharDir, CharacterAction newCharAct)
@@ -74,7 +78,7 @@ namespace RogueSimulator.Classes.Mechanics
             double elapsed = _tempGameTime.TotalGameTime.TotalMilliseconds;
 
             // if other movement as prev, reset _prevElapsed to check against.
-            // Otherwise the char could move like 250px in ove event loop cycle.
+            // Otherwise the char could move like 250px in one event loop cycle.
             if (newCharDir != _prevCharDir || newCharAct != _prevCharAct)
                 _prevElapsed = elapsed;
 
@@ -85,6 +89,23 @@ namespace RogueSimulator.Classes.Mechanics
             // Because the movement is chosen dependent on the new location and the previous one,
             // the character needs to move at least a little bit instead of nothing at all. I've chosen for 1px.
             return toTravel != 0 ? toTravel : 1;
+        }
+
+        private float numberOfVerticalPixelsToTravel(CharacterDirection newCharDir, CharacterAction newCharAct)
+        {
+            //to implement collision kinda copied horizontal travel, later this needs to be jumping and falling
+            // double elapsed = _tempGameTime.TotalGameTime.TotalMilliseconds;
+
+            // if (newCharDir != _prevCharDir || newCharAct != _prevCharAct)
+            //     _prevElapsed = elapsed;
+
+            // float toTravel = (float)(NUMBER_OF_PIXELS_TO_TRAVEL_P_S * 10 * (elapsed - _prevElapsed) / 1000);
+
+            // _prevElapsed = elapsed;
+
+            // System.Console.WriteLine(toTravel);
+            // return toTravel != 0 ? toTravel : 1;
+            return 3;
         }
     }
 }

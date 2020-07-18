@@ -6,12 +6,16 @@ namespace RogueSimulator
     {
         IDLE,
         RUN,
+        JUMP,
+        FALL,
     }
 
     public enum CharacterDirection
     {
         LEFT,
         RIGHT,
+        UP,
+        DOWN,
     }
 
     public static class Utility

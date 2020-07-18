@@ -22,13 +22,13 @@ namespace RogueSimulator.Classes.Mechanics
 
             // The Direction and Action needs to be updated before the position
             // Because they depend on the current and the next one.
-            UpdateDirection(nextPos);
-            UpdateAction(nextPos);
+            updateDirection(nextPos);
+            updateAction(nextPos);
 
             Position.Update(nextPos);
         }
 
-        private void UpdateDirection(Vector2 newPos)
+        private void updateDirection(Vector2 newPos)
         {
             bool isLeft = newPos.X < Position.X;
             bool isRight = newPos.X > Position.X;
@@ -40,8 +40,14 @@ namespace RogueSimulator.Classes.Mechanics
                     : Direction;
         }
 
-        private void UpdateAction(Vector2 newPos)
+        private void updateAction(Vector2 newPos)
         {
+            if (newPos.Y != Position.Y)
+            {
+                Action = newPos.Y < Position.Y ? CharacterAction.JUMP : CharacterAction.FALL;
+                return;
+            }
+
             Action = newPos.X != Position.X ? CharacterAction.RUN : CharacterAction.IDLE;
         }
     }
