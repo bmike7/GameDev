@@ -14,8 +14,14 @@ namespace RogueSimulator
     {
         LEFT,
         RIGHT,
-        UP,
-        DOWN,
+    }
+
+    public enum CollisionSide
+    {
+        TOP,
+        RIGHT,
+        BOTTOM,
+        LEFT,
     }
 
     public static class Utility

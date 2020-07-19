@@ -32,7 +32,7 @@ namespace RogueSimulator.Classes.Characters
             Animation currentAnimation = getCurrentAnimation();
 
             currentAnimation.Update(gameTime);
-            _movement.Update(gameTime, collisionTiles);
+            _movement.Update(gameTime, currentAnimation.getAnimationFrameRectangle(), collisionTiles);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -40,7 +40,7 @@ namespace RogueSimulator.Classes.Characters
             spriteBatch.Draw(
                 texture: _texture,
                 position: new Vector2(_movement.Position.X, _movement.Position.Y),
-                sourceRectangle: getCurrentAnimation().getAnimationFrame(),
+                sourceRectangle: getCurrentAnimation().getAnimationFrameRectangle(),
                 color: Color.White,
                 rotation: 0,
                 origin: new Vector2(0, 0),

@@ -16,9 +16,13 @@ namespace RogueSimulator.Classes.Mechanics
         public CharacterDirection Direction { get; private set; }
         public Position Position { get; private set; }
 
-        public void Update(GameTime gameTime, CollisionBlock[] collisionBlocks)
+        public void Update(
+            GameTime gameTime,
+            Rectangle animationFrameRectangle,
+            CollisionBlock[] collisionBlocks
+        )
         {
-            Vector2 nextPos = Position.GetNextPosition(gameTime, collisionBlocks);
+            Vector2 nextPos = Position.GetNextPosition(gameTime, animationFrameRectangle, collisionBlocks);
 
             // The Direction and Action needs to be updated before the position
             // Because they depend on the current and the next one.
