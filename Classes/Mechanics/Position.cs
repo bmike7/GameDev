@@ -18,13 +18,7 @@ namespace RogueSimulator.Classes.Mechanics
         {
             X = x;
             Y = y;
-            _input = new Input
-            {
-                IsUp = false,
-                IsRight = false,
-                isDown = false,
-                IsLeft = false,
-            };
+            _input = new Input();
         }
 
         public float X { get; private set; }

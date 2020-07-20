@@ -4,10 +4,10 @@ namespace RogueSimulator.Classes.Mechanics
 {
     public class Input
     {
-        public bool IsRight { get; set; }
-        public bool IsLeft { get; set; }
-        public bool IsUp { get; set; }
-        public bool isDown { get; set; }
+        public bool IsRight { get; set; } = false;
+        public bool IsLeft { get; set; } = false;
+        public bool IsUp { get; set; } = false;
+        public bool isDown { get; set; } = false;
 
         public void Update()
         {
