@@ -19,7 +19,7 @@ namespace RogueSimulator.Classes.Mechanics
         public void Update(
             GameTime gameTime,
             Rectangle animationFrameRectangle,
-            CollisionBlock[] collisionBlocks
+            ICollidable[] collisionBlocks
         )
         {
             Vector2 nextPos = Position.GetNextPosition(gameTime, animationFrameRectangle, collisionBlocks);

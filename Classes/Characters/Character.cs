@@ -27,7 +27,7 @@ namespace RogueSimulator.Classes.Characters
             _movement = new Movement(pos);
         }
 
-        public virtual void Update(GameTime gameTime, CollisionBlock[] collisionTiles)
+        public virtual void Update(GameTime gameTime, ICollidable[] collisionTiles)
         {
             Animation currentAnimation = getCurrentAnimation();
 

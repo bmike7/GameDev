@@ -2,9 +2,18 @@ using Microsoft.Xna.Framework;
 
 namespace RogueSimulator.Classes.Mechanics
 {
-    public class CollisionBlock
+    public class CollisionBlock : ICollidable
     {
-        public Rectangle Rectangle { get; set; }
-        public Vector2 Position { get; set; }
+        public Rectangle CollisionRectangle { get; }
+
+        public CollisionBlock(Vector2 position, Rectangle animationFrame)
+        {
+            CollisionRectangle = new Rectangle(
+                x: (int)position.X,
+                y: (int)position.Y,
+                width: animationFrame.Width,
+                height: animationFrame.Height
+            );
+        }
     }
 }

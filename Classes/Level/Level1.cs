@@ -17,7 +17,7 @@ namespace RogueSimulator.Classes.Level
             BLOCK
         }
 
-        private Dictionary<TileType, Rectangle> _tileType = new Dictionary<TileType, Rectangle> {
+        private Dictionary<TileType, Rectangle> _tileTypes = new Dictionary<TileType, Rectangle> {
             {TileType.GROUND, new Rectangle(90, 30, 30, 30)},
             {TileType.LEFTWALL, new Rectangle(64, 56, 30, 30)},
             {TileType.RIGHTWALL, new Rectangle(115, 56, 30, 30)},
@@ -33,7 +33,7 @@ namespace RogueSimulator.Classes.Level
             {0,0,0,0,0,2,3,0,0,4,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
         };
-        private List<Tile<TileType>> _tiles = new List<Tile<TileType>>();
+        private List<Tile> _tiles = new List<Tile>();
 
         public Level1(Texture2D texture, Viewport viewport)
         {
@@ -47,14 +47,14 @@ namespace RogueSimulator.Classes.Level
             {
                 for (int block = 0; block < NUMBER_OF_COLUMNS; block++)
                 {
-                    int startY = _viewport.Height - NUMBER_OF_LINES * Tile<TileType>.SIZE;
-                    Vector2 position = new Vector2(block * Tile<TileType>.SIZE, line * Tile<TileType>.SIZE + startY);
+                    int startY = _viewport.Height - NUMBER_OF_LINES * Tile.SIZE;
+                    Vector2 position = new Vector2(block * Tile.SIZE, line * Tile.SIZE + startY);
 
                     TileType type = (TileType)_levelDesign[line, block];
 
                     if (type != TileType.NONE)
                     {
-                        Tile<TileType> newTile = new Tile<TileType>(_texture, position, _tileType[type], type);
+                        Tile newTile = new Tile(_texture, position, _tileTypes[type]);
                         _tiles.Add(newTile);
                     }
                 }
@@ -63,26 +63,20 @@ namespace RogueSimulator.Classes.Level
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            foreach (Tile<TileType> tile in _tiles)
+            foreach (Tile tile in _tiles)
                 tile.Draw(spriteBatch);
         }
 
-        public override CollisionBlock[] GetCollisionBlocks(Vector2 characterPosition)
+        public override ICollidable[] GetNearCollidableBlocks(Vector2 characterPosition)
         {
-            List<CollisionBlock> collisionBlocks = new List<CollisionBlock>();
+            List<ICollidable> collisionBlocks = new List<ICollidable>();
 
-            foreach (Tile<TileType> tile in _tiles)
+            foreach (ICollidable tile in _tiles)
             {
-                float distance = Vector2.Distance(characterPosition, tile.Position);
+                float distance = Vector2.Distance(characterPosition, tile.GetPosition());
+
                 if (distance < NEAR_DISTANCE)
-                {
-                    CollisionBlock cb = new CollisionBlock
-                    {
-                        Rectangle = tile.Rectangle,
-                        Position = tile.Position,
-                    };
-                    collisionBlocks.Add(cb);
-                }
+                    collisionBlocks.Add(tile);
             }
 
             return collisionBlocks.ToArray();

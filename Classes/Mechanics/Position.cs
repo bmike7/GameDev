@@ -7,8 +7,8 @@ namespace RogueSimulator.Classes.Mechanics
     {
         private const int NUMBER_OF_PIXELS_TO_TRAVEL_P_S = 300;
         private double _tempElapsed;
-        private Rectangle _tempdActionFrameRectanlge;
-        private CollisionBlock[] _tempCollisionBlocks;
+        private CollisionBlock _ownCollisionBlock;
+        private ICollidable[] _tempCollisionRectangles;
         private double _prevElapsed = 0;
         private KeyboardState _prevKeyboardState;
         private Input _input;
@@ -39,11 +39,11 @@ namespace RogueSimulator.Classes.Mechanics
         public Vector2 GetNextPosition(
             GameTime gameTime,
             Rectangle actionFrameRectangle,
-            CollisionBlock[] collisionBlocks)
+            ICollidable[] collisionBlocks)
         {
             _tempElapsed = gameTime.TotalGameTime.TotalMilliseconds;
-            _tempCollisionBlocks = collisionBlocks;
-            _tempdActionFrameRectanlge = actionFrameRectangle;
+            _tempCollisionRectangles = collisionBlocks;
+            _ownCollisionBlock = new CollisionBlock(new Vector2(X, Y), actionFrameRectangle);
 
             _input.Update();
 
