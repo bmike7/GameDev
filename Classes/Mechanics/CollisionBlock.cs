@@ -15,5 +15,10 @@ namespace RogueSimulator.Classes.Mechanics
                 height: animationFrame.Height
             );
         }
+
+        public CollisionBlock(Rectangle collisionRectangle)
+        {
+            CollisionRectangle = collisionRectangle;
+        }
     }
 }

@@ -51,11 +51,13 @@ namespace RogueSimulator.Classes.Mechanics
 
         private float getNewX()
         {
+            float xStep = numberOfHorizontalPixelsToTravel();
+
             // X will depent on input (L&R) and left or right collision
-            return _input.IsRight
-                ? X + numberOfHorizontalPixelsToTravel()
+            return _input.IsRight && !isColliding(xStep, CollisionSide.RIGHT)
+                ? X + xStep
                 : _input.IsLeft
-                    ? X - numberOfHorizontalPixelsToTravel()
+                    ? X - xStep
                     : X;
         }
 
@@ -84,6 +86,24 @@ namespace RogueSimulator.Classes.Mechanics
         private float numberOfVerticalPixelsToTravel()
         {
             return 3;
+        }
+
+        private bool isColliding(float step, CollisionSide cs)
+        {
+            Rectangle ownCollisionRectangle = new Rectangle(
+                x: (int)(X + step),
+                y: (int)Y,
+                width: _ownCollisionBlock.CollisionRectangle.Width,
+                height: _ownCollisionBlock.CollisionRectangle.Height
+            );
+
+            foreach (ICollidable block in _tempCollisionRectangles)
+            {
+                if (ownCollisionRectangle.Intersects(block.CollisionRectangle))
+                    return true;
+            }
+
+            return false;
         }
     }
 }
