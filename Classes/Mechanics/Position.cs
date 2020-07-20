@@ -7,15 +7,24 @@ namespace RogueSimulator.Classes.Mechanics
     {
         private const int NUMBER_OF_PIXELS_TO_TRAVEL_P_S = 300;
         private double _tempElapsed;
+        private Rectangle _tempdActionFrameRectanlge;
         private CollisionBlock[] _tempCollisionBlocks;
         private double _prevElapsed = 0;
         private KeyboardState _prevKeyboardState;
+        private Input _input;
 
 
         public Position(float x, float y)
         {
             X = x;
             Y = y;
+            _input = new Input
+            {
+                IsUp = false,
+                IsRight = false,
+                isDown = false,
+                IsLeft = false,
+            };
         }
 
         public float X { get; private set; }
@@ -27,40 +36,41 @@ namespace RogueSimulator.Classes.Mechanics
             Y = newPosition.Y;
         }
 
-        public Vector2 GetNextPosition(GameTime gameTime, CollisionBlock[] collisionBlocks)
+        public Vector2 GetNextPosition(
+            GameTime gameTime,
+            Rectangle actionFrameRectangle,
+            CollisionBlock[] collisionBlocks)
         {
             _tempElapsed = gameTime.TotalGameTime.TotalMilliseconds;
             _tempCollisionBlocks = collisionBlocks;
+            _tempdActionFrameRectanlge = actionFrameRectangle;
 
-            bool isMovingRight = Utility.IsKeyPressed(Keys.D);
-            bool isMovingLeft = Utility.IsKeyPressed(Keys.A);
-            bool isMovingUp = Utility.IsKeyPressed(Keys.W);
-            bool isMovingDown = Utility.IsKeyPressed(Keys.S);
+            _input.Update();
 
-            float x = getNewX(isMovingRight, isMovingLeft);
-            float y = getNewY(isMovingDown, isMovingUp);
+            float x = getNewX();
+            float y = getNewY();
 
             _prevKeyboardState = Keyboard.GetState();
             _prevElapsed = _tempElapsed;
             return new Vector2(x, y);
         }
 
-        private float getNewX(bool isRight, bool isLeft)
+        private float getNewX()
         {
             // X will depent on input (L&R) and left or right collision
-            return isRight
+            return _input.IsRight
                 ? X + numberOfHorizontalPixelsToTravel()
-                : isLeft
+                : _input.IsLeft
                     ? X - numberOfHorizontalPixelsToTravel()
                     : X;
         }
 
-        private float getNewY(bool isDown, bool isUp)
+        private float getNewY()
         {
             // Y will depent on a jumping state and will fall if not stand on anything
-            return isDown
+            return _input.isDown
                 ? Y + numberOfVerticalPixelsToTravel()
-                : isUp
+                : _input.IsUp
                     ? Y - numberOfVerticalPixelsToTravel()
                     : Y;
         }
