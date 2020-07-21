@@ -12,8 +12,8 @@ namespace RogueSimulator.Classes.Characters
     {
         private Movement _movement;
         private Texture2D _texture;
-
-        public Rectangle CollisionRectangle { get; private set; }
+        private Rectangle _collisionRectangle;
+        public Rectangle CollisionRectangle { get { return _collisionRectangle; } }
 
         private Dictionary<CharacterAction, Animation> _actionAnimations = new Dictionary<CharacterAction, Animation>
         {
@@ -27,21 +27,17 @@ namespace RogueSimulator.Classes.Characters
         {
             _texture = texture;
             _movement = new Movement(pos);
-            CollisionRectangle = new Rectangle((int)pos.X, (int)pos.Y, 50, 80);
+            _collisionRectangle = new Rectangle((int)pos.X, (int)pos.Y, 60, 70);
         }
 
         public virtual void Update(GameTime gameTime, ICollidable[] collisionTiles)
         {
             Animation currentAnimation = getCurrentAnimation();
-
             currentAnimation.Update(gameTime);
+
             _movement.Update(gameTime, CollisionRectangle, collisionTiles);
-            CollisionRectangle = new Rectangle(
-                x: (int)GetPosition().X,
-                y: (int)GetPosition().Y,
-                width: CollisionRectangle.Width,
-                height: CollisionRectangle.Height
-            );
+            _collisionRectangle.X = (int)_movement.Position.X;
+            _collisionRectangle.Y = (int)_movement.Position.Y;
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

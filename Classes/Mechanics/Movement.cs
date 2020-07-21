@@ -5,13 +5,16 @@ namespace RogueSimulator.Classes.Mechanics
 {
     public class Movement
     {
-        private const int NUMBER_OF_PIXELS_TO_TRAVEL_P_S = 300;
+        private const int HORIZONTAL_VELOCITY = 300;
+        private const int VERTICAL_VELOCITY = 420;
+        private const float TIME_OF_JUMP_MS = 0.3f;
         private Input _input;
         private KeyboardState _prevKeyboardState;
-        private double _tempElapsed;
+        private double _tempElapsedMs;
+        private double _prevElapsedMs = 0;
         private Rectangle _tempOwnCollisionRectangle;
         private ICollidable[] _tempCollisionBlocks;
-        private double _prevElapsed = 0;
+        private double _startedJumpingTime = 0;
 
 
         public Movement(Vector2 position, CharacterAction action = CharacterAction.IDLE, CharacterDirection direction = CharacterDirection.RIGHT)
@@ -29,7 +32,7 @@ namespace RogueSimulator.Classes.Mechanics
         public void Update(GameTime gameTime, Rectangle ownCollisionRectangle, ICollidable[] collisionBlocks)
         {
             _input.Update();
-            _tempElapsed = gameTime.TotalGameTime.TotalMilliseconds;
+            _tempElapsedMs = gameTime.TotalGameTime.TotalMilliseconds;
             _tempOwnCollisionRectangle = ownCollisionRectangle;
             _tempCollisionBlocks = collisionBlocks;
 
@@ -38,57 +41,55 @@ namespace RogueSimulator.Classes.Mechanics
             updateAction();
 
             _prevKeyboardState = Keyboard.GetState();
-            _prevElapsed = _tempElapsed;
+            _prevElapsedMs = _tempElapsedMs;
         }
-
         private void updatePosition()
         {
-            float x = getNewX();
-            float y = getNewY();
-
-            Position = new Vector2(x, y);
+            Position = new Vector2(getNewX(), getNewY());
         }
-
         private float getNewX()
         {
             float xStep = numberOfHorizontalPixelsToTravel();
+            float moveRight = Position.X + xStep;
+            float moveLeft = Position.X - xStep;
 
-            bool goesRight = _input.IsRight && !isColliding(CollisionSide.RIGHT, (int)(Position.X + xStep));
-            bool goesLeft = _input.IsLeft && !isColliding(CollisionSide.LEFT, (int)(Position.X - xStep));
+            bool goesRight = _input.IsRight && !isColliding(CollisionSide.RIGHT, (int)moveRight);
+            bool goesLeft = _input.IsLeft && !isColliding(CollisionSide.LEFT, (int)moveLeft);
 
             return goesRight
-                ? Position.X + xStep
+                ? moveRight
                 : goesLeft
-                    ? Position.X - xStep
+                    ? moveLeft
                     : Position.X;
         }
-
         private float getNewY()
         {
-            return _input.isDown
-                ? Position.Y + numberOfVerticalPixelsToTravel()
-                : _input.IsUp
-                    ? Position.Y - numberOfVerticalPixelsToTravel()
+            updateJump();
+            return isJumping()
+                ? Position.Y - numberOfVerticalPixelsToTravel()
+                : !isOnGround()
+                    ? Position.Y + numberOfVerticalPixelsToTravel()
                     : Position.Y;
         }
-
         private float numberOfHorizontalPixelsToTravel()
         {
-            if (isNewKeyboardInput())
-                _prevElapsed = _tempElapsed;
+            if (Keyboard.GetState() != _prevKeyboardState)
+                _prevElapsedMs = _tempElapsedMs;
 
-            float toTravel = (float)(NUMBER_OF_PIXELS_TO_TRAVEL_P_S * (_tempElapsed - _prevElapsed) / 1000);
-
-            // Because the movement is chosen dependent on the new location and the previous one,
-            // the character needs to move at least a little bit instead of nothing at all. I've chosen for 1px.
-            return toTravel != 0 ? toTravel : 1;
+            return (float)(HORIZONTAL_VELOCITY * (_tempElapsedMs - _prevElapsedMs) / 1000);
         }
-
+        //For now I'm okay with the fact that the character will jump and fall linear
+        //and will not use acceleration of any kind
         private float numberOfVerticalPixelsToTravel()
+            => (float)(VERTICAL_VELOCITY * (_tempElapsedMs - _prevElapsedMs) / 1000);
+        public void updateJump()
         {
-            return 3;
+            _startedJumpingTime = (_input.IsSpace && (_tempElapsedMs > _startedJumpingTime + (TIME_OF_JUMP_MS * 1000)) && isOnGround())
+                ? _tempElapsedMs
+                : _startedJumpingTime;
         }
-
+        private bool isJumping() => _tempElapsedMs < _startedJumpingTime + (TIME_OF_JUMP_MS * 1000) && _startedJumpingTime != 0;
+        private bool isOnGround() => isColliding(CollisionSide.BOTTOM, (int)Position.Y + 7);
         private bool isColliding(CollisionSide cs, int newCoordinate)
         {
             Rectangle ownCollisionRectangle = new Rectangle(
@@ -106,30 +107,23 @@ namespace RogueSimulator.Classes.Mechanics
 
             return false;
         }
-
-        private bool isNewKeyboardInput()
-        {
-            return Keyboard.GetState() != _prevKeyboardState;
-        }
-
         private void updateDirection()
         {
-            Direction = (int)Position.X > _tempOwnCollisionRectangle.X
+            Direction = _input.IsRight
                 ? CharacterDirection.RIGHT
-                : (int)Position.X < _tempOwnCollisionRectangle.X
+                : _input.IsLeft
                     ? CharacterDirection.LEFT
                     : Direction;
         }
-
         private void updateAction()
         {
-            if ((int)Position.Y != _tempOwnCollisionRectangle.Y)
+            if (isJumping() || !isOnGround())
             {
-                Action = Position.Y < _tempOwnCollisionRectangle.Y ? CharacterAction.JUMP : CharacterAction.FALL;
+                Action = isJumping() ? CharacterAction.JUMP : CharacterAction.FALL;
                 return;
             }
 
-            Action = (int)Position.X != _tempOwnCollisionRectangle.X ? CharacterAction.RUN : CharacterAction.IDLE;
+            Action = _input.IsRight || _input.IsLeft ? CharacterAction.RUN : CharacterAction.IDLE;
         }
     }
 }
