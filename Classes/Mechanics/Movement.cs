@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 
 namespace RogueSimulator.Classes.Mechanics
 {
@@ -18,11 +17,11 @@ namespace RogueSimulator.Classes.Mechanics
 
         public void Update(
             GameTime gameTime,
-            Rectangle animationFrameRectangle,
+            Rectangle ownCollisionRectangle,
             ICollidable[] collisionBlocks
         )
         {
-            Vector2 nextPos = Position.GetNextPosition(gameTime, animationFrameRectangle, collisionBlocks);
+            Vector2 nextPos = Position.GetNextPosition(gameTime, ownCollisionRectangle, collisionBlocks);
 
             // The Direction and Action needs to be updated before the position
             // Because they depend on the current and the next one.

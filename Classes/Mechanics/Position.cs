@@ -7,8 +7,8 @@ namespace RogueSimulator.Classes.Mechanics
     {
         private const int NUMBER_OF_PIXELS_TO_TRAVEL_P_S = 300;
         private double _tempElapsed;
-        private CollisionBlock _ownCollisionBlock;
-        private ICollidable[] _tempCollisionRectangles;
+        private Rectangle _tempOwnCollisionRectangle;
+        private ICollidable[] _tempCollisionBlocks;
         private double _prevElapsed = 0;
         private KeyboardState _prevKeyboardState;
         private Input _input;
@@ -32,12 +32,12 @@ namespace RogueSimulator.Classes.Mechanics
 
         public Vector2 GetNextPosition(
             GameTime gameTime,
-            Rectangle actionFrameRectangle,
+            Rectangle ownCollisionRectangle,
             ICollidable[] collisionBlocks)
         {
             _tempElapsed = gameTime.TotalGameTime.TotalMilliseconds;
-            _tempCollisionRectangles = collisionBlocks;
-            _ownCollisionBlock = new CollisionBlock(new Vector2(X, Y), actionFrameRectangle);
+            _tempCollisionBlocks = collisionBlocks;
+            _tempOwnCollisionRectangle = ownCollisionRectangle;
 
             _input.Update();
 
@@ -53,10 +53,13 @@ namespace RogueSimulator.Classes.Mechanics
         {
             float xStep = numberOfHorizontalPixelsToTravel();
 
+            bool goesRight = _input.IsRight && !isColliding(CollisionSide.RIGHT, (int)(X + xStep));
+            bool goesLeft = _input.IsLeft && !isColliding(CollisionSide.LEFT, (int)(X - xStep));
+
             // X will depent on input (L&R) and left or right collision
-            return _input.IsRight && !isColliding(xStep, CollisionSide.RIGHT)
+            return goesRight
                 ? X + xStep
-                : _input.IsLeft
+                : goesLeft
                     ? X - xStep
                     : X;
         }
@@ -88,16 +91,16 @@ namespace RogueSimulator.Classes.Mechanics
             return 3;
         }
 
-        private bool isColliding(float step, CollisionSide cs)
+        private bool isColliding(CollisionSide cs, int newCoordinate)
         {
             Rectangle ownCollisionRectangle = new Rectangle(
-                x: (int)(X + step),
-                y: (int)Y,
-                width: _ownCollisionBlock.CollisionRectangle.Width,
-                height: _ownCollisionBlock.CollisionRectangle.Height
+                x: (cs == CollisionSide.LEFT || cs == CollisionSide.RIGHT) ? newCoordinate : (int)X,
+                y: (cs == CollisionSide.BOTTOM || cs == CollisionSide.TOP) ? newCoordinate : (int)Y,
+                width: _tempOwnCollisionRectangle.Width,
+                height: _tempOwnCollisionRectangle.Height
             );
 
-            foreach (ICollidable block in _tempCollisionRectangles)
+            foreach (ICollidable block in _tempCollisionBlocks)
             {
                 if (ownCollisionRectangle.Intersects(block.CollisionRectangle))
                     return true;

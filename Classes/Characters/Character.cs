@@ -8,10 +8,12 @@ using RogueSimulator.Classes.Mechanics;
 namespace RogueSimulator.Classes.Characters
 {
 
-    public class Character
+    public class Character : ICollidable
     {
         private Movement _movement;
         private Texture2D _texture;
+
+        public Rectangle CollisionRectangle { get; private set; }
 
         private Dictionary<CharacterAction, Animation> _actionAnimations = new Dictionary<CharacterAction, Animation>
         {
@@ -25,6 +27,7 @@ namespace RogueSimulator.Classes.Characters
         {
             _texture = texture;
             _movement = new Movement(pos);
+            CollisionRectangle = new Rectangle((int)pos.X + 50, (int)pos.Y, 50, 80);
         }
 
         public virtual void Update(GameTime gameTime, ICollidable[] collisionTiles)
@@ -32,7 +35,7 @@ namespace RogueSimulator.Classes.Characters
             Animation currentAnimation = getCurrentAnimation();
 
             currentAnimation.Update(gameTime);
-            _movement.Update(gameTime, currentAnimation.getAnimationFrameRectangle(), collisionTiles);
+            _movement.Update(gameTime, CollisionRectangle, collisionTiles);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
