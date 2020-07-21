@@ -5,44 +5,125 @@ namespace RogueSimulator.Classes.Mechanics
 {
     public class Movement
     {
-        public Movement(Vector2 pos, CharacterAction action = CharacterAction.IDLE, CharacterDirection direction = CharacterDirection.RIGHT)
+        private const int HORIZONTAL_VELOCITY = 300;
+        private const int VERTICAL_VELOCITY = 420;
+        private const float TIME_OF_JUMP_MS = 0.3f;
+        private Input _input;
+        private KeyboardState _prevKeyboardState;
+        private double _tempElapsedMs;
+        private double _prevElapsedMs = 0;
+        private Rectangle _tempOwnCollisionRectangle;
+        private ICollidable[] _tempCollisionBlocks;
+        private double _startedJumpingTime = 0;
+
+
+        public Movement(Vector2 position, CharacterAction action = CharacterAction.IDLE, CharacterDirection direction = CharacterDirection.RIGHT)
         {
-            Position = new Position(pos.X, pos.Y);
+            _input = new Input();
+            Position = position;
             Action = action;
             Direction = direction;
         }
 
         public CharacterAction Action { get; private set; }
         public CharacterDirection Direction { get; private set; }
-        public Position Position { get; private set; }
+        public Vector2 Position { get; private set; }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Rectangle ownCollisionRectangle, ICollidable[] collisionBlocks)
         {
-            Vector2 nextPos = Position.GetNextPosition(gameTime, Direction, Action);
+            _input.Update();
+            _tempElapsedMs = gameTime.TotalGameTime.TotalMilliseconds;
+            _tempOwnCollisionRectangle = ownCollisionRectangle;
+            _tempCollisionBlocks = collisionBlocks;
 
-            // The Direction and Action needs to be updated before the position
-            // Because they depend on the current and the next one.
-            UpdateDirection(nextPos);
-            UpdateAction(nextPos);
+            updatePosition();
+            updateDirection();
+            updateAction();
 
-            Position.Update(nextPos);
+            _prevKeyboardState = Keyboard.GetState();
+            _prevElapsedMs = _tempElapsedMs;
         }
-
-        private void UpdateDirection(Vector2 newPos)
+        private void updatePosition()
         {
-            bool isLeft = newPos.X < Position.X;
-            bool isRight = newPos.X > Position.X;
+            Position = new Vector2(getNewX(), getNewY());
+        }
+        private float getNewX()
+        {
+            float xStep = numberOfHorizontalPixelsToTravel();
+            float moveRight = Position.X + xStep;
+            float moveLeft = Position.X - xStep;
 
-            Direction = isRight
+            bool goesRight = _input.IsRight && !isColliding(CollisionSide.RIGHT, (int)moveRight);
+            bool goesLeft = _input.IsLeft && !isColliding(CollisionSide.LEFT, (int)moveLeft);
+
+            return goesRight
+                ? moveRight
+                : goesLeft
+                    ? moveLeft
+                    : Position.X;
+        }
+        private float getNewY()
+        {
+            updateJump();
+            return isJumping()
+                ? Position.Y - numberOfVerticalPixelsToTravel()
+                : !isOnGround()
+                    ? Position.Y + numberOfVerticalPixelsToTravel()
+                    : Position.Y;
+        }
+        private float numberOfHorizontalPixelsToTravel()
+        {
+            if (Keyboard.GetState() != _prevKeyboardState)
+                _prevElapsedMs = _tempElapsedMs;
+
+            return (float)(HORIZONTAL_VELOCITY * (_tempElapsedMs - _prevElapsedMs) / 1000);
+        }
+        //For now I'm okay with the fact that the character will jump and fall linear
+        //and will not use acceleration of any kind
+        private float numberOfVerticalPixelsToTravel()
+            => (float)(VERTICAL_VELOCITY * (_tempElapsedMs - _prevElapsedMs) / 1000);
+        public void updateJump()
+        {
+            _startedJumpingTime = (_input.IsSpace && (_tempElapsedMs > _startedJumpingTime + (TIME_OF_JUMP_MS * 1000)) && isOnGround())
+                ? _tempElapsedMs
+                : _startedJumpingTime;
+        }
+        private bool isJumping() => _tempElapsedMs < _startedJumpingTime + (TIME_OF_JUMP_MS * 1000) && _startedJumpingTime != 0;
+        private bool isOnGround() => isColliding(CollisionSide.BOTTOM, (int)Position.Y + 7);
+        private bool isColliding(CollisionSide cs, int newCoordinate)
+        {
+            Rectangle ownCollisionRectangle = new Rectangle(
+                x: (cs == CollisionSide.LEFT || cs == CollisionSide.RIGHT) ? newCoordinate : (int)Position.X,
+                y: (cs == CollisionSide.BOTTOM || cs == CollisionSide.TOP) ? newCoordinate : (int)Position.Y,
+                width: _tempOwnCollisionRectangle.Width,
+                height: _tempOwnCollisionRectangle.Height
+            );
+
+            foreach (ICollidable block in _tempCollisionBlocks)
+            {
+                if (ownCollisionRectangle.Intersects(block.CollisionRectangle))
+                    return true;
+            }
+
+            return false;
+        }
+        private void updateDirection()
+        {
+            Direction = _input.IsRight
                 ? CharacterDirection.RIGHT
-                : isLeft
+                : _input.IsLeft
                     ? CharacterDirection.LEFT
                     : Direction;
         }
-
-        private void UpdateAction(Vector2 newPos)
+        private void updateAction()
         {
-            Action = newPos.X != Position.X ? CharacterAction.RUN : CharacterAction.IDLE;
+            if (isJumping() || !isOnGround())
+            {
+                Action = isJumping() ? CharacterAction.JUMP : CharacterAction.FALL;
+                return;
+            }
+
+            Action = _input.IsRight || _input.IsLeft ? CharacterAction.RUN : CharacterAction.IDLE;
         }
     }
 }

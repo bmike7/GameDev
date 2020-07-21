@@ -6,6 +6,8 @@ namespace RogueSimulator
     {
         IDLE,
         RUN,
+        JUMP,
+        FALL,
     }
 
     public enum CharacterDirection
@@ -14,12 +16,19 @@ namespace RogueSimulator
         RIGHT,
     }
 
+    public enum CollisionSide
+    {
+        TOP,
+        RIGHT,
+        BOTTOM,
+        LEFT,
+    }
+
     public static class Utility
     {
         public static bool IsKeyPressed(Keys key)
         {
-            KeyboardState stateKey = Keyboard.GetState();
-            return stateKey.IsKeyDown(key);
+            return Keyboard.GetState().IsKeyDown(key);
         }
     }
 }

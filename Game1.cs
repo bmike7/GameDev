@@ -43,15 +43,18 @@ namespace RogueSimulator
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Utility.IsKeyPressed(Keys.Escape))
                 Exit();
 
             // TODO: Add your update logic here
-            _player.Update(gameTime);
+            ICollidable[] nearTiles = _currentLevel.GetNearCollidableBlocks(_player.GetPosition());
+
+            _player.Update(gameTime, nearTiles);
             _camera.UpdatePosition(_player.GetPosition());
 
             base.Update(gameTime);
         }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);

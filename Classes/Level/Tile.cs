@@ -1,36 +1,41 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using RogueSimulator.Classes.Mechanics;
+
 namespace RogueSimulator.Classes.Level
 {
-    public class Tile<T> where T : System.Enum
+    public class Tile : ICollidable
     {
         public static int SIZE = 50;
         private Texture2D _texture;
-        private Rectangle _tileRectangle;
-        private T _type;
-        public Vector2 Position { get; set; }
+        private Rectangle _spriteSheetRectangle;
+        public Rectangle CollisionRectangle { get; private set; }
 
-        public Tile(Texture2D texture, Vector2 position, Rectangle tileRectangle, T type)
+        public Tile(Texture2D texture, Vector2 position, Rectangle spriteSheetRectangle)
         {
             _texture = texture;
-            Position = position;
-            _tileRectangle = tileRectangle;
-            _type = type;
+            _spriteSheetRectangle = spriteSheetRectangle;
+            CollisionRectangle = new Rectangle(
+                x: (int)position.X,
+                y: (int)position.Y,
+                width: spriteSheetRectangle.Width,
+                height: spriteSheetRectangle.Height
+            );
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
-                _texture,
-                Position,
-                _tileRectangle,
-                Color.White,
-                0,
-                new Vector2(0, 0),
-                (float)SIZE / _tileRectangle.Height,
-                SpriteEffects.None,
-                0
+                texture: _texture,
+                position: new Vector2(CollisionRectangle.X, CollisionRectangle.Y),
+                sourceRectangle: _spriteSheetRectangle,
+                color: Color.White,
+                rotation: 0,
+                origin: new Vector2(0, 0),
+                scale: (float)SIZE / CollisionRectangle.Height,
+                effects: SpriteEffects.None,
+                layerDepth: 0
             );
         }
     }

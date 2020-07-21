@@ -43,7 +43,7 @@ namespace RogueSimulator.Classes.Mechanics
             }
         }
 
-        public Rectangle getAnimationFrame()
+        public Rectangle getAnimationFrameRectangle()
         {
             return new Rectangle
             {
