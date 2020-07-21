@@ -8,6 +8,7 @@ namespace RogueSimulator.Classes.Mechanics
         private const int HORIZONTAL_VELOCITY = 300;
         private const int VERTICAL_VELOCITY = 420;
         private const float TIME_OF_JUMP_MS = 0.3f;
+        private const int ADD_ON_GROUND_CHECKER = 7;
         private Input _input;
         private KeyboardState _prevKeyboardState;
         private double _tempElapsedMs;
@@ -89,7 +90,7 @@ namespace RogueSimulator.Classes.Mechanics
                 : _startedJumpingTime;
         }
         private bool isJumping() => _tempElapsedMs < _startedJumpingTime + (TIME_OF_JUMP_MS * 1000) && _startedJumpingTime != 0;
-        private bool isOnGround() => isColliding(CollisionSide.BOTTOM, (int)Position.Y + 7);
+        private bool isOnGround() => isColliding(CollisionSide.BOTTOM, (int)Position.Y + ADD_ON_GROUND_CHECKER);
         private bool isColliding(CollisionSide cs, int newCoordinate)
         {
             Rectangle ownCollisionRectangle = new Rectangle(
