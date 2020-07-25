@@ -36,7 +36,11 @@ namespace RogueSimulator
 
             // TODO: use this.Content to load your game content here
             _player = new Character(Content.Load<Texture2D>("SpriteSheets/Wizard/allActions"), new Vector2 { X = 150, Y = 150 });
-            _currentLevel = new Level1(Content.Load<Texture2D>("SpriteSheets/Tileset/jungleTileSet"), _graphics.GraphicsDevice.Viewport);
+            _currentLevel = new Level1(
+                texture: Content.Load<Texture2D>("SpriteSheets/Tileset/jungleTileSet"),
+                background: Content.Load<Texture2D>("SpriteSheets/Background/background"),
+                viewport: _graphics.GraphicsDevice.Viewport
+            );
 
             _currentLevel.Create();
         }

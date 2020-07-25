@@ -27,6 +27,7 @@ namespace RogueSimulator.Classes.Level
         private const int NUMBER_OF_LINES = 3;
         private const int NUMBER_OF_COLUMNS = 30;
         private const int NEAR_DISTANCE = 200;
+        private const int BACKGROUND_PIXEL_WIDTH = 640;
         private int[,] _levelDesign = new int[NUMBER_OF_LINES, NUMBER_OF_COLUMNS]
         {
             {0,0,0,0,0,0,4,0,0,4,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0},
@@ -35,9 +36,10 @@ namespace RogueSimulator.Classes.Level
         };
         private List<Tile> _tiles = new List<Tile>();
 
-        public Level1(Texture2D texture, Viewport viewport)
+        public Level1(Texture2D texture, Texture2D background, Viewport viewport)
         {
             _texture = texture;
+            _background = background;
             _viewport = viewport;
         }
 
@@ -63,6 +65,9 @@ namespace RogueSimulator.Classes.Level
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            int amountOfBackgrounds = (NUMBER_OF_COLUMNS * Tile.SIZE) / BACKGROUND_PIXEL_WIDTH + 1;
+            for (int backgroundNumber = 0; backgroundNumber < amountOfBackgrounds; backgroundNumber++)
+                spriteBatch.Draw(_background, new Vector2(backgroundNumber * BACKGROUND_PIXEL_WIDTH, 0), Color.White);
             foreach (Tile tile in _tiles)
                 tile.Draw(spriteBatch);
         }
