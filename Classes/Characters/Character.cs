@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using RogueSimulator.Classes.Mechanics;
+using RogueSimulator.Classes.Level;
 
 namespace RogueSimulator.Classes.Characters
 {
@@ -30,12 +31,12 @@ namespace RogueSimulator.Classes.Characters
             _collisionRectangle = new Rectangle((int)pos.X, (int)pos.Y, 60, 70);
         }
 
-        public virtual void Update(GameTime gameTime, ICollidable[] collisionTiles)
+        public virtual void Update(GameTime gameTime, BaseLevel level)
         {
             Animation currentAnimation = getCurrentAnimation();
             currentAnimation.Update(gameTime);
 
-            _movement.Update(gameTime, CollisionRectangle, collisionTiles);
+            _movement.Update(gameTime, level, CollisionRectangle);
             _collisionRectangle.X = (int)_movement.Position.X;
             _collisionRectangle.Y = (int)_movement.Position.Y;
         }

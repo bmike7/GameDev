@@ -49,8 +49,8 @@ namespace RogueSimulator
             // TODO: Add your update logic here
             ICollidable[] nearTiles = _currentLevel.GetNearCollidableBlocks(_player.GetPosition());
 
-            _player.Update(gameTime, nearTiles);
-            _camera.UpdatePosition(_player.GetPosition());
+            _player.Update(gameTime, _currentLevel);
+            _camera.UpdatePosition(_player.GetPosition(), _currentLevel);
 
             base.Update(gameTime);
         }
