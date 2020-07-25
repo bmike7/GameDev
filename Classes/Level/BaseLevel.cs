@@ -13,5 +13,6 @@ namespace RogueSimulator.Classes.Level
 
         public abstract void Draw(SpriteBatch spriteBatch);
         public abstract ICollidable[] GetNearCollidableBlocks(Vector2 characterPosition);
+        public abstract int GetSize();
     }
 }

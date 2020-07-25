@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+using RogueSimulator.Classes.Level;
+
 namespace RogueSimulator.Classes.Mechanics
 {
     public class Movement
@@ -30,23 +32,29 @@ namespace RogueSimulator.Classes.Mechanics
         public CharacterDirection Direction { get; private set; }
         public Vector2 Position { get; private set; }
 
-        public void Update(GameTime gameTime, Rectangle ownCollisionRectangle, ICollidable[] collisionBlocks)
+        public void Update(GameTime gameTime, BaseLevel level, Rectangle ownCollisionRectangle)
         {
             _input.Update();
             _tempElapsedMs = gameTime.TotalGameTime.TotalMilliseconds;
             _tempOwnCollisionRectangle = ownCollisionRectangle;
-            _tempCollisionBlocks = collisionBlocks;
+            _tempCollisionBlocks = level.GetNearCollidableBlocks(Position);
 
-            updatePosition();
+            updatePosition(level);
             updateDirection();
             updateAction();
 
             _prevKeyboardState = Keyboard.GetState();
             _prevElapsedMs = _tempElapsedMs;
         }
-        private void updatePosition()
+        private void updatePosition(BaseLevel level)
         {
-            Position = new Vector2(getNewX(), getNewY());
+            float x = getNewX();
+            if (x < 0)
+                x = 0;
+            else if (x > level.GetSize() - _tempOwnCollisionRectangle.Width)
+                x = level.GetSize() - _tempOwnCollisionRectangle.Width;
+
+            Position = new Vector2(x, getNewY());
         }
         private float getNewX()
         {

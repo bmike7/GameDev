@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+
+using RogueSimulator.Classes.Level;
 
 namespace RogueSimulator.Classes.Mechanics
 {
@@ -19,9 +20,15 @@ namespace RogueSimulator.Classes.Mechanics
             Origin = new Vector2(viewport.Width * 0.5f, viewport.Height * 0.5f);
         }
 
-        public void UpdatePosition(Vector2 playerPosition)
+        public void UpdatePosition(Vector2 playerPosition, BaseLevel currentLevel)
         {
-            _position.X = playerPosition.X - _viewport.Width * 0.25f;
+            float newPosition = playerPosition.X - _viewport.Width * 0.25f;
+            if (newPosition < 0)
+                newPosition = 0;
+            else if (newPosition > currentLevel.GetSize() - _viewport.Width)
+                newPosition = currentLevel.GetSize() - _viewport.Width;
+
+            _position.X = newPosition;
             // Example of updating camera before camera followed player
             // But removed those because it was obselete and KISS
             // if (Utility.IsKeyPressed(Keys.F3)) Rotation += .1f;

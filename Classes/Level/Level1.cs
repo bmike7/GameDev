@@ -81,5 +81,7 @@ namespace RogueSimulator.Classes.Level
 
             return collisionBlocks.ToArray();
         }
+
+        public override int GetSize() => NUMBER_OF_COLUMNS * Tile.SIZE;
     }
 }
