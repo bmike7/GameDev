@@ -8,6 +8,7 @@ namespace RogueSimulator.Classes.Level
     public abstract class BaseLevel
     {
         protected Texture2D _texture;
+        protected Texture2D _background;
         protected Viewport _viewport;
         public abstract void Create();
 
