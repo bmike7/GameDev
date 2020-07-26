@@ -5,11 +5,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 using RogueSimulator.Classes.Mechanics;
 using RogueSimulator.Classes.Level;
+using RogueSimulator.Interfaces;
 
 namespace RogueSimulator.Classes.Characters
 {
 
-    public class Character : ICollidable
+    public class Character : ICollidable, Interfaces.IDrawable
     {
         private Movement _movement;
         private Texture2D _texture;

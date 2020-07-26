@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using RogueSimulator.Classes.Characters;
 using RogueSimulator.Classes.Level;
 using RogueSimulator.Classes.Mechanics;
+using RogueSimulator.Classes.Mechanics.Menu;
 
 namespace RogueSimulator
 {
@@ -15,6 +16,7 @@ namespace RogueSimulator
         private Character _player;
         private BaseLevel _currentLevel;
         private Camera2D _camera;
+        private Menu _menu;
 
         public Game1()
         {
@@ -41,6 +43,11 @@ namespace RogueSimulator
                 background: Content.Load<Texture2D>("SpriteSheets/Background/background"),
                 viewport: _graphics.GraphicsDevice.Viewport
             );
+            _menu = new MainMenu(
+                viewport: _graphics.GraphicsDevice.Viewport,
+                background: Content.Load<Texture2D>("SpriteSheets/Background/finalNight"),
+                buttonsTexture: Content.Load<Texture2D>("SpriteSheets/Buttons/Buttons")
+            );
 
             _currentLevel.Create();
         }
@@ -51,10 +58,8 @@ namespace RogueSimulator
                 Exit();
 
             // TODO: Add your update logic here
-            ICollidable[] nearTiles = _currentLevel.GetNearCollidableBlocks(_player.GetPosition());
-
-            _player.Update(gameTime, _currentLevel);
-            _camera.UpdatePosition(_player.GetPosition(), _currentLevel);
+            // _player.Update(gameTime, _currentLevel);
+            // _camera.UpdatePosition(_player.GetPosition(), _currentLevel);
 
             base.Update(gameTime);
         }
@@ -66,8 +71,9 @@ namespace RogueSimulator
             // TODO: Add your drawing code here
             _spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix());
 
-            _currentLevel.Draw(_spriteBatch);
-            _player.Draw(_spriteBatch);
+            // _currentLevel.Draw(_spriteBatch);
+            // _player.Draw(_spriteBatch);
+            _menu.Draw(_spriteBatch);
 
             _spriteBatch.End();
             base.Draw(gameTime);

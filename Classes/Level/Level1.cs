@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using RogueSimulator.Classes.Mechanics;
+using RogueSimulator.Interfaces;
 
 namespace RogueSimulator.Classes.Level
 {
-    public class Level1 : BaseLevel
+    public class Level1 : BaseLevel, Interfaces.IDrawable
     {
         private enum TileType
         {

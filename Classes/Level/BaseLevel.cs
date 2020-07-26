@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using RogueSimulator.Classes.Mechanics;
+using RogueSimulator.Interfaces;
 
 namespace RogueSimulator.Classes.Level
 {

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 using RogueSimulator.Classes.Level;
+using RogueSimulator.Interfaces;
 
 namespace RogueSimulator.Classes.Mechanics
 {
