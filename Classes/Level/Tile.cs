@@ -1,11 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using RogueSimulator.Classes.Mechanics;
+using RogueSimulator.Interfaces;
 
 namespace RogueSimulator.Classes.Level
 {
-    public class Tile : ICollidable
+    public class Tile : ICollidable, Interfaces.IDrawable
     {
         public static int SIZE = 50;
         private Texture2D _texture;

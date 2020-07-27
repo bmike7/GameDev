@@ -1,20 +1,22 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using RogueSimulator.Classes.Characters;
 using RogueSimulator.Classes.Level;
-using RogueSimulator.Classes.Mechanics;
+using RogueSimulator.Classes.Mechanics.Menu;
+using RogueSimulator.Classes.Mechanics.State;
+using RogueSimulator.Interfaces;
 
 namespace RogueSimulator
 {
     public class Game1 : Game
     {
+        private GameState _gameState;
+        private Dictionary<GameState, IState> _gameStates;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Character _player;
-        private BaseLevel _currentLevel;
-        private Camera2D _camera;
 
         public Game1()
         {
@@ -25,8 +27,9 @@ namespace RogueSimulator
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            _camera = new Camera2D(GraphicsDevice.Viewport);
+            _gameState = GameState.MAIN_MENU;
+            _gameStates = new Dictionary<GameState, IState>();
+
             base.Initialize();
         }
 
@@ -34,15 +37,20 @@ namespace RogueSimulator
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
-            _player = new Character(Content.Load<Texture2D>("SpriteSheets/Wizard/allActions"), new Vector2 { X = 150, Y = 150 });
-            _currentLevel = new Level1(
+            Character _player = new Character(Content.Load<Texture2D>("SpriteSheets/Wizard/allActions"), new Vector2 { X = 150, Y = 150 });
+            BaseLevel _currentLevel = new Level1(
                 texture: Content.Load<Texture2D>("SpriteSheets/Tileset/jungleTileSet"),
                 background: Content.Load<Texture2D>("SpriteSheets/Background/background"),
                 viewport: _graphics.GraphicsDevice.Viewport
             );
+            MainMenu _menu = new MainMenu(
+                viewport: _graphics.GraphicsDevice.Viewport,
+                background: Content.Load<Texture2D>("SpriteSheets/Background/finalNight"),
+                buttonsTexture: Content.Load<Texture2D>("SpriteSheets/Buttons/Buttons")
+            );
 
-            _currentLevel.Create();
+            _gameStates.Add(GameState.MAIN_MENU, new MainMenuState(this, _menu));
+            _gameStates.Add(GameState.PLAYING, new PlayingState(_player, _currentLevel, GraphicsDevice.Viewport));
         }
 
         protected override void Update(GameTime gameTime)
@@ -50,11 +58,7 @@ namespace RogueSimulator
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Utility.IsKeyPressed(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            ICollidable[] nearTiles = _currentLevel.GetNearCollidableBlocks(_player.GetPosition());
-
-            _player.Update(gameTime, _currentLevel);
-            _camera.UpdatePosition(_player.GetPosition(), _currentLevel);
+            _gameStates[_gameState].Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -63,14 +67,11 @@ namespace RogueSimulator
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
-            _spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix());
+            _gameStates[_gameState].Draw(_spriteBatch);
 
-            _currentLevel.Draw(_spriteBatch);
-            _player.Draw(_spriteBatch);
-
-            _spriteBatch.End();
             base.Draw(gameTime);
         }
+
+        public void ChangeGameState(GameState gameState) => _gameState = gameState;
     }
 }

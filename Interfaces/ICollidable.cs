@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 
-namespace RogueSimulator.Classes.Mechanics
+namespace RogueSimulator.Interfaces
 {
     public interface ICollidable
     {
