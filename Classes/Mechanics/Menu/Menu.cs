@@ -32,5 +32,10 @@ namespace RogueSimulator.Classes.Mechanics.Menu
             foreach (Button button in _buttonList)
                 button.Draw(spriteBatch);
         }
+
+        public List<Button> GetButtons()
+        {
+            return _buttonList;
+        }
     }
 }

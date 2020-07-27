@@ -39,6 +39,8 @@ namespace RogueSimulator.Classes.Mechanics
             _tempElapsedMs = gameTime.TotalGameTime.TotalMilliseconds;
             _tempOwnCollisionRectangle = ownCollisionRectangle;
             _tempCollisionBlocks = level.GetNearCollidableBlocks(Position);
+            if (_tempElapsedMs - 1000 > _prevElapsedMs)
+                _prevElapsedMs = _tempElapsedMs;
 
             updatePosition(level);
             updateDirection();

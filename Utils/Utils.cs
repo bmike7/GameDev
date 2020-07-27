@@ -24,6 +24,12 @@ namespace RogueSimulator
         LEFT,
     }
 
+    public enum ButtonAction
+    {
+        START,
+        QUIT,
+    }
+
     public static class Utility
     {
         public static bool IsKeyPressed(Keys key)

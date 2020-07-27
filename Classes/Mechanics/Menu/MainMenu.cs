@@ -13,8 +13,8 @@ namespace RogueSimulator.Classes.Mechanics.Menu
             Vector2 startButtonPosition = new Vector2(x, middlepointScreen.Y);
             Vector2 quitButtonPosition = new Vector2(x, middlepointScreen.Y + 55);
 
-            _buttonList.Add(new Button(buttonsTexture, startButtonPosition, new Rectangle(6, 4, 52, 16)));
-            _buttonList.Add(new Button(buttonsTexture, quitButtonPosition, new Rectangle(6, 23, 52, 16)));
+            _buttonList.Add(new Button(ButtonAction.START, buttonsTexture, startButtonPosition, new Rectangle(6, 4, 52, 16)));
+            _buttonList.Add(new Button(ButtonAction.QUIT, buttonsTexture, quitButtonPosition, new Rectangle(6, 23, 52, 16)));
         }
     }
 }
