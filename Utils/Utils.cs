@@ -30,6 +30,15 @@ namespace RogueSimulator
         QUIT,
     }
 
+    public enum GameState
+    {
+        MAIN_MENU,
+        LEVEL_SELECTOR,
+        LOADING,
+        PLAYING,
+        PAUSED,
+    }
+
     public static class Utility
     {
         public static bool IsKeyPressed(Keys key)
