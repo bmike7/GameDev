@@ -8,6 +8,7 @@ namespace RogueSimulator.Classes.Mechanics
 {
     public class Movement
     {
+        private const int SECOND = 1000;
         private const int HORIZONTAL_VELOCITY = 300;
         private const int VERTICAL_VELOCITY = 420;
         private const float TIME_OF_JUMP_MS = 0.3f;
@@ -39,7 +40,7 @@ namespace RogueSimulator.Classes.Mechanics
             _tempElapsedMs = gameTime.TotalGameTime.TotalMilliseconds;
             _tempOwnCollisionRectangle = ownCollisionRectangle;
             _tempCollisionBlocks = level.GetNearCollidableBlocks(Position);
-            if (_tempElapsedMs - 1000 > _prevElapsedMs)
+            if (_tempElapsedMs - SECOND > _prevElapsedMs)
                 _prevElapsedMs = _tempElapsedMs;
 
             updatePosition(level);
