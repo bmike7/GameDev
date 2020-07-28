@@ -55,7 +55,7 @@ namespace RogueSimulator.Classes.Mechanics.State
                     switch (button.ButtonAction)
                     {
                         case ButtonAction.START:
-                            _game.ChangeGameState(GameState.PLAYING);
+                            _game.ChangeGameState(GameState.LEVEL_SELECTOR);
                             break;
                         case ButtonAction.QUIT:
                             _game.Exit();

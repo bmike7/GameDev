@@ -22,12 +22,15 @@ namespace RogueSimulator
             IsMouseVisible = true;
         }
 
+        public int SelectedLevel { get; set; }
+
         protected override void Initialize()
         {
             _gameState = GameState.MAIN_MENU;
             _gameStates = new Dictionary<GameState, IState>();
 
             _gameStates.Add(GameState.MAIN_MENU, new MainMenuState(this));
+            _gameStates.Add(GameState.LEVEL_SELECTOR, new LevelSelectorState(this));
             _gameStates.Add(GameState.PLAYING, new PlayingState(this));
 
             base.Initialize();
