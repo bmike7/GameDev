@@ -3,9 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using RogueSimulator.Classes.Characters;
-using RogueSimulator.Classes.Level;
-using RogueSimulator.Classes.Mechanics.Menu;
 using RogueSimulator.Classes.Mechanics.State;
 using RogueSimulator.Interfaces;
 
