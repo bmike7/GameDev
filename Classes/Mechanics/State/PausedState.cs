@@ -7,6 +7,11 @@ namespace RogueSimulator.Classes.Mechanics.State
 {
     public class PausedState : IState
     {
+        public void LoadContent()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             throw new System.NotImplementedException();
