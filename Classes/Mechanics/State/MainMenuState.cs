@@ -13,10 +13,20 @@ namespace RogueSimulator.Classes.Mechanics.State
         private MouseState _prevMouseState;
         private Game1 _game;
 
-        public MainMenuState(Game1 game, MainMenu mainMenu)
+        public MainMenuState(Game1 game)
         {
-            _mainMenu = mainMenu;
             _game = game;
+        }
+
+        public void LoadContent()
+        {
+            if (_mainMenu != null) return;
+
+            _mainMenu = new MainMenu(
+                viewport: _game.GraphicsDevice.Viewport,
+                background: _game.Content.Load<Texture2D>("SpriteSheets/Background/finalNight"),
+                buttonsTexture: _game.Content.Load<Texture2D>("SpriteSheets/Buttons/Buttons")
+            );
         }
 
         public void Update(GameTime gameTime)

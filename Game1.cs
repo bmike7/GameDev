@@ -30,27 +30,18 @@ namespace RogueSimulator
             _gameState = GameState.MAIN_MENU;
             _gameStates = new Dictionary<GameState, IState>();
 
+            _gameStates.Add(GameState.MAIN_MENU, new MainMenuState(this));
+            _gameStates.Add(GameState.PLAYING, new PlayingState(this));
+
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            if (_spriteBatch == null)
+                _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            Character _player = new Character(Content.Load<Texture2D>("SpriteSheets/Wizard/allActions"), new Vector2 { X = 150, Y = 150 });
-            BaseLevel _currentLevel = new Level1(
-                texture: Content.Load<Texture2D>("SpriteSheets/Tileset/jungleTileSet"),
-                background: Content.Load<Texture2D>("SpriteSheets/Background/background"),
-                viewport: _graphics.GraphicsDevice.Viewport
-            );
-            MainMenu _menu = new MainMenu(
-                viewport: _graphics.GraphicsDevice.Viewport,
-                background: Content.Load<Texture2D>("SpriteSheets/Background/finalNight"),
-                buttonsTexture: Content.Load<Texture2D>("SpriteSheets/Buttons/Buttons")
-            );
-
-            _gameStates.Add(GameState.MAIN_MENU, new MainMenuState(this, _menu));
-            _gameStates.Add(GameState.PLAYING, new PlayingState(_player, _currentLevel, GraphicsDevice.Viewport));
+            _gameStates[_gameState].LoadContent();
         }
 
         protected override void Update(GameTime gameTime)
@@ -72,6 +63,10 @@ namespace RogueSimulator
             base.Draw(gameTime);
         }
 
-        public void ChangeGameState(GameState gameState) => _gameState = gameState;
+        public void ChangeGameState(GameState gameState)
+        {
+            _gameState = gameState;
+            LoadContent();
+        }
     }
 }

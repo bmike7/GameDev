@@ -5,7 +5,7 @@ using RogueSimulator.Interfaces;
 
 namespace RogueSimulator.Classes.Level
 {
-    public abstract class BaseLevel
+    public abstract class BaseLevel : Interfaces.IDrawable
     {
         protected Texture2D _texture;
         protected Texture2D _background;

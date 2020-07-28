@@ -7,6 +7,11 @@ namespace RogueSimulator.Classes.Mechanics.State
 {
     public class LevelSelectorState : IState
     {
+        public void LoadContent()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Update(GameTime gameTime)
         {
             throw new System.NotImplementedException();
