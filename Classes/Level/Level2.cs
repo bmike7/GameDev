@@ -6,7 +6,7 @@ using RogueSimulator.Interfaces;
 
 namespace RogueSimulator.Classes.Level
 {
-    public class Level1 : BaseLevel
+    public class Level2 : BaseLevel
     {
         private enum TileType
         {
@@ -30,13 +30,13 @@ namespace RogueSimulator.Classes.Level
         private const int BACKGROUND_PIXEL_WIDTH = 640;
         private int[,] _levelDesign = new int[NUMBER_OF_LINES, NUMBER_OF_COLUMNS]
         {
-            {0,0,0,0,0,0,4,0,0,4,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,2,3,0,0,4,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0},
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            {0,0,0,0,0,0,0,4,0,4,0,0,0,0,0,0,0,0,0,4,0,0,2,3,0,0,0,0,0,0},
+            {0,0,0,0,0,2,3,0,0,4,0,0,0,0,0,0,0,0,0,4,0,0,2,3,0,0,0,0,0,0},
+            {1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
         };
         private List<Tile> _tiles = new List<Tile>();
 
-        public Level1(Texture2D texture, Texture2D background, Viewport viewport)
+        public Level2(Texture2D texture, Texture2D background, Viewport viewport)
         {
             _texture = texture;
             _background = background;

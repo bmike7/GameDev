@@ -22,7 +22,7 @@ namespace RogueSimulator.Classes.Mechanics.State
         public void LoadContent()
         {
             _player = new Character(_game.Content.Load<Texture2D>("SpriteSheets/Wizard/allActions"), new Vector2 { X = 150, Y = 150 });
-            _currentLevel = new Level1(
+            _currentLevel = new Level2(
                 texture: _game.Content.Load<Texture2D>("SpriteSheets/Tileset/jungleTileSet"),
                 background: _game.Content.Load<Texture2D>("SpriteSheets/Background/background"),
                 viewport: _game.GraphicsDevice.Viewport
