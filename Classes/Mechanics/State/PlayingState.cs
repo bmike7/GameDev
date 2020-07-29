@@ -13,16 +13,29 @@ namespace RogueSimulator.Classes.Mechanics.State
         private BaseLevel _currentLevel;
         private Camera2D _camera;
         private Game1 _game;
+        private LevelFactory _levelFactory;
 
         public PlayingState(Game1 game)
         {
             _game = game;
+
+            _levelFactory = new LevelFactory();
+            _levelFactory.RegisterLevel("level1", () => new Level1(
+                        texture: game.Content.Load<Texture2D>("SpriteSheets/Tileset/jungleTileSet"),
+                        background: game.Content.Load<Texture2D>("SpriteSheets/Background/background"),
+                        viewport: game.GraphicsDevice.Viewport
+                    ));
+            _levelFactory.RegisterLevel("level2", () => new Level2(
+                        texture: game.Content.Load<Texture2D>("SpriteSheets/Tileset/jungleTileSet"),
+                        background: game.Content.Load<Texture2D>("SpriteSheets/Background/background"),
+                        viewport: game.GraphicsDevice.Viewport
+                    ));
         }
 
         public void LoadContent()
         {
             _player = new Character(_game.Content.Load<Texture2D>("SpriteSheets/Wizard/allActions"), new Vector2 { X = 150, Y = 150 });
-            _currentLevel = LevelFactory.CreateLevel(_game);
+            _currentLevel = _levelFactory.CreateLevel(_game.SelectedLevel);
             _camera = new Camera2D(_game.GraphicsDevice.Viewport);
 
             _currentLevel.Create();

@@ -54,7 +54,18 @@ namespace RogueSimulator.Classes.Mechanics.State
             {
                 if (mouseClickRectangle.Intersects(button.CollisionRectangle))
                 {
-                    _game.SelectedLevel = index;
+                    switch (index)
+                    {
+                        case 1:
+                            _game.SelectedLevel = "level1";
+                            break;
+                        case 2:
+                            _game.SelectedLevel = "level2";
+                            break;
+                        default:
+                            _game.SelectedLevel = "level1";
+                            break;
+                    }
                     _game.ChangeGameState(GameState.PLAYING);
                     break;
                 }

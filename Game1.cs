@@ -22,7 +22,7 @@ namespace RogueSimulator
             IsMouseVisible = true;
         }
 
-        public int SelectedLevel { get; set; }
+        public string SelectedLevel { get; set; } = "level1";
 
         protected override void Initialize()
         {
