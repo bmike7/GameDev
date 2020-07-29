@@ -7,6 +7,12 @@ using RogueSimulator.Interfaces;
 
 namespace RogueSimulator.Classes.Mechanics.State
 {
+    public enum LevelType
+    {
+        LEVEL1,
+        LEVEL2,
+    }
+
     public class PlayingState : IState
     {
         private Character _player;
@@ -20,12 +26,12 @@ namespace RogueSimulator.Classes.Mechanics.State
             _game = game;
 
             _levelFactory = new LevelFactory();
-            _levelFactory.RegisterLevel("level1", () => new Level1(
+            _levelFactory.RegisterLevel(LevelType.LEVEL1, () => new Level1(
                         texture: game.Content.Load<Texture2D>("SpriteSheets/Tileset/jungleTileSet"),
                         background: game.Content.Load<Texture2D>("SpriteSheets/Background/background"),
                         viewport: game.GraphicsDevice.Viewport
                     ));
-            _levelFactory.RegisterLevel("level2", () => new Level2(
+            _levelFactory.RegisterLevel(LevelType.LEVEL2, () => new Level2(
                         texture: game.Content.Load<Texture2D>("SpriteSheets/Tileset/jungleTileSet"),
                         background: game.Content.Load<Texture2D>("SpriteSheets/Background/background"),
                         viewport: game.GraphicsDevice.Viewport

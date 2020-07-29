@@ -49,23 +49,12 @@ namespace RogueSimulator.Classes.Mechanics.State
             Rectangle mouseClickRectangle = new Rectangle(x, y, 10, 10);
 
             //index represents the number of the level that will be selected
-            int index = 1;
+            int index = 0;
             foreach (Button button in _levelMenu.GetButtons())
             {
                 if (mouseClickRectangle.Intersects(button.CollisionRectangle))
                 {
-                    switch (index)
-                    {
-                        case 1:
-                            _game.SelectedLevel = "level1";
-                            break;
-                        case 2:
-                            _game.SelectedLevel = "level2";
-                            break;
-                        default:
-                            _game.SelectedLevel = "level1";
-                            break;
-                    }
+                    _game.SelectedLevel = (LevelType)index;
                     _game.ChangeGameState(GameState.PLAYING);
                     break;
                 }
