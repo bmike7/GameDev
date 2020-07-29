@@ -3,9 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-using RogueSimulator.Classes.Characters;
-using RogueSimulator.Classes.Level;
-using RogueSimulator.Classes.Mechanics.Menu;
 using RogueSimulator.Classes.Mechanics.State;
 using RogueSimulator.Interfaces;
 
@@ -25,12 +22,15 @@ namespace RogueSimulator
             IsMouseVisible = true;
         }
 
+        public LevelType SelectedLevel { get; set; } = LevelType.LEVEL1;
+
         protected override void Initialize()
         {
             _gameState = GameState.MAIN_MENU;
             _gameStates = new Dictionary<GameState, IState>();
 
             _gameStates.Add(GameState.MAIN_MENU, new MainMenuState(this));
+            _gameStates.Add(GameState.LEVEL_SELECTOR, new LevelSelectorState(this));
             _gameStates.Add(GameState.PLAYING, new PlayingState(this));
 
             base.Initialize();
