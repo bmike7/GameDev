@@ -64,7 +64,7 @@ namespace RogueSimulator.Classes.Mechanics.State
         {
             MouseState mouseState = Mouse.GetState();
             if (Utility.isMouseLeftButtonClicked(mouseState, _prevMouseState))
-                mouseClicked(Utility.MouseClickRectangle(mouseState));
+                Utility.MouseClicked(mouseState, new Button[] { _pauseButton });
 
             _player.Update(gameTime, _currentLevel);
             _camera.UpdatePosition(_player.GetPosition(), _currentLevel);
@@ -80,12 +80,6 @@ namespace RogueSimulator.Classes.Mechanics.State
             _player.Draw(spriteBatch);
             _pauseButton.Draw(spriteBatch);
             spriteBatch.End();
-        }
-
-        private void mouseClicked(Rectangle mouseClickRectangle)
-        {
-            if (mouseClickRectangle.Intersects(_pauseButton.CollisionRectangle))
-                _game.ChangeGameState(GameState.PAUSED);
         }
 
         private Vector2 getNewPauseButtonPos() =>

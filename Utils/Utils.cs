@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+using RogueSimulator.Classes.Mechanics;
+
 namespace RogueSimulator
 {
     public enum CharacterAction
@@ -23,13 +25,6 @@ namespace RogueSimulator
         RIGHT,
         BOTTOM,
         LEFT,
-    }
-
-    public enum ButtonAction
-    {
-        START,
-        QUIT,
-        PAUSE,
     }
 
     public enum GameState
@@ -57,6 +52,15 @@ namespace RogueSimulator
         public static Rectangle MouseClickRectangle(MouseState mouseState)
         {
             return new Rectangle(mouseState.X, mouseState.Y, 10, 10);
+        }
+
+        public static void MouseClicked(MouseState mouseState, Button[] buttons)
+        {
+            foreach (Button button in buttons)
+            {
+                if (Utility.MouseClickRectangle(mouseState).Intersects(button.CollisionRectangle))
+                    button.ExecuteOnClickAction();
+            }
         }
     }
 }

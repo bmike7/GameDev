@@ -33,7 +33,7 @@ namespace RogueSimulator.Classes.Mechanics.State
         {
             MouseState mouseState = Mouse.GetState();
             if (Utility.isMouseLeftButtonClicked(mouseState, _prevMouseState))
-                mouseClicked(Utility.MouseClickRectangle(mouseState));
+                Utility.MouseClicked(mouseState, _mainMenu.GetButtons().ToArray());
 
             _prevMouseState = mouseState;
         }
@@ -42,15 +42,6 @@ namespace RogueSimulator.Classes.Mechanics.State
             spriteBatch.Begin();
             _mainMenu.Draw(spriteBatch);
             spriteBatch.End();
-        }
-
-        private void mouseClicked(Rectangle mouseClickRectangle)
-        {
-            foreach (Button button in _mainMenu.GetButtons())
-            {
-                if (mouseClickRectangle.Intersects(button.CollisionRectangle))
-                    button.ExecuteOnClickAction();
-            }
         }
     }
 }

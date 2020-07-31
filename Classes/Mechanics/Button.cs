@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using RogueSimulator.Interfaces;
 
-namespace RogueSimulator.Classes.Mechanics.Menu
+namespace RogueSimulator.Classes.Mechanics
 {
     public class Button : ICollidable, Interfaces.IDrawable, IClickable
     {
