@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -7,22 +8,21 @@ namespace RogueSimulator.Classes.Mechanics.Menu
 {
     public class Button : ICollidable, Interfaces.IDrawable, IClickable
     {
+        private Action _onClickAction;
         private Texture2D _texture;
         private Rectangle _buttonRectangle;
         private Vector2 _position;
         private float _scale;
 
-        public Button(ButtonAction buttonAction, Texture2D buttonTexture, Vector2 position, Rectangle buttonSpriteRectangle, int height = 45)
+        public Button(Action onClickAction, Texture2D buttonTexture, Vector2 position, Rectangle buttonSpriteRectangle, int height = 45)
         {
+            _onClickAction = onClickAction;
             _texture = buttonTexture;
             _position = position;
             _buttonRectangle = buttonSpriteRectangle;
             _scale = (float)height / buttonSpriteRectangle.Height;
-            ButtonAction = buttonAction;
             CollisionRectangle = new Rectangle((int)position.X, (int)position.Y, (int)(buttonSpriteRectangle.Width * _scale), (int)(buttonSpriteRectangle.Height * _scale));
         }
-
-        public ButtonAction ButtonAction { get; set; }
         public Rectangle CollisionRectangle { get; set; }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -39,6 +39,8 @@ namespace RogueSimulator.Classes.Mechanics.Menu
                 layerDepth: 0
             );
         }
+
+        public void ExecuteOnClickAction() => _onClickAction();
 
         public void UpdatePosition(Vector2 newPos) => _position = newPos;
     }

@@ -50,7 +50,7 @@ namespace RogueSimulator.Classes.Mechanics.State
             _currentLevel = _levelFactory.CreateLevel(_game.SelectedLevel);
             _camera = new Camera2D(_game.GraphicsDevice.Viewport);
             _pauseButton = new Button(
-                buttonAction: ButtonAction.PAUSE,
+                onClickAction: () => _game.ChangeGameState(GameState.PAUSED),
                 buttonTexture: _game.Content.Load<Texture2D>("SpriteSheets/Buttons/PauseButton"),
                 position: new Vector2(_game.GraphicsDevice.Viewport.Width - PAUSE_BUTTON_OFFSET, PAUSE_BUTTON_OFFSET - PAUSE_BUTTON_HEIGHT),
                 buttonSpriteRectangle: new Rectangle(3, 2, 10, 10),

@@ -65,6 +65,9 @@ namespace RogueSimulator
 
         public void ChangeGameState(GameState gameState)
         {
+            if (gameState == GameState.QUIT)
+                Exit();
+
             _gameState = gameState;
             LoadContent();
         }

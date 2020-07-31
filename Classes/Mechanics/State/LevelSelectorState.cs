@@ -22,7 +22,7 @@ namespace RogueSimulator.Classes.Mechanics.State
             if (_levelMenu != null) return;
 
             _levelMenu = new LevelMenu(
-                viewport: _game.GraphicsDevice.Viewport,
+                game: _game,
                 background: _game.Content.Load<Texture2D>("SpriteSheets/Background/finalNight"),
                 buttonsTexture: _game.Content.Load<Texture2D>("SpriteSheets/Buttons/Buttons")
             );
@@ -51,11 +51,9 @@ namespace RogueSimulator.Classes.Mechanics.State
             foreach (Button button in _levelMenu.GetButtons())
             {
                 if (mouseClickRectangle.Intersects(button.CollisionRectangle))
-                {
                     _game.SelectedLevel = (LevelType)index;
-                    _game.ChangeGameState(GameState.PLAYING);
-                    break;
-                }
+
+                button.ExecuteOnClickAction();
                 index++;
             }
         }

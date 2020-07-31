@@ -39,6 +39,7 @@ namespace RogueSimulator
         LOADING,
         PLAYING,
         PAUSED,
+        QUIT,
     }
 
     public static class Utility
