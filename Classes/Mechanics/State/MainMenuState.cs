@@ -23,7 +23,7 @@ namespace RogueSimulator.Classes.Mechanics.State
             if (_mainMenu != null) return;
 
             _mainMenu = new MainMenu(
-                viewport: _game.GraphicsDevice.Viewport,
+                game: _game,
                 background: _game.Content.Load<Texture2D>("SpriteSheets/Background/finalNight"),
                 buttonsTexture: _game.Content.Load<Texture2D>("SpriteSheets/Buttons/Buttons")
             );
@@ -32,8 +32,8 @@ namespace RogueSimulator.Classes.Mechanics.State
         public void Update(GameTime gameTime)
         {
             MouseState mouseState = Mouse.GetState();
-            if (_prevMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
-                mouseClicked(mouseState.X, mouseState.Y);
+            if (Utility.isMouseLeftButtonClicked(mouseState, _prevMouseState))
+                Utility.MouseClicked(mouseState, _mainMenu.GetButtons().ToArray());
 
             _prevMouseState = mouseState;
         }
@@ -42,27 +42,6 @@ namespace RogueSimulator.Classes.Mechanics.State
             spriteBatch.Begin();
             _mainMenu.Draw(spriteBatch);
             spriteBatch.End();
-        }
-
-        private void mouseClicked(int x, int y)
-        {
-            Rectangle mouseClickRectangle = new Rectangle(x, y, 10, 10);
-
-            foreach (Button button in _mainMenu.GetButtons())
-            {
-                if (mouseClickRectangle.Intersects(button.CollisionRectangle))
-                {
-                    switch (button.ButtonAction)
-                    {
-                        case ButtonAction.START:
-                            _game.ChangeGameState(GameState.LEVEL_SELECTOR);
-                            break;
-                        case ButtonAction.QUIT:
-                            _game.Exit();
-                            break;
-                    }
-                }
-            }
         }
     }
 }

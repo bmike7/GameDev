@@ -57,10 +57,8 @@ namespace RogueSimulator.Classes.Characters
             );
         }
 
-        public Vector2 GetPosition()
-        {
-            return new Vector2(_movement.Position.X, _movement.Position.Y);
-        }
+        public Vector2 GetPosition() => new Vector2(_movement.Position.X, _movement.Position.Y);
+        public Movement GetMovement() => _movement;
 
         private Animation getCurrentAnimation()
         {
