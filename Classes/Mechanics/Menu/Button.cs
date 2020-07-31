@@ -39,5 +39,7 @@ namespace RogueSimulator.Classes.Mechanics.Menu
                 layerDepth: 0
             );
         }
+
+        public void UpdatePosition(Vector2 newPos) => _position = newPos;
     }
 }

@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
-using RogueSimulator;
 using RogueSimulator.Classes.Characters;
 using RogueSimulator.Classes.Level;
 using RogueSimulator.Classes.Mechanics.Menu;
@@ -69,6 +68,7 @@ namespace RogueSimulator.Classes.Mechanics.State
 
             _player.Update(gameTime, _currentLevel);
             _camera.UpdatePosition(_player.GetPosition(), _currentLevel);
+            _pauseButton.UpdatePosition(getNewPauseButtonPos());
 
             _prevMouseState = mouseState;
         }
@@ -87,5 +87,11 @@ namespace RogueSimulator.Classes.Mechanics.State
             if (mouseClickRectangle.Intersects(_pauseButton.CollisionRectangle))
                 _game.ChangeGameState(GameState.PAUSED);
         }
+
+        private Vector2 getNewPauseButtonPos() =>
+            new Vector2(
+                x: _camera.Position.X + _game.GraphicsDevice.Viewport.Width - PAUSE_BUTTON_OFFSET,
+                y: PAUSE_BUTTON_OFFSET - PAUSE_BUTTON_HEIGHT
+            );
     }
 }
