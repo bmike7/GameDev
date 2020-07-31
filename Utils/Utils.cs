@@ -27,6 +27,12 @@ namespace RogueSimulator
         LEFT,
     }
 
+    public enum LevelType
+    {
+        LEVEL1,
+        LEVEL2,
+    }
+
     public enum GameState
     {
         MAIN_MENU,

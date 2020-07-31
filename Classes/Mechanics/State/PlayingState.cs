@@ -4,17 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 using RogueSimulator.Classes.Characters;
 using RogueSimulator.Classes.Level;
-using RogueSimulator.Classes.Mechanics.Menu;
 using RogueSimulator.Interfaces;
 
 namespace RogueSimulator.Classes.Mechanics.State
 {
-    public enum LevelType
-    {
-        LEVEL1,
-        LEVEL2,
-    }
-
     public class PlayingState : IState
     {
         private const int PAUSE_BUTTON_HEIGHT = 20;
@@ -46,17 +39,22 @@ namespace RogueSimulator.Classes.Mechanics.State
 
         public void LoadContent()
         {
-            _player = new Character(_game.Content.Load<Texture2D>("SpriteSheets/Wizard/allActions"), new Vector2 { X = 150, Y = 150 });
-            _currentLevel = _levelFactory.CreateLevel(_game.SelectedLevel);
+            _player = new Character(_game.Content.Load<Texture2D>("SpriteSheets/Wizard/allActions"), _game.CurrentPlayingState.Movement.Position);
+            _currentLevel = _levelFactory.CreateLevel(_game.CurrentPlayingState.SelectedLevel);
             _camera = new Camera2D(_game.GraphicsDevice.Viewport);
             _pauseButton = new Button(
-                onClickAction: () => _game.ChangeGameState(GameState.PAUSED),
+                onClickAction: () =>
+                {
+                    _game.CurrentPlayingState.Movement = _player.GetMovement();
+                    _game.ChangeGameState(GameState.PAUSED);
+                },
                 buttonTexture: _game.Content.Load<Texture2D>("SpriteSheets/Buttons/PauseButton"),
                 position: new Vector2(_game.GraphicsDevice.Viewport.Width - PAUSE_BUTTON_OFFSET, PAUSE_BUTTON_OFFSET - PAUSE_BUTTON_HEIGHT),
                 buttonSpriteRectangle: new Rectangle(3, 2, 10, 10),
                 height: 20
             );
 
+            _game.CurrentPlayingState.ResetMovement();
             _currentLevel.Create();
         }
 
