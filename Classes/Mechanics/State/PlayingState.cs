@@ -1,8 +1,11 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
+using RogueSimulator;
 using RogueSimulator.Classes.Characters;
 using RogueSimulator.Classes.Level;
+using RogueSimulator.Classes.Mechanics.Menu;
 using RogueSimulator.Interfaces;
 
 namespace RogueSimulator.Classes.Mechanics.State
@@ -15,11 +18,15 @@ namespace RogueSimulator.Classes.Mechanics.State
 
     public class PlayingState : IState
     {
+        private const int PAUSE_BUTTON_HEIGHT = 20;
+        private const int PAUSE_BUTTON_OFFSET = 40;
         private Character _player;
         private BaseLevel _currentLevel;
         private Camera2D _camera;
         private Game1 _game;
         private LevelFactory _levelFactory;
+        private Button _pauseButton;
+        private MouseState _prevMouseState;
 
         public PlayingState(Game1 game)
         {
@@ -43,14 +50,27 @@ namespace RogueSimulator.Classes.Mechanics.State
             _player = new Character(_game.Content.Load<Texture2D>("SpriteSheets/Wizard/allActions"), new Vector2 { X = 150, Y = 150 });
             _currentLevel = _levelFactory.CreateLevel(_game.SelectedLevel);
             _camera = new Camera2D(_game.GraphicsDevice.Viewport);
+            _pauseButton = new Button(
+                buttonAction: ButtonAction.PAUSE,
+                buttonTexture: _game.Content.Load<Texture2D>("SpriteSheets/Buttons/PauseButton"),
+                position: new Vector2(_game.GraphicsDevice.Viewport.Width - PAUSE_BUTTON_OFFSET, PAUSE_BUTTON_OFFSET - PAUSE_BUTTON_HEIGHT),
+                buttonSpriteRectangle: new Rectangle(3, 2, 10, 10),
+                height: 20
+            );
 
             _currentLevel.Create();
         }
 
         public void Update(GameTime gameTime)
         {
+            MouseState mouseState = Mouse.GetState();
+            if (Utility.isMouseLeftButtonClicked(mouseState, _prevMouseState))
+                mouseClicked(Utility.MouseClickRectangle(mouseState));
+
             _player.Update(gameTime, _currentLevel);
             _camera.UpdatePosition(_player.GetPosition(), _currentLevel);
+
+            _prevMouseState = mouseState;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -58,7 +78,14 @@ namespace RogueSimulator.Classes.Mechanics.State
             spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix());
             _currentLevel.Draw(spriteBatch);
             _player.Draw(spriteBatch);
+            _pauseButton.Draw(spriteBatch);
             spriteBatch.End();
+        }
+
+        private void mouseClicked(Rectangle mouseClickRectangle)
+        {
+            if (mouseClickRectangle.Intersects(_pauseButton.CollisionRectangle))
+                _game.ChangeGameState(GameState.PAUSED);
         }
     }
 }

@@ -31,8 +31,8 @@ namespace RogueSimulator.Classes.Mechanics.State
         public void Update(GameTime gameTime)
         {
             MouseState mouseState = Mouse.GetState();
-            if (_prevMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
-                mouseClicked(mouseState.X, mouseState.Y);
+            if (Utility.isMouseLeftButtonClicked(mouseState, _prevMouseState))
+                mouseClicked(Utility.MouseClickRectangle(mouseState));
 
             _prevMouseState = mouseState;
         }
@@ -44,10 +44,8 @@ namespace RogueSimulator.Classes.Mechanics.State
             spriteBatch.End();
         }
 
-        private void mouseClicked(int x, int y)
+        private void mouseClicked(Rectangle mouseClickRectangle)
         {
-            Rectangle mouseClickRectangle = new Rectangle(x, y, 10, 10);
-
             //index represents the number of the level that will be selected
             int index = 0;
             foreach (Button button in _levelMenu.GetButtons())

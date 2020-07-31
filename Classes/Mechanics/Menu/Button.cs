@@ -7,18 +7,17 @@ namespace RogueSimulator.Classes.Mechanics.Menu
 {
     public class Button : ICollidable, Interfaces.IDrawable, IClickable
     {
-        public static int HEIGHT = 45;
         private Texture2D _texture;
         private Rectangle _buttonRectangle;
         private Vector2 _position;
         private float _scale;
 
-        public Button(ButtonAction buttonAction, Texture2D buttonTexture, Vector2 position, Rectangle buttonSpriteRectangle)
+        public Button(ButtonAction buttonAction, Texture2D buttonTexture, Vector2 position, Rectangle buttonSpriteRectangle, int height = 45)
         {
             _texture = buttonTexture;
             _position = position;
             _buttonRectangle = buttonSpriteRectangle;
-            _scale = (float)HEIGHT / buttonSpriteRectangle.Height;
+            _scale = (float)height / buttonSpriteRectangle.Height;
             ButtonAction = buttonAction;
             CollisionRectangle = new Rectangle((int)position.X, (int)position.Y, (int)(buttonSpriteRectangle.Width * _scale), (int)(buttonSpriteRectangle.Height * _scale));
         }

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace RogueSimulator
@@ -28,6 +29,7 @@ namespace RogueSimulator
     {
         START,
         QUIT,
+        PAUSE,
     }
 
     public enum GameState
@@ -44,6 +46,16 @@ namespace RogueSimulator
         public static bool IsKeyPressed(Keys key)
         {
             return Keyboard.GetState().IsKeyDown(key);
+        }
+
+        public static bool isMouseLeftButtonClicked(MouseState mouseState, MouseState prevMouseState)
+        {
+            return prevMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released;
+        }
+
+        public static Rectangle MouseClickRectangle(MouseState mouseState)
+        {
+            return new Rectangle(mouseState.X, mouseState.Y, 10, 10);
         }
     }
 }
