@@ -1,6 +1,4 @@
-# Rogue Simulator (school project)
-
-The idea behind this game is that you are part of an organisation that controls the simulation of life as we know it today. (The Matrix & simulation theory inspired)
+# GameDev (school project)
 
 This is a cross-platform Monogame game. To run this you have to make sure you are running it with .NET version 3.1.
 
