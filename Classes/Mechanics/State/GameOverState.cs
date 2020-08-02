@@ -7,25 +7,24 @@ using RogueSimulator.Interfaces;
 
 namespace RogueSimulator.Classes.Mechanics.State
 {
-    public class PausedState : IState
+    public class GameOverState : IState
     {
-        private PausedMenu _pauseMenu;
+        private GameOverMenu _gameOverMenu;
         private MouseState _prevMouseState;
         private Game1 _game;
-
-        public PausedState(Game1 game)
+        public GameOverState(Game1 game)
         {
             _game = game;
         }
 
         public void LoadContent()
         {
-            if (_pauseMenu != null) return;
+            if (_gameOverMenu != null) return;
 
-            _pauseMenu = new PausedMenu(
+            _gameOverMenu = new GameOverMenu(
                 game: _game,
-                background: _game.Content.Load<Texture2D>("SpriteSheets/Background/finalNight"),
-                buttonsTexture: _game.Content.Load<Texture2D>("SpriteSheets/Buttons/PauseMenuButtons")
+                background: _game.Content.Load<Texture2D>("SpriteSheets/Background/GameOverPaper"),
+                buttonsTexture: _game.Content.Load<Texture2D>("SpriteSheets/Buttons/GameOverMenuButtons")
             );
         }
 
@@ -33,7 +32,7 @@ namespace RogueSimulator.Classes.Mechanics.State
         {
             MouseState mouseState = Mouse.GetState();
             if (Utility.isMouseLeftButtonClicked(mouseState, _prevMouseState))
-                Utility.ClickButtonIfMouseclickIntersects(mouseState, _pauseMenu.GetButtons().ToArray());
+                Utility.ClickButtonIfMouseclickIntersects(mouseState, _gameOverMenu.GetButtons().ToArray());
 
             _prevMouseState = mouseState;
         }
@@ -41,7 +40,7 @@ namespace RogueSimulator.Classes.Mechanics.State
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
-            _pauseMenu.Draw(spriteBatch);
+            _gameOverMenu.Draw(spriteBatch);
             spriteBatch.End();
         }
     }
