@@ -20,7 +20,7 @@ namespace RogueSimulator.Classes.Mechanics.Menu
                 buttonSpriteRectangle: new Rectangle(6, 4, 52, 16))
             );
             _buttonList.Add(new Button(
-                onClickAction: () => game.ChangeGameState(GameState.LEVEL_SELECTOR),
+                onClickAction: () => game.ChangeGameState(GameState.MAIN_MENU),
                 buttonTexture: buttonsTexture,
                 position: quitButtonPosition,
                 buttonSpriteRectangle: new Rectangle(6, 23, 52, 16))

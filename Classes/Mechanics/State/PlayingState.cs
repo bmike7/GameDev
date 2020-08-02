@@ -65,6 +65,9 @@ namespace RogueSimulator.Classes.Mechanics.State
                 Utility.ClickButtonIfMouseclickIntersects(mouseState, new Button[] { _pauseButton });
 
             _player.Update(gameTime, _currentLevel);
+            if (_player.GetPosition().Y > _game.GraphicsDevice.Viewport.Height)
+                _game.ChangeGameState(GameState.GAME_OVER);
+
             _camera.UpdatePosition(_player.GetPosition(), _currentLevel);
             _pauseButton.UpdatePosition(getNewPauseButtonPos());
 
