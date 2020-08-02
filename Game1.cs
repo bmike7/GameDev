@@ -35,6 +35,7 @@ namespace RogueSimulator
             _gameStates.Add(GameState.LEVEL_SELECTOR, new LevelSelectorState(this));
             _gameStates.Add(GameState.PLAYING, new PlayingState(this));
             _gameStates.Add(GameState.PAUSED, new PausedState(this));
+            _gameStates.Add(GameState.GAME_OVER, new GameOverState(this));
 
             base.Initialize();
         }

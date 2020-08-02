@@ -41,6 +41,7 @@ namespace RogueSimulator
         PLAYING,
         PAUSED,
         QUIT,
+        GAME_OVER,
     }
 
     public static class Utility
@@ -60,7 +61,7 @@ namespace RogueSimulator
             return new Rectangle(mouseState.X, mouseState.Y, 10, 10);
         }
 
-        public static void MouseClicked(MouseState mouseState, Button[] buttons)
+        public static void ClickButtonIfMouseclickIntersects(MouseState mouseState, Button[] buttons)
         {
             foreach (Button button in buttons)
             {

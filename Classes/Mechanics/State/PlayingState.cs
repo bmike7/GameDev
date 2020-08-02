@@ -62,7 +62,7 @@ namespace RogueSimulator.Classes.Mechanics.State
         {
             MouseState mouseState = Mouse.GetState();
             if (Utility.isMouseLeftButtonClicked(mouseState, _prevMouseState))
-                Utility.MouseClicked(mouseState, new Button[] { _pauseButton });
+                Utility.ClickButtonIfMouseclickIntersects(mouseState, new Button[] { _pauseButton });
 
             _player.Update(gameTime, _currentLevel);
             _camera.UpdatePosition(_player.GetPosition(), _currentLevel);

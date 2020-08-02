@@ -33,7 +33,7 @@ namespace RogueSimulator.Classes.Mechanics.State
         {
             MouseState mouseState = Mouse.GetState();
             if (Utility.isMouseLeftButtonClicked(mouseState, _prevMouseState))
-                Utility.MouseClicked(mouseState, _mainMenu.GetButtons().ToArray());
+                Utility.ClickButtonIfMouseclickIntersects(mouseState, _mainMenu.GetButtons().ToArray());
 
             _prevMouseState = mouseState;
         }

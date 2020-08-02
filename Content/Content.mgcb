@@ -37,6 +37,18 @@
 /processorParam:TextureFormat=Color
 /build:SpriteSheets/Background/finalNight.png
 
+#begin SpriteSheets/Background/GameOverPaper.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SpriteSheets/Background/GameOverPaper.png
+
 #begin SpriteSheets/Buttons/Buttons.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -48,6 +60,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:SpriteSheets/Buttons/Buttons.png
+
+#begin SpriteSheets/Buttons/GameOverMenuButtons.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SpriteSheets/Buttons/GameOverMenuButtons.png
 
 #begin SpriteSheets/Buttons/PauseButton.png
 /importer:TextureImporter
