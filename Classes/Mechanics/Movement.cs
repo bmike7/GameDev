@@ -95,7 +95,7 @@ namespace RogueSimulator.Classes.Mechanics
         //and will not use acceleration of any kind
         private float numberOfVerticalPixelsToTravel()
             => (float)(VERTICAL_VELOCITY * (_tempElapsedMs - _prevElapsedMs) / 1000);
-        public void updateJump()
+        private void updateJump()
         {
             _startedJumpingTime = (_input.IsSpace && (_tempElapsedMs > _startedJumpingTime + (TIME_OF_JUMP_MS * 1000)) && isOnGround())
                 ? _tempElapsedMs
