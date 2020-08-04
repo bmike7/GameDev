@@ -40,7 +40,7 @@ namespace RogueSimulator.Classes.Mechanics.State
         public void LoadContent()
         {
             _player = new Character(_game.Content.Load<Texture2D>("SpriteSheets/Wizard/allActions"), _game.CurrentPlayingState.Movement.Position);
-            _currentLevel = _levelFactory.CreateLevel(_game.CurrentPlayingState.SelectedLevel);
+            _currentLevel = _levelFactory.LoadLevel(_game.CurrentPlayingState.SelectedLevel);
             _camera = new Camera2D(_game.GraphicsDevice.Viewport);
             _pauseButton = new Button(
                 onClickAction: () =>
