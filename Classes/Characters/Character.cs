@@ -31,7 +31,6 @@ namespace RogueSimulator.Classes.Characters
             _movement = new Movement(pos);
             _collisionRectangle = new Rectangle((int)pos.X, (int)pos.Y, 60, 70);
         }
-
         public virtual void Update(GameTime gameTime, BaseLevel level)
         {
             Animation currentAnimation = getCurrentAnimation();
@@ -41,7 +40,6 @@ namespace RogueSimulator.Classes.Characters
             _collisionRectangle.X = (int)_movement.Position.X;
             _collisionRectangle.Y = (int)_movement.Position.Y;
         }
-
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
@@ -56,13 +54,8 @@ namespace RogueSimulator.Classes.Characters
                 layerDepth: 0
             );
         }
-
         public Vector2 GetPosition() => new Vector2(_movement.Position.X, _movement.Position.Y);
         public Movement GetMovement() => _movement;
-
-        private Animation getCurrentAnimation()
-        {
-            return _actionAnimations.Single(action => action.Key == _movement.Action).Value;
-        }
+        private Animation getCurrentAnimation() => _actionAnimations.Single(action => action.Key == _movement.Action).Value;
     }
 }
