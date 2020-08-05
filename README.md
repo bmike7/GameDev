@@ -1,4 +1,4 @@
-# GameDev (school project)
+# GameDev
 
 This is a cross-platform Monogame game. To run this you have to make sure you are running it with .NET version 3.1.
 
