@@ -28,11 +28,13 @@ namespace RogueSimulator.Classes.Mechanics.State
             _levelFactory.RegisterLevel(LevelType.LEVEL1, () => new Level1(
                         texture: game.Content.Load<Texture2D>("SpriteSheets/Tileset/jungleTileSet"),
                         background: game.Content.Load<Texture2D>("SpriteSheets/Background/background"),
+                        portalTexture: game.Content.Load<Texture2D>(FinisherPortal.assetName),
                         viewport: game.GraphicsDevice.Viewport
                     ));
             _levelFactory.RegisterLevel(LevelType.LEVEL2, () => new Level2(
                         texture: game.Content.Load<Texture2D>("SpriteSheets/Tileset/jungleTileSet"),
                         background: game.Content.Load<Texture2D>("SpriteSheets/Background/background"),
+                        portalTexture: game.Content.Load<Texture2D>(FinisherPortal.assetName),
                         viewport: game.GraphicsDevice.Viewport
                     ));
         }
@@ -40,7 +42,7 @@ namespace RogueSimulator.Classes.Mechanics.State
         public void LoadContent()
         {
             _player = new Character(_game.Content.Load<Texture2D>("SpriteSheets/Wizard/allActions"), _game.CurrentPlayingState.Movement.Position);
-            _currentLevel = _levelFactory.CreateLevel(_game.CurrentPlayingState.SelectedLevel);
+            _currentLevel = _levelFactory.LoadLevel(_game.CurrentPlayingState.SelectedLevel);
             _camera = new Camera2D(_game.GraphicsDevice.Viewport);
             _pauseButton = new Button(
                 onClickAction: () =>
@@ -65,6 +67,8 @@ namespace RogueSimulator.Classes.Mechanics.State
                 Utility.ClickButtonIfMouseclickIntersects(mouseState, new Button[] { _pauseButton });
 
             _player.Update(gameTime, _currentLevel);
+            if (_currentLevel.FinisherPortal != null && _player.CollisionRectangle.Intersects(_currentLevel.FinisherPortal.CollisionRectangle))
+                _game.ChangeGameState(GameState.LEVEL_SELECTOR);
             if (_player.GetPosition().Y > _game.GraphicsDevice.Viewport.Height)
                 _game.ChangeGameState(GameState.GAME_OVER);
 

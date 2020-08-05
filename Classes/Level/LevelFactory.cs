@@ -2,8 +2,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-using RogueSimulator.Classes.Mechanics.State;
-
 namespace RogueSimulator.Classes.Level
 {
     //I'm also trying to limit the use of if-else and switch as branching strategies.
@@ -16,7 +14,7 @@ namespace RogueSimulator.Classes.Level
         {
             _levels = new Dictionary<LevelType, Func<BaseLevel>>();
         }
-        public BaseLevel CreateLevel(LevelType levelType) => _levels[levelType]();
+        public BaseLevel LoadLevel(LevelType levelType) => _levels[levelType]();
         public LevelType[] RegisteredTypes => _levels.Keys.ToArray();
         public void RegisterLevel(LevelType levelType, Func<BaseLevel> factoryMethod)
         {
