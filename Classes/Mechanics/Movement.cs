@@ -55,8 +55,8 @@ namespace RogueSimulator.Classes.Mechanics
             float x = getNewX();
             if (x < 0)
                 x = 0;
-            else if (x > level.GetSize() - _tempOwnCollisionRectangle.Width)
-                x = level.GetSize() - _tempOwnCollisionRectangle.Width;
+            else if (x > level.Size - _tempOwnCollisionRectangle.Width)
+                x = level.Size - _tempOwnCollisionRectangle.Width;
 
             Position = new Vector2(x, getNewY());
         }

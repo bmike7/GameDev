@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using RogueSimulator.Interfaces;
-
 namespace RogueSimulator.Classes.Level
 {
     public class Level2 : BaseLevel
@@ -38,7 +36,6 @@ namespace RogueSimulator.Classes.Level
 
         private const int NUMBER_OF_LINES = 5;
         private const int NUMBER_OF_COLUMNS = 50;
-        private const int NEAR_DISTANCE = 200;
         private const int BACKGROUND_PIXEL_WIDTH = 640;
         private int[,] _levelDesign = new int[NUMBER_OF_LINES, NUMBER_OF_COLUMNS]
         {
@@ -48,14 +45,15 @@ namespace RogueSimulator.Classes.Level
             {0,0,0,0,0,4,7,0,0,8,0,0,0,0,0,0,0,0,0,8,0,0,2,5,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {1,1,1,1,1,3,6,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,3,6,1,1,0,0,0,0,0,0,0,0,8,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1},
         };
-        private List<Tile> _tiles = new List<Tile>();
 
         public Level2(Texture2D texture, Texture2D background, Viewport viewport)
-        {
-            _texture = texture;
-            _background = background;
-            _viewport = viewport;
-        }
+            : base(
+                texture: texture,
+                background: background,
+                viewport: viewport,
+                size: NUMBER_OF_COLUMNS * Tile.SIZE
+            )
+        { }
 
         public override void Create()
         {
@@ -76,31 +74,5 @@ namespace RogueSimulator.Classes.Level
                 }
             }
         }
-
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            int amountOfBackgrounds = (NUMBER_OF_COLUMNS * Tile.SIZE) / BACKGROUND_PIXEL_WIDTH + 1;
-            for (int backgroundNumber = 0; backgroundNumber < amountOfBackgrounds; backgroundNumber++)
-                spriteBatch.Draw(_background, new Vector2(backgroundNumber * BACKGROUND_PIXEL_WIDTH, 0), Color.White);
-            foreach (Tile tile in _tiles)
-                tile.Draw(spriteBatch);
-        }
-
-        public override ICollidable[] GetNearCollidableBlocks(Vector2 characterPosition)
-        {
-            List<ICollidable> collisionBlocks = new List<ICollidable>();
-
-            foreach (ICollidable tile in _tiles)
-            {
-                float distance = Vector2.Distance(characterPosition, tile.GetPosition());
-
-                if (distance < NEAR_DISTANCE)
-                    collisionBlocks.Add(tile);
-            }
-
-            return collisionBlocks.ToArray();
-        }
-
-        public override int GetSize() => NUMBER_OF_COLUMNS * Tile.SIZE;
     }
 }

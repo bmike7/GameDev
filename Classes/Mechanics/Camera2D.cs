@@ -25,8 +25,8 @@ namespace RogueSimulator.Classes.Mechanics
             float newPosition = playerPosition.X - _viewport.Width * 0.25f;
             if (newPosition < 0)
                 newPosition = 0;
-            else if (newPosition > currentLevel.GetSize() - _viewport.Width)
-                newPosition = currentLevel.GetSize() - _viewport.Width;
+            else if (newPosition > currentLevel.Size - _viewport.Width)
+                newPosition = currentLevel.Size - _viewport.Width;
 
             _position.X = newPosition;
             // Example of updating camera before camera followed player
