@@ -13,7 +13,7 @@ namespace RogueSimulator.Classes.Mechanics
         private const int VERTICAL_VELOCITY = 420;
         private const float TIME_OF_JUMP_MS = 0.3f;
         private const int ADD_ON_GROUND_CHECKER = 7;
-        private Input _input;
+        private IInput _input;
         private KeyboardState _prevKeyboardState;
         private double _tempElapsedMs;
         private double _prevElapsedMs = 0;
@@ -22,16 +22,16 @@ namespace RogueSimulator.Classes.Mechanics
         private double _startedJumpingTime = 0;
 
 
-        public Movement(Vector2 position, PlayerAction action = PlayerAction.IDLE, PlayerDirection direction = PlayerDirection.RIGHT)
+        public Movement(IInput input, Vector2 position, MovementAction action = MovementAction.IDLE, MovementDirection direction = MovementDirection.RIGHT)
         {
-            _input = new Input();
+            _input = input;
             Position = position;
             Action = action;
             Direction = direction;
         }
 
-        public PlayerAction Action { get; private set; }
-        public PlayerDirection Direction { get; private set; }
+        public MovementAction Action { get; private set; }
+        public MovementDirection Direction { get; private set; }
         public Vector2 Position { get; private set; }
 
         public void Update(GameTime gameTime, BaseLevel level, Rectangle ownCollisionRectangle)
@@ -97,7 +97,7 @@ namespace RogueSimulator.Classes.Mechanics
             => (float)(VERTICAL_VELOCITY * (_tempElapsedMs - _prevElapsedMs) / 1000);
         private void updateJump()
         {
-            _startedJumpingTime = (_input.IsSpace && (_tempElapsedMs > _startedJumpingTime + (TIME_OF_JUMP_MS * 1000)) && isOnGround())
+            _startedJumpingTime = (_input.IsStartedJumping && (_tempElapsedMs > _startedJumpingTime + (TIME_OF_JUMP_MS * 1000)) && isOnGround())
                 ? _tempElapsedMs
                 : _startedJumpingTime;
         }
@@ -123,20 +123,20 @@ namespace RogueSimulator.Classes.Mechanics
         private void updateDirection()
         {
             Direction = _input.IsRight
-                ? PlayerDirection.RIGHT
+                ? MovementDirection.RIGHT
                 : _input.IsLeft
-                    ? PlayerDirection.LEFT
+                    ? MovementDirection.LEFT
                     : Direction;
         }
         private void updateAction()
         {
             if (isJumping() || !isOnGround())
             {
-                Action = isJumping() ? PlayerAction.JUMP : PlayerAction.FALL;
+                Action = isJumping() ? MovementAction.JUMP : MovementAction.FALL;
                 return;
             }
 
-            Action = _input.IsRight || _input.IsLeft ? PlayerAction.RUN : PlayerAction.IDLE;
+            Action = _input.IsRight || _input.IsLeft ? MovementAction.RUN : MovementAction.IDLE;
         }
     }
 }
