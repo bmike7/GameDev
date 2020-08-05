@@ -41,15 +41,16 @@ namespace RogueSimulator.Classes.Level
         {
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,8,0,8,0,0,0,0,0,0,0,0,0,0,0,0,4,7,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,8,0,8,0,0,0,0,0,0,0,0,0,0,0,0,4,7,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,0},
             {0,0,0,0,0,4,7,0,0,8,0,0,0,0,0,0,0,0,0,8,0,0,2,5,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {1,1,1,1,1,3,6,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,3,6,1,1,0,0,0,0,0,0,0,0,8,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1},
         };
 
-        public Level2(Texture2D texture, Texture2D background, Viewport viewport)
+        public Level2(Texture2D texture, Texture2D background, Texture2D portalTexture, Viewport viewport)
             : base(
                 texture: texture,
                 background: background,
+                portalTexture: portalTexture,
                 viewport: viewport,
                 size: NUMBER_OF_COLUMNS * Tile.SIZE
             )
@@ -64,12 +65,17 @@ namespace RogueSimulator.Classes.Level
                     int startY = _viewport.Height - NUMBER_OF_LINES * Tile.SIZE;
                     Vector2 position = new Vector2(block * Tile.SIZE, line * Tile.SIZE + startY);
 
-                    TileType type = (TileType)_levelDesign[line, block];
-
-                    if (type != TileType.NONE)
+                    if (_levelDesign[line, block] == -1)
+                        FinisherPortal = new FinisherPortal(_portalTexture, position);
+                    else
                     {
-                        Tile newTile = new Tile(_texture, position, _tileTypes[type]);
-                        _tiles.Add(newTile);
+                        TileType type = (TileType)_levelDesign[line, block];
+
+                        if (type != TileType.NONE)
+                        {
+                            Tile newTile = new Tile(_texture, position, _tileTypes[type]);
+                            _tiles.Add(newTile);
+                        }
                     }
                 }
             }

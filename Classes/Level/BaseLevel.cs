@@ -10,19 +10,22 @@ namespace RogueSimulator.Classes.Level
     {
         private const int NEAR_DISTANCE = 200;
         protected Texture2D _texture;
+        protected Texture2D _portalTexture;
         protected Texture2D _background;
         protected Viewport _viewport;
         protected List<Tile> _tiles = new List<Tile>();
 
-        public BaseLevel(Texture2D texture, Texture2D background, Viewport viewport, int size)
+        public BaseLevel(Texture2D texture, Texture2D background, Texture2D portalTexture, Viewport viewport, int size)
         {
             _texture = texture;
             _background = background;
+            _portalTexture = portalTexture;
             _viewport = viewport;
             Size = size;
         }
 
-        public int Size { get; set; }
+        public int Size { get; private set; }
+        public FinisherPortal FinisherPortal { get; protected set; }
 
         // In the create function the tiles should be added to the _tiles list.
         public abstract void Create();
@@ -34,6 +37,8 @@ namespace RogueSimulator.Classes.Level
                 spriteBatch.Draw(_background, new Vector2(backgroundNumber * _background.Width, 0), Color.White);
             foreach (Tile tile in _tiles)
                 tile.Draw(spriteBatch);
+            if (FinisherPortal != null)
+                FinisherPortal.Draw(spriteBatch);
         }
 
         public virtual ICollidable[] GetNearCollidableBlocks(Vector2 characterPosition)

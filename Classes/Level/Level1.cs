@@ -32,10 +32,11 @@ namespace RogueSimulator.Classes.Level
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
         };
 
-        public Level1(Texture2D texture, Texture2D background, Viewport viewport)
+        public Level1(Texture2D texture, Texture2D background, Texture2D portalTexture, Viewport viewport)
             : base(
                 texture: texture,
                 background: background,
+                portalTexture: portalTexture,
                 viewport: viewport,
                 size: NUMBER_OF_COLUMNS * Tile.SIZE
             )

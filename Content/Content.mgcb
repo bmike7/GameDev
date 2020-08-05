@@ -109,6 +109,18 @@
 /processorParam:TextureFormat=Color
 /build:SpriteSheets/Tileset/jungleTileSet.png
 
+#begin SpriteSheets/Tileset/Portal.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SpriteSheets/Tileset/Portal.png
+
 #begin SpriteSheets/Wizard/allActions.png
 /importer:TextureImporter
 /processor:TextureProcessor
