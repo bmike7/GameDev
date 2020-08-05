@@ -5,7 +5,7 @@ using RogueSimulator.Classes.Mechanics;
 
 namespace RogueSimulator
 {
-    public enum CharacterAction
+    public enum PlayerAction
     {
         IDLE,
         RUN,
@@ -13,7 +13,7 @@ namespace RogueSimulator
         FALL,
     }
 
-    public enum CharacterDirection
+    public enum PlayerDirection
     {
         LEFT,
         RIGHT,

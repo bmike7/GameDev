@@ -22,7 +22,7 @@ namespace RogueSimulator.Classes.Mechanics
         private double _startedJumpingTime = 0;
 
 
-        public Movement(Vector2 position, CharacterAction action = CharacterAction.IDLE, CharacterDirection direction = CharacterDirection.RIGHT)
+        public Movement(Vector2 position, PlayerAction action = PlayerAction.IDLE, PlayerDirection direction = PlayerDirection.RIGHT)
         {
             _input = new Input();
             Position = position;
@@ -30,8 +30,8 @@ namespace RogueSimulator.Classes.Mechanics
             Direction = direction;
         }
 
-        public CharacterAction Action { get; private set; }
-        public CharacterDirection Direction { get; private set; }
+        public PlayerAction Action { get; private set; }
+        public PlayerDirection Direction { get; private set; }
         public Vector2 Position { get; private set; }
 
         public void Update(GameTime gameTime, BaseLevel level, Rectangle ownCollisionRectangle)
@@ -91,7 +91,7 @@ namespace RogueSimulator.Classes.Mechanics
 
             return (float)(HORIZONTAL_VELOCITY * (_tempElapsedMs - _prevElapsedMs) / 1000);
         }
-        //For now I'm okay with the fact that the character will jump and fall linear
+        //For now I'm okay with the fact that the Player will jump and fall linear
         //and will not use acceleration of any kind
         private float numberOfVerticalPixelsToTravel()
             => (float)(VERTICAL_VELOCITY * (_tempElapsedMs - _prevElapsedMs) / 1000);
@@ -123,20 +123,20 @@ namespace RogueSimulator.Classes.Mechanics
         private void updateDirection()
         {
             Direction = _input.IsRight
-                ? CharacterDirection.RIGHT
+                ? PlayerDirection.RIGHT
                 : _input.IsLeft
-                    ? CharacterDirection.LEFT
+                    ? PlayerDirection.LEFT
                     : Direction;
         }
         private void updateAction()
         {
             if (isJumping() || !isOnGround())
             {
-                Action = isJumping() ? CharacterAction.JUMP : CharacterAction.FALL;
+                Action = isJumping() ? PlayerAction.JUMP : PlayerAction.FALL;
                 return;
             }
 
-            Action = _input.IsRight || _input.IsLeft ? CharacterAction.RUN : CharacterAction.IDLE;
+            Action = _input.IsRight || _input.IsLeft ? PlayerAction.RUN : PlayerAction.IDLE;
         }
     }
 }

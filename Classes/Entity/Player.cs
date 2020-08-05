@@ -7,25 +7,25 @@ using RogueSimulator.Classes.Mechanics;
 using RogueSimulator.Classes.Level;
 using RogueSimulator.Interfaces;
 
-namespace RogueSimulator.Classes.Characters
+namespace RogueSimulator.Classes.Entity
 {
 
-    public class Character : ICollidable, Interfaces.IDrawable
+    public class Player : ICollidable, Interfaces.IDrawable
     {
         private Movement _movement;
         private Texture2D _texture;
         private Rectangle _collisionRectangle;
         public Rectangle CollisionRectangle { get { return _collisionRectangle; } }
 
-        private Dictionary<CharacterAction, Animation> _actionAnimations = new Dictionary<CharacterAction, Animation>
+        private Dictionary<PlayerAction, Animation> _actionAnimations = new Dictionary<PlayerAction, Animation>
         {
-            {CharacterAction.IDLE, new Animation(87, 1035, 58, 87, 231, 6)},
-            {CharacterAction.RUN, new Animation(75, 1432, 78, 85, 231, 8)},
-            {CharacterAction.JUMP, new Animation(68, 1229, 65, 87, 231, 2)},
-            {CharacterAction.FALL, new Animation(74, 621, 59, 100, 231, 2)},
+            {PlayerAction.IDLE, new Animation(87, 1035, 58, 87, 231, 6)},
+            {PlayerAction.RUN, new Animation(75, 1432, 78, 85, 231, 8)},
+            {PlayerAction.JUMP, new Animation(68, 1229, 65, 87, 231, 2)},
+            {PlayerAction.FALL, new Animation(74, 621, 59, 100, 231, 2)},
         };
 
-        public Character(Texture2D texture, Vector2 pos)
+        public Player(Texture2D texture, Vector2 pos)
         {
             _texture = texture;
             _movement = new Movement(pos);
@@ -50,7 +50,7 @@ namespace RogueSimulator.Classes.Characters
                 rotation: 0,
                 origin: new Vector2(0, 0),
                 scale: new Vector2(1, 1),
-                effects: _movement.Direction == CharacterDirection.LEFT ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                effects: _movement.Direction == PlayerDirection.LEFT ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
                 layerDepth: 0
             );
         }

@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
-using RogueSimulator.Classes.Characters;
+using RogueSimulator.Classes.Entity;
 using RogueSimulator.Classes.Level;
 using RogueSimulator.Interfaces;
 
@@ -12,7 +12,7 @@ namespace RogueSimulator.Classes.Mechanics.State
     {
         private const int PAUSE_BUTTON_HEIGHT = 20;
         private const int PAUSE_BUTTON_OFFSET = 40;
-        private Character _player;
+        private Player _player;
         private BaseLevel _currentLevel;
         private Camera2D _camera;
         private Game1 _game;
@@ -41,7 +41,7 @@ namespace RogueSimulator.Classes.Mechanics.State
 
         public void LoadContent()
         {
-            _player = new Character(_game.Content.Load<Texture2D>("SpriteSheets/Wizard/allActions"), _game.CurrentPlayingState.Movement.Position);
+            _player = new Player(_game.Content.Load<Texture2D>("SpriteSheets/Wizard/allActions"), _game.CurrentPlayingState.Movement.Position);
             _currentLevel = _levelFactory.LoadLevel(_game.CurrentPlayingState.SelectedLevel);
             _camera = new Camera2D(_game.GraphicsDevice.Viewport);
             _pauseButton = new Button(
