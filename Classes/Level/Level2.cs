@@ -36,7 +36,6 @@ namespace RogueSimulator.Classes.Level
 
         private const int NUMBER_OF_LINES = 5;
         private const int NUMBER_OF_COLUMNS = 50;
-        private const int BACKGROUND_PIXEL_WIDTH = 640;
         private int[,] _levelDesign = new int[NUMBER_OF_LINES, NUMBER_OF_COLUMNS]
         {
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
