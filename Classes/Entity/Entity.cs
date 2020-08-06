@@ -51,7 +51,6 @@ namespace RogueSimulator.Classes.Entity
         }
         public Vector2 GetPosition() => new Vector2(_movement.Position.X, _movement.Position.Y);
         public Movement GetMovement() => _movement;
-        private Animation getCurrentAnimation()
-            => _actionAnimations.Single(action => action.Key == _movement.Action).Value;
+        private Animation getCurrentAnimation() => _actionAnimations[_movement.Action];
     }
 }
