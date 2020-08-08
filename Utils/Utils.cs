@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 using RogueSimulator.Classes.Mechanics;
 
@@ -69,5 +70,7 @@ namespace RogueSimulator
                     button.ExecuteOnClickAction();
             }
         }
+
+        public static Texture2D LoadTexture(Game game, string assetName) => game.Content.Load<Texture2D>(assetName);
     }
 }

@@ -25,18 +25,8 @@ namespace RogueSimulator.Classes.Mechanics.State
             _game = game;
 
             _levelFactory = new LevelFactory();
-            _levelFactory.RegisterLevel(LevelType.LEVEL1, () => new Level1(
-                        texture: game.Content.Load<Texture2D>("SpriteSheets/Tileset/jungleTileSet"),
-                        background: game.Content.Load<Texture2D>("SpriteSheets/Background/background"),
-                        portalTexture: game.Content.Load<Texture2D>(FinisherPortal.assetName),
-                        viewport: game.GraphicsDevice.Viewport
-                    ));
-            _levelFactory.RegisterLevel(LevelType.LEVEL2, () => new Level2(
-                        texture: game.Content.Load<Texture2D>("SpriteSheets/Tileset/jungleTileSet"),
-                        background: game.Content.Load<Texture2D>("SpriteSheets/Background/background"),
-                        portalTexture: game.Content.Load<Texture2D>(FinisherPortal.assetName),
-                        viewport: game.GraphicsDevice.Viewport
-                    ));
+            _levelFactory.RegisterLevel(LevelType.LEVEL1, () => new Level1(game));
+            _levelFactory.RegisterLevel(LevelType.LEVEL2, () => new Level2(game));
         }
 
         public void LoadContent()
@@ -50,7 +40,7 @@ namespace RogueSimulator.Classes.Mechanics.State
                     _game.CurrentPlayingState.Movement = _player.GetMovement();
                     _game.ChangeGameState(GameState.PAUSED);
                 },
-                buttonTexture: _game.Content.Load<Texture2D>("SpriteSheets/Buttons/PauseButton"),
+                buttonTexture: Utility.LoadTexture(_game, "SpriteSheets/Buttons/PauseButton"),
                 position: new Vector2(_game.GraphicsDevice.Viewport.Width - PAUSE_BUTTON_OFFSET, PAUSE_BUTTON_OFFSET - PAUSE_BUTTON_HEIGHT),
                 buttonSpriteRectangle: new Rectangle(3, 2, 10, 10),
                 height: 20
@@ -71,6 +61,9 @@ namespace RogueSimulator.Classes.Mechanics.State
                 _game.ChangeGameState(GameState.LEVEL_SELECTOR);
             if (_player.GetPosition().Y > _game.GraphicsDevice.Viewport.Height)
                 _game.ChangeGameState(GameState.GAME_OVER);
+
+            foreach (Character character in _currentLevel.Characters)
+                character.Update(gameTime, _currentLevel);
 
             _camera.UpdatePosition(_player.GetPosition(), _currentLevel);
             _pauseButton.UpdatePosition(getNewPauseButtonPos());

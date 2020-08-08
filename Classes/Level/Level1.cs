@@ -31,12 +31,13 @@ namespace RogueSimulator.Classes.Level
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
         };
 
-        public Level1(Texture2D texture, Texture2D background, Texture2D portalTexture, Viewport viewport)
+        public Level1(Game1 game)
             : base(
-                texture: texture,
-                background: background,
-                portalTexture: portalTexture,
-                viewport: viewport,
+                game: game,
+                texture: Utility.LoadTexture(game, "SpriteSheets/Tileset/jungleTileSet"),
+                background: Utility.LoadTexture(game, "SpriteSheets/Background/background"),
+                portalTexture: Utility.LoadTexture(game, FinisherPortal.ASSET_NAME),
+                viewport: game.GraphicsDevice.Viewport,
                 size: NUMBER_OF_COLUMNS * Tile.SIZE
             )
         { }

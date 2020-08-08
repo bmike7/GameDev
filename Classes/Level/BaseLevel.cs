@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using RogueSimulator.Classes.Entity;
 using RogueSimulator.Interfaces;
 
 namespace RogueSimulator.Classes.Level
@@ -14,17 +15,21 @@ namespace RogueSimulator.Classes.Level
         protected Texture2D _background;
         protected Viewport _viewport;
         protected List<Tile> _tiles = new List<Tile>();
+        protected Game1 _game;
 
-        public BaseLevel(Texture2D texture, Texture2D background, Texture2D portalTexture, Viewport viewport, int size)
+        public BaseLevel(Game1 game, Texture2D texture, Texture2D background, Texture2D portalTexture, Viewport viewport, int size)
         {
+            _game = game;
             _texture = texture;
             _background = background;
             _portalTexture = portalTexture;
             _viewport = viewport;
             Size = size;
+            Characters = new List<Character>();
         }
 
         public int Size { get; private set; }
+        public List<Character> Characters { get; protected set; }
         public FinisherPortal FinisherPortal { get; protected set; }
 
         // In the create function the tiles should be added to the _tiles list.
@@ -37,6 +42,8 @@ namespace RogueSimulator.Classes.Level
                 spriteBatch.Draw(_background, new Vector2(backgroundNumber * _background.Width, 0), Color.White);
             foreach (Tile tile in _tiles)
                 tile.Draw(spriteBatch);
+            foreach (Character character in Characters)
+                character.Draw(spriteBatch);
             if (FinisherPortal != null)
                 FinisherPortal.Draw(spriteBatch);
         }

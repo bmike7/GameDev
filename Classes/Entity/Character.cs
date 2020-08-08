@@ -8,14 +8,14 @@ using RogueSimulator.Interfaces;
 
 namespace RogueSimulator.Classes.Entity
 {
-    public abstract class Entity : ICollidable, Interfaces.IDrawable
+    public abstract class Character : ICollidable, Interfaces.IDrawable
     {
         protected Movement _movement;
         protected Texture2D _texture;
         protected Rectangle _collisionRectangle;
         protected Dictionary<MovementAction, Animation> _actionAnimations = new Dictionary<MovementAction, Animation>();
 
-        public Entity(IInput input, Texture2D texture, Vector2 position, Rectangle collisionRectangle)
+        public Character(IInput input, Texture2D texture, Vector2 position, Rectangle collisionRectangle)
         {
             _texture = texture;
             _movement = new Movement(input, position);

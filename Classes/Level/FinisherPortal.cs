@@ -6,7 +6,7 @@ namespace RogueSimulator.Classes.Level
     public class FinisherPortal : LevelObject
     {
         public static int HEIGHT = 80;
-        public static string assetName = "SpriteSheets/Tileset/Portal";
+        public static string ASSET_NAME = "SpriteSheets/Tileset/Portal";
         public FinisherPortal(Texture2D texture, Vector2 position)
             : base(
                 texture: texture,

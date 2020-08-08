@@ -6,7 +6,7 @@ using RogueSimulator.Classes.Mechanics;
 namespace RogueSimulator.Classes.Entity
 {
 
-    public class Player : Entity
+    public class Player : Character
     {
         public static string ASSET_NAME = "SpriteSheets/Wizard/allActions";
         public Player(Texture2D texture, Vector2 position)
