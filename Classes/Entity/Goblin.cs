@@ -13,9 +13,10 @@ namespace RogueSimulator.Classes.Entity
                 input: new AI(),
                 texture: texture,
                 position: position,
-                collisionRectangle: new Rectangle((int)position.X, (int)position.Y, 34, 25)
+                collisionRectangle: new Rectangle((int)position.X, (int)position.Y, 34, 50)
             )
         {
+            _scale = 1.8f;
             _actionAnimations.Add(MovementAction.IDLE, new Animation(63, 379, 34, 37, 150, 4));
             _actionAnimations.Add(MovementAction.FALL, new Animation(63, 379, 34, 37, 150, 4));
         }

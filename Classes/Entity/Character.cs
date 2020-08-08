@@ -13,6 +13,7 @@ namespace RogueSimulator.Classes.Entity
         protected Movement _movement;
         protected Texture2D _texture;
         protected Rectangle _collisionRectangle;
+        protected float _scale = 1;
         protected Dictionary<MovementAction, Animation> _actionAnimations = new Dictionary<MovementAction, Animation>();
 
         public Character(IInput input, Texture2D texture, Vector2 position, Rectangle collisionRectangle)
@@ -43,7 +44,7 @@ namespace RogueSimulator.Classes.Entity
                 color: Color.White,
                 rotation: 0,
                 origin: new Vector2(0, 0),
-                scale: new Vector2(1, 1),
+                scale: _scale,
                 effects: _movement.Direction == MovementDirection.LEFT ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
                 layerDepth: 0
             );
