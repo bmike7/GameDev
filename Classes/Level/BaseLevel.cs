@@ -28,7 +28,7 @@ namespace RogueSimulator.Classes.Level
             Size = size;
 
             Player = new Player(Utility.LoadTexture(game, Player.ASSET_NAME), game.CurrentPlayingState.Movement.Position);
-            Camera = new Camera2D(game.GraphicsDevice.Viewport);
+            Camera = new Camera2D(_viewport);
             Characters = new List<Character>();
         }
 
@@ -51,7 +51,7 @@ namespace RogueSimulator.Classes.Level
 
             if (FinisherPortal != null && Player.CollisionRectangle.Intersects(FinisherPortal.CollisionRectangle))
                 _game.ChangeGameState(GameState.LEVEL_SELECTOR);
-            if (Player.GetPosition().Y > _game.GraphicsDevice.Viewport.Height)
+            if (Player.GetPosition().Y > _viewport.Height)
                 _game.ChangeGameState(GameState.GAME_OVER);
         }
 
