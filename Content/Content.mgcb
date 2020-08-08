@@ -97,6 +97,42 @@
 /processorParam:TextureFormat=Color
 /build:SpriteSheets/Buttons/PauseMenuButtons.png
 
+#begin SpriteSheets/Enemies/Goblin/AllGoblinActions.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SpriteSheets/Enemies/Goblin/AllGoblinActions.png
+
+#begin SpriteSheets/Enemies/Mushroom/AllMushroomActions.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SpriteSheets/Enemies/Mushroom/AllMushroomActions.png
+
+#begin SpriteSheets/Enemies/Skeleton/AllSkelletonActions.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SpriteSheets/Enemies/Skeleton/AllSkelletonActions.png
+
 #begin SpriteSheets/Tileset/jungleTileSet.png
 /importer:TextureImporter
 /processor:TextureProcessor

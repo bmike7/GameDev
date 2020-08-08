@@ -1,11 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 using RogueSimulator.Classes.Mechanics;
 
 namespace RogueSimulator
 {
-    public enum CharacterAction
+    public enum MovementAction
     {
         IDLE,
         RUN,
@@ -13,7 +14,7 @@ namespace RogueSimulator
         FALL,
     }
 
-    public enum CharacterDirection
+    public enum MovementDirection
     {
         LEFT,
         RIGHT,
@@ -69,5 +70,7 @@ namespace RogueSimulator
                     button.ExecuteOnClickAction();
             }
         }
+
+        public static Texture2D LoadTexture(Game game, string assetName) => game.Content.Load<Texture2D>(assetName);
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+using RogueSimulator.Classes.Entity;
 using RogueSimulator.Classes.Level;
 using RogueSimulator.Interfaces;
 
@@ -13,7 +14,7 @@ namespace RogueSimulator.Classes.Mechanics
         private const int VERTICAL_VELOCITY = 420;
         private const float TIME_OF_JUMP_MS = 0.3f;
         private const int ADD_ON_GROUND_CHECKER = 7;
-        private Input _input;
+        private IInput _input;
         private KeyboardState _prevKeyboardState;
         private double _tempElapsedMs;
         private double _prevElapsedMs = 0;
@@ -22,26 +23,28 @@ namespace RogueSimulator.Classes.Mechanics
         private double _startedJumpingTime = 0;
 
 
-        public Movement(Vector2 position, CharacterAction action = CharacterAction.IDLE, CharacterDirection direction = CharacterDirection.RIGHT)
+        public Movement(IInput input, Vector2 position, MovementAction action = MovementAction.IDLE, MovementDirection direction = MovementDirection.RIGHT)
         {
-            _input = new Input();
+            _input = input;
             Position = position;
             Action = action;
             Direction = direction;
         }
 
-        public CharacterAction Action { get; private set; }
-        public CharacterDirection Direction { get; private set; }
+        public MovementAction Action { get; private set; }
+        public MovementDirection Direction { get; private set; }
         public Vector2 Position { get; private set; }
 
-        public void Update(GameTime gameTime, BaseLevel level, Rectangle ownCollisionRectangle)
+        public void Update(GameTime gameTime, BaseLevel level, Character self)
         {
-            _input.Update();
             _tempElapsedMs = gameTime.TotalGameTime.TotalMilliseconds;
-            _tempOwnCollisionRectangle = ownCollisionRectangle;
+            _tempOwnCollisionRectangle = self.CollisionRectangle;
             _tempCollisionBlocks = level.GetNearCollidableBlocks(Position);
             if (_tempElapsedMs - SECOND > _prevElapsedMs)
                 _prevElapsedMs = _tempElapsedMs;
+
+            if (_input is Input) ((Input)_input).Update();
+            if (_input is AI) ((AI)_input).Update(level, self);
 
             updatePosition(level);
             updateDirection();
@@ -91,13 +94,13 @@ namespace RogueSimulator.Classes.Mechanics
 
             return (float)(HORIZONTAL_VELOCITY * (_tempElapsedMs - _prevElapsedMs) / 1000);
         }
-        //For now I'm okay with the fact that the character will jump and fall linear
+        //For now I'm okay with the fact that the Player will jump and fall linear
         //and will not use acceleration of any kind
         private float numberOfVerticalPixelsToTravel()
             => (float)(VERTICAL_VELOCITY * (_tempElapsedMs - _prevElapsedMs) / 1000);
         private void updateJump()
         {
-            _startedJumpingTime = (_input.IsSpace && (_tempElapsedMs > _startedJumpingTime + (TIME_OF_JUMP_MS * 1000)) && isOnGround())
+            _startedJumpingTime = (_input.IsStartedJumping && (_tempElapsedMs > _startedJumpingTime + (TIME_OF_JUMP_MS * 1000)) && isOnGround())
                 ? _tempElapsedMs
                 : _startedJumpingTime;
         }
@@ -123,20 +126,20 @@ namespace RogueSimulator.Classes.Mechanics
         private void updateDirection()
         {
             Direction = _input.IsRight
-                ? CharacterDirection.RIGHT
+                ? MovementDirection.RIGHT
                 : _input.IsLeft
-                    ? CharacterDirection.LEFT
+                    ? MovementDirection.LEFT
                     : Direction;
         }
         private void updateAction()
         {
             if (isJumping() || !isOnGround())
             {
-                Action = isJumping() ? CharacterAction.JUMP : CharacterAction.FALL;
+                Action = isJumping() ? MovementAction.JUMP : MovementAction.FALL;
                 return;
             }
 
-            Action = _input.IsRight || _input.IsLeft ? CharacterAction.RUN : CharacterAction.IDLE;
+            Action = _input.IsRight || _input.IsLeft ? MovementAction.RUN : MovementAction.IDLE;
         }
     }
 }

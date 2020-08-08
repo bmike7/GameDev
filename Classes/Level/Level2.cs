@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using RogueSimulator.Classes.Entity;
+
 namespace RogueSimulator.Classes.Level
 {
     public class Level2 : BaseLevel
@@ -45,12 +47,13 @@ namespace RogueSimulator.Classes.Level
             {1,1,1,1,1,3,6,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,3,6,1,1,0,0,0,0,0,0,0,0,8,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1},
         };
 
-        public Level2(Texture2D texture, Texture2D background, Texture2D portalTexture, Viewport viewport)
+        public Level2(Game1 game)
             : base(
-                texture: texture,
-                background: background,
-                portalTexture: portalTexture,
-                viewport: viewport,
+                game: game,
+                texture: Utility.LoadTexture(game, "SpriteSheets/Tileset/jungleTileSet"),
+                background: Utility.LoadTexture(game, "SpriteSheets/Background/background"),
+                portalTexture: Utility.LoadTexture(game, FinisherPortal.ASSET_NAME),
+                viewport: game.GraphicsDevice.Viewport,
                 size: NUMBER_OF_COLUMNS * Tile.SIZE
             )
         { }
@@ -78,6 +81,15 @@ namespace RogueSimulator.Classes.Level
                     }
                 }
             }
+            createEnemies();
+        }
+
+        private void createEnemies()
+        {
+            Texture2D goblinTexture = Utility.LoadTexture(_game, Goblin.ASSET_NAME);
+
+            Characters.Add(new Goblin(goblinTexture, new Vector2(100, 5)));
+            Characters.Add(new Goblin(goblinTexture, new Vector2(800, 5)));
         }
     }
 }
