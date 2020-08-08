@@ -30,7 +30,7 @@ namespace RogueSimulator.Classes.Entity
             Animation currentAnimation = getCurrentAnimation();
             currentAnimation.Update(gameTime);
 
-            _movement.Update(gameTime, level, CollisionRectangle);
+            _movement.Update(gameTime, level, this);
             _collisionRectangle.X = (int)_movement.Position.X;
             _collisionRectangle.Y = (int)_movement.Position.Y;
         }
