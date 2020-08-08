@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
-using RogueSimulator.Classes.Entity;
 using RogueSimulator.Classes.Level;
 using RogueSimulator.Interfaces;
 
@@ -12,9 +11,7 @@ namespace RogueSimulator.Classes.Mechanics.State
     {
         private const int PAUSE_BUTTON_HEIGHT = 20;
         private const int PAUSE_BUTTON_OFFSET = 40;
-        private Player _player;
         private BaseLevel _currentLevel;
-        private Camera2D _camera;
         private Game1 _game;
         private LevelFactory _levelFactory;
         private Button _pauseButton;
@@ -31,16 +28,11 @@ namespace RogueSimulator.Classes.Mechanics.State
 
         public void LoadContent()
         {
-            _player = new Player(
-                texture: Utility.LoadTexture(_game, Player.ASSET_NAME),
-                position: _game.CurrentPlayingState.Movement.Position
-            );
             _currentLevel = _levelFactory.LoadLevel(_game.CurrentPlayingState.SelectedLevel);
-            _camera = new Camera2D(_game.GraphicsDevice.Viewport);
             _pauseButton = new Button(
                 onClickAction: () =>
                 {
-                    _game.CurrentPlayingState.Movement = _player.GetMovement();
+                    _game.CurrentPlayingState.Movement = _currentLevel.Player.GetMovement();
                     _game.ChangeGameState(GameState.PAUSED);
                 },
                 buttonTexture: Utility.LoadTexture(_game, "SpriteSheets/Buttons/PauseButton"),
@@ -55,40 +47,27 @@ namespace RogueSimulator.Classes.Mechanics.State
 
         public void Update(GameTime gameTime)
         {
-            MouseState mouseState = Mouse.GetState();
-            if (Utility.isMouseLeftButtonClicked(mouseState, _prevMouseState))
-                Utility.ClickButtonIfMouseclickIntersects(mouseState, new Button[] { _pauseButton });
-            _prevMouseState = mouseState;
-
-            updateFields(gameTime);
-
-            if (_currentLevel.FinisherPortal != null && _player.CollisionRectangle.Intersects(_currentLevel.FinisherPortal.CollisionRectangle))
-                _game.ChangeGameState(GameState.LEVEL_SELECTOR);
-            if (_player.GetPosition().Y > _game.GraphicsDevice.Viewport.Height)
-                _game.ChangeGameState(GameState.GAME_OVER);
+            checkMouseClick();
+            _currentLevel.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix());
             _currentLevel.Draw(spriteBatch);
-            _player.Draw(spriteBatch);
+
+            spriteBatch.Begin();
+            //Here will come other stuff that needs to be displayed always in the same spot (healthbar for instance)
+            // _currentLevel.Player.Healthbar.Draw(spriteBatch)
             _pauseButton.Draw(spriteBatch);
             spriteBatch.End();
         }
 
-        private void updateFields(GameTime gt)
+        private void checkMouseClick()
         {
-            _player.Update(gt, _currentLevel);
-            _currentLevel.Update(gt);
-            _camera.UpdatePosition(_player.GetPosition(), _currentLevel);
-            _pauseButton.UpdatePosition(getNewPauseButtonPos());
+            MouseState mouseState = Mouse.GetState();
+            if (Utility.isMouseLeftButtonClicked(mouseState, _prevMouseState))
+                Utility.ClickButtonIfMouseclickIntersects(mouseState, new Button[] { _pauseButton });
+            _prevMouseState = mouseState;
         }
-
-        private Vector2 getNewPauseButtonPos() =>
-            new Vector2(
-                x: _camera.Position.X + _game.GraphicsDevice.Viewport.Width - PAUSE_BUTTON_OFFSET,
-                y: PAUSE_BUTTON_OFFSET - PAUSE_BUTTON_HEIGHT
-            );
     }
 }

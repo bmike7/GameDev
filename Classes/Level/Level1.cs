@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace RogueSimulator.Classes.Level
 {
@@ -44,6 +43,8 @@ namespace RogueSimulator.Classes.Level
 
         public override void Create()
         {
+
+
             for (int line = 0; line < NUMBER_OF_LINES; line++)
             {
                 for (int block = 0; block < NUMBER_OF_COLUMNS; block++)

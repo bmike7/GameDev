@@ -41,7 +41,5 @@ namespace RogueSimulator.Classes.Mechanics
         }
 
         public void ExecuteOnClickAction() => _onClickAction();
-
-        public void UpdatePosition(Vector2 newPos) => _position = newPos;
     }
 }
