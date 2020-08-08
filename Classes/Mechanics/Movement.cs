@@ -36,12 +36,14 @@ namespace RogueSimulator.Classes.Mechanics
 
         public void Update(GameTime gameTime, BaseLevel level, Rectangle ownCollisionRectangle)
         {
-            _input.Update();
             _tempElapsedMs = gameTime.TotalGameTime.TotalMilliseconds;
             _tempOwnCollisionRectangle = ownCollisionRectangle;
             _tempCollisionBlocks = level.GetNearCollidableBlocks(Position);
             if (_tempElapsedMs - SECOND > _prevElapsedMs)
                 _prevElapsedMs = _tempElapsedMs;
+
+            if (_input is Input) ((Input)_input).Update();
+            if (_input is AI) ((AI)_input).Update(level);
 
             updatePosition(level);
             updateDirection();

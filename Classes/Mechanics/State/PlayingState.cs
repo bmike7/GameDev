@@ -31,7 +31,10 @@ namespace RogueSimulator.Classes.Mechanics.State
 
         public void LoadContent()
         {
-            _player = new Player(_game.Content.Load<Texture2D>(Player.ASSET_NAME), _game.CurrentPlayingState.Movement.Position);
+            _player = new Player(
+                texture: Utility.LoadTexture(_game, Player.ASSET_NAME),
+                position: _game.CurrentPlayingState.Movement.Position
+            );
             _currentLevel = _levelFactory.LoadLevel(_game.CurrentPlayingState.SelectedLevel);
             _camera = new Camera2D(_game.GraphicsDevice.Viewport);
             _pauseButton = new Button(
@@ -55,20 +58,14 @@ namespace RogueSimulator.Classes.Mechanics.State
             MouseState mouseState = Mouse.GetState();
             if (Utility.isMouseLeftButtonClicked(mouseState, _prevMouseState))
                 Utility.ClickButtonIfMouseclickIntersects(mouseState, new Button[] { _pauseButton });
+            _prevMouseState = mouseState;
 
-            _player.Update(gameTime, _currentLevel);
+            updateFields(gameTime);
+
             if (_currentLevel.FinisherPortal != null && _player.CollisionRectangle.Intersects(_currentLevel.FinisherPortal.CollisionRectangle))
                 _game.ChangeGameState(GameState.LEVEL_SELECTOR);
             if (_player.GetPosition().Y > _game.GraphicsDevice.Viewport.Height)
                 _game.ChangeGameState(GameState.GAME_OVER);
-
-            foreach (Character character in _currentLevel.Characters)
-                character.Update(gameTime, _currentLevel);
-
-            _camera.UpdatePosition(_player.GetPosition(), _currentLevel);
-            _pauseButton.UpdatePosition(getNewPauseButtonPos());
-
-            _prevMouseState = mouseState;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -78,6 +75,14 @@ namespace RogueSimulator.Classes.Mechanics.State
             _player.Draw(spriteBatch);
             _pauseButton.Draw(spriteBatch);
             spriteBatch.End();
+        }
+
+        private void updateFields(GameTime gt)
+        {
+            _player.Update(gt, _currentLevel);
+            _currentLevel.Update(gt);
+            _camera.UpdatePosition(_player.GetPosition(), _currentLevel);
+            _pauseButton.UpdatePosition(getNewPauseButtonPos());
         }
 
         private Vector2 getNewPauseButtonPos() =>

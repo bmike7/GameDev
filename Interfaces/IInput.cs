@@ -5,7 +5,5 @@ namespace RogueSimulator.Interfaces
         bool IsRight { get; set; }
         bool IsLeft { get; set; }
         bool IsStartedJumping { get; set; }
-
-        void Update();
     }
 }

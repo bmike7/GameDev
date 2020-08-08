@@ -35,6 +35,12 @@ namespace RogueSimulator.Classes.Level
         // In the create function the tiles should be added to the _tiles list.
         public abstract void Create();
 
+        public virtual void Update(GameTime gameTime)
+        {
+            foreach (Character character in Characters)
+                character.Update(gameTime, this);
+        }
+
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             int amountOfBackgrounds = Size / _background.Width + 1;
