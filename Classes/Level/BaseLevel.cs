@@ -8,15 +8,16 @@ using RogueSimulator.Interfaces;
 
 namespace RogueSimulator.Classes.Level
 {
-    public abstract class BaseLevel : Interfaces.IDrawable
+    public abstract class BaseLevel : Interfaces.IDrawable, IUpdatable
     {
         private const int NEAR_DISTANCE = 200;
+        protected Game1 _game;
         protected Texture2D _texture;
         protected Texture2D _portalTexture;
         protected Texture2D _background;
         protected Viewport _viewport;
-        protected List<Tile> _tiles = new List<Tile>();
-        protected Game1 _game;
+        protected List<Tile> _tiles;
+        private List<Bullet> _shotsFired;
 
         public BaseLevel(Game1 game, Texture2D texture, Texture2D background, Texture2D portalTexture, int size)
         {
@@ -25,6 +26,8 @@ namespace RogueSimulator.Classes.Level
             _background = background;
             _portalTexture = portalTexture;
             _viewport = game.GraphicsDevice.Viewport;
+            _tiles = new List<Tile>();
+            _shotsFired = new List<Bullet>();
             Size = size;
 
             Player = new Player(Utility.LoadTexture(game, Player.ASSET_NAME), game.CurrentPlayingState.Movement.Position);
