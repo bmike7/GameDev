@@ -18,13 +18,13 @@ namespace RogueSimulator.Classes.Level
         protected List<Tile> _tiles = new List<Tile>();
         protected Game1 _game;
 
-        public BaseLevel(Game1 game, Texture2D texture, Texture2D background, Texture2D portalTexture, Viewport viewport, int size)
+        public BaseLevel(Game1 game, Texture2D texture, Texture2D background, Texture2D portalTexture, int size)
         {
             _game = game;
             _texture = texture;
             _background = background;
             _portalTexture = portalTexture;
-            _viewport = viewport;
+            _viewport = game.GraphicsDevice.Viewport;
             Size = size;
 
             Player = new Player(Utility.LoadTexture(game, Player.ASSET_NAME), game.CurrentPlayingState.Movement.Position);

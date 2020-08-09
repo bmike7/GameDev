@@ -36,7 +36,6 @@ namespace RogueSimulator.Classes.Level
                 texture: Utility.LoadTexture(game, "SpriteSheets/Tileset/jungleTileSet"),
                 background: Utility.LoadTexture(game, "SpriteSheets/Background/background"),
                 portalTexture: Utility.LoadTexture(game, FinisherPortal.ASSET_NAME),
-                viewport: game.GraphicsDevice.Viewport,
                 size: NUMBER_OF_COLUMNS * Tile.SIZE
             )
         { }
