@@ -17,6 +17,7 @@ namespace RogueSimulator.Classes.Entity
             )
         {
             _scale = 1.8f;
+            _movement.HorizontalVelocity = 150;
             _actionAnimations.Add(MovementAction.IDLE, new Animation(63, 379, 34, 37, 150, 4));
             _actionAnimations.Add(MovementAction.RUN, new Animation(61, 532, 36, 40, 150, 8));
         }

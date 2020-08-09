@@ -51,9 +51,10 @@ namespace RogueSimulator.Classes.Mechanics.State
             foreach (Button button in _levelMenu.GetButtons())
             {
                 if (mouseClickRectangle.Intersects(button.CollisionRectangle))
+                {
                     _game.CurrentPlayingState.SelectedLevel = (LevelType)index;
-
-                button.ExecuteOnClickAction();
+                    button.ExecuteOnClickAction();
+                }
                 index++;
             }
         }

@@ -28,11 +28,18 @@ namespace RogueSimulator.Classes.Mechanics.State
 
         public void LoadContent()
         {
+            if (_game.PrevGameState != GameState.PAUSED)
+            {
+                _game.CurrentPlayingState.ResetMovement();
+                _game.CurrentPlayingState.Characters.Clear();
+            }
+
             _currentLevel = _levelFactory.LoadLevel(_game.CurrentPlayingState.SelectedLevel);
             _pauseButton = new Button(
                 onClickAction: () =>
                 {
                     _game.CurrentPlayingState.Movement = _currentLevel.Player.GetMovement();
+                    _game.CurrentPlayingState.Characters = _currentLevel.Characters;
                     _game.ChangeGameState(GameState.PAUSED);
                 },
                 buttonTexture: Utility.LoadTexture(_game, "SpriteSheets/Buttons/PauseButton"),
@@ -41,7 +48,6 @@ namespace RogueSimulator.Classes.Mechanics.State
                 height: 20
             );
 
-            _game.CurrentPlayingState.ResetMovement();
             _currentLevel.Create();
         }
 

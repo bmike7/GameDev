@@ -29,7 +29,7 @@ namespace RogueSimulator.Classes.Level
 
             Player = new Player(Utility.LoadTexture(game, Player.ASSET_NAME), game.CurrentPlayingState.Movement.Position);
             Camera = new Camera2D(_viewport);
-            Characters = new List<Character>();
+            Characters = game.CurrentPlayingState.Characters.Count > 0 ? game.CurrentPlayingState.Characters : new List<Character>();
         }
 
         public int Size { get; private set; }
