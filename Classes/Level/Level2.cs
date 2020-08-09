@@ -81,7 +81,8 @@ namespace RogueSimulator.Classes.Level
                     }
                 }
             }
-            createEnemies();
+            if (Characters.Count < 1)
+                createEnemies();
         }
 
         private void createEnemies()

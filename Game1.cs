@@ -22,9 +22,11 @@ namespace RogueSimulator
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             CurrentPlayingState = new CurrentPlayingState();
+            PrevGameState = GameState.MAIN_MENU;
         }
 
         public CurrentPlayingState CurrentPlayingState { get; set; }
+        public GameState PrevGameState { get; private set; }
 
         protected override void Initialize()
         {
@@ -69,6 +71,7 @@ namespace RogueSimulator
 
         public void ChangeGameState(GameState gameState)
         {
+            PrevGameState = _gameState;
             if (gameState == GameState.QUIT)
             {
                 Exit();

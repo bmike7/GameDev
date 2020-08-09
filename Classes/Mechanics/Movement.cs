@@ -30,8 +30,8 @@ namespace RogueSimulator.Classes.Mechanics
 
         public MovementAction Action { get; private set; }
         public MovementDirection Direction { get; set; }
-        public Vector2 Position { get; private set; }
-        public int HorizontalVelocity { get; private set; } = 300;
+        public Vector2 Position { get; set; }
+        public int HorizontalVelocity { get; set; } = 300;
         public int VerticalVelocity { get; private set; } = 420;
 
         public void Update(Character selfChar, GameTime gameTime, BaseLevel level)
