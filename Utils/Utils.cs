@@ -2,7 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
+using RogueSimulator.Classes.Entity;
 using RogueSimulator.Classes.Mechanics;
+using RogueSimulator.Interfaces;
 
 namespace RogueSimulator
 {
@@ -72,5 +74,27 @@ namespace RogueSimulator
         }
 
         public static Texture2D LoadTexture(Game game, string assetName) => game.Content.Load<Texture2D>(assetName);
+
+        public static float PixelsToTravel(double prevElapsedMs, double elapsedMs, int velocity)
+            => (float)(velocity * (elapsedMs - prevElapsedMs) / 1000);
+
+        public static bool WillCollideWithOneOf(Rectangle ownCollisionRectangle, ICollidable[] collisionBlocks)
+        {
+            foreach (ICollidable block in collisionBlocks)
+            {
+                if (ownCollisionRectangle.Intersects(block.CollisionRectangle))
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static Rectangle NewOwnCollisionRectangle(Character character, CollisionSide collisionSide, int newCoordinate)
+            => new Rectangle(
+                x: (collisionSide == CollisionSide.LEFT || collisionSide == CollisionSide.RIGHT) ? newCoordinate : (int)character.GetMovement().Position.X,
+                y: (collisionSide == CollisionSide.BOTTOM || collisionSide == CollisionSide.TOP) ? newCoordinate : (int)character.GetMovement().Position.Y,
+                width: character.CollisionRectangle.Width,
+                height: character.CollisionRectangle.Height
+            );
     }
 }
