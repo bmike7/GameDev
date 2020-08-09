@@ -16,10 +16,12 @@ namespace RogueSimulator.Classes.Mechanics.State
         private LevelFactory _levelFactory;
         private Button _pauseButton;
         private MouseState _prevMouseState;
+        private LevelType _prevLevel;
 
         public PlayingState(Game1 game)
         {
             _game = game;
+            _prevLevel = game.CurrentPlayingState.SelectedLevel;
 
             _levelFactory = new LevelFactory();
             _levelFactory.RegisterLevel(LevelType.LEVEL1, () => new Level1(game));
@@ -28,6 +30,9 @@ namespace RogueSimulator.Classes.Mechanics.State
 
         public void LoadContent()
         {
+            if (_game.CurrentPlayingState.SelectedLevel != _prevLevel)
+                _game.CurrentPlayingState.ResetMovement();
+
             _currentLevel = _levelFactory.LoadLevel(_game.CurrentPlayingState.SelectedLevel);
             _pauseButton = new Button(
                 onClickAction: () =>
@@ -41,7 +46,6 @@ namespace RogueSimulator.Classes.Mechanics.State
                 height: 20
             );
 
-            _game.CurrentPlayingState.ResetMovement();
             _currentLevel.Create();
         }
 
