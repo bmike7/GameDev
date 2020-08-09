@@ -7,8 +7,10 @@ namespace RogueSimulator.Classes.Mechanics
     {
         private const int ELAPSED_MS = 90;
         private int _prevElapsed;
+        private bool _isOneFullCicle;
+        private bool _didAllFrames;
 
-        public Animation(int firstX, int y, int width, int height, int offset, int numberOfFrames)
+        public Animation(int firstX, int y, int width, int height, int offset, int numberOfFrames, bool isOneFullCicle = false)
         {
             _xStart = firstX;
             _y = y;
@@ -16,6 +18,8 @@ namespace RogueSimulator.Classes.Mechanics
             _height = height;
             _offset = offset;
             _numberOfFrames = numberOfFrames;
+            _isOneFullCicle = isOneFullCicle;
+            _didAllFrames = false;
             _numberOfSelectedFrame = 1;
             _prevElapsed = 0;
         }
@@ -37,7 +41,11 @@ namespace RogueSimulator.Classes.Mechanics
             if (elapsed > _prevElapsed)
             {
                 _prevElapsed = elapsed;
-                _numberOfSelectedFrame = _numberOfSelectedFrame++ >= _numberOfFrames
+                bool didAllFrames = _numberOfSelectedFrame++ >= _numberOfFrames;
+
+                _didAllFrames = _isOneFullCicle && didAllFrames;
+
+                _numberOfSelectedFrame = didAllFrames
                     ? 1
                     : _numberOfSelectedFrame++;
             }
@@ -52,6 +60,18 @@ namespace RogueSimulator.Classes.Mechanics
                 Width = _width,
                 Height = _height,
             };
+        }
+
+        public bool CanChangeAnimation()
+        {
+            if (!_isOneFullCicle)
+                return true;
+
+            bool tempDidAllFrames = _didAllFrames;
+            if (_didAllFrames)
+                _didAllFrames = false;
+
+            return tempDidAllFrames;
         }
     }
 }

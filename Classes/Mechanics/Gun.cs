@@ -15,7 +15,7 @@ namespace RogueSimulator.Classes.Mechanics
 
         public void FireBullet()
         {
-
+            System.Console.WriteLine("Pang");
         }
     }
 }

@@ -28,7 +28,7 @@ namespace RogueSimulator.Classes.Mechanics
             Direction = direction;
         }
 
-        public MovementAction Action { get; private set; }
+        public MovementAction Action { get; set; }
         public MovementDirection Direction { get; set; }
         public Vector2 Position { get; set; }
         public int HorizontalVelocity { get; set; } = 300;
@@ -114,6 +114,9 @@ namespace RogueSimulator.Classes.Mechanics
         }
         private void updateAction()
         {
+            if (!_tempChar.CanChangeAnimation())
+                return;
+
             if (isJumping() || !isOnGround())
             {
                 Action = isJumping() ? MovementAction.JUMP : MovementAction.FALL;
