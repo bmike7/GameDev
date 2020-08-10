@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
+using RogueSimulator.Classes.Level;
 using RogueSimulator.Classes.Mechanics;
 using RogueSimulator.Interfaces;
 
@@ -12,7 +13,7 @@ namespace RogueSimulator.Classes.Entity
     {
         private MouseState _prevMouseState;
         public static string ASSET_NAME = "SpriteSheets/Wizard/allActions";
-        public Player(Texture2D texture, Vector2 position)
+        public Player(Texture2D texture, Vector2 position, Texture2D bulletTexture)
             : base(
                 input: new Input(),
                 texture: texture,
@@ -20,7 +21,7 @@ namespace RogueSimulator.Classes.Entity
                 collisionRectangle: new Rectangle((int)position.X, (int)position.Y, 60, 70)
             )
         {
-            Gun = new Gun();
+            Gun = new Gun(bulletTexture);
             _actionAnimations.Add(MovementAction.IDLE, new Animation(87, 1035, 58, 87, 231, 6));
             _actionAnimations.Add(MovementAction.RUN, new Animation(75, 1432, 78, 85, 231, 8));
             _actionAnimations.Add(MovementAction.JUMP, new Animation(68, 1229, 65, 87, 231, 2));
@@ -30,22 +31,24 @@ namespace RogueSimulator.Classes.Entity
 
         public Gun Gun { get; set; }
 
-        public override void Update(GameTime gameTime, Level.BaseLevel level)
+        public override void Update(GameTime gameTime, BaseLevel level)
         {
             base.Update(gameTime, level);
 
             MouseState mouseState = Mouse.GetState();
             if (Utility.isMouseLeftButtonClicked(mouseState, _prevMouseState))
-                Shoot();
+                Shoot(level, new Vector2(mouseState.X, mouseState.Y));
             _prevMouseState = mouseState;
         }
 
-        public void Shoot()
+        public void Shoot(BaseLevel level, Vector2 destination)
         {
             if (CanChangeAnimation())
             {
                 _movement.Action = MovementAction.SHOOT;
-                Gun?.FireBullet();
+                Vector2 bulletStartingPoint = new Vector2(CollisionRectangle.X + CollisionRectangle.Width, CollisionRectangle.Y);
+                Bullet firedBullet = Gun?.FireBullet(bulletStartingPoint, destination);
+                level.AddFiredShot(firedBullet);
             }
         }
     }

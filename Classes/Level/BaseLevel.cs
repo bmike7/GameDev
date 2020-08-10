@@ -30,7 +30,11 @@ namespace RogueSimulator.Classes.Level
             _shotsFired = new List<Bullet>();
             Size = size;
 
-            Player = new Player(Utility.LoadTexture(game, Player.ASSET_NAME), game.CurrentPlayingState.Movement.Position);
+            Player = new Player(
+                texture: Utility.LoadTexture(game, Player.ASSET_NAME),
+                position: game.CurrentPlayingState.Movement.Position,
+                bulletTexture: Utility.LoadTexture(game, "SpriteSheets/Wizard/wizardBullet")
+            );
             Camera = new Camera2D(_viewport);
             Characters = game.CurrentPlayingState.Characters.Count > 0 ? game.CurrentPlayingState.Characters : new List<Character>();
         }
@@ -49,6 +53,9 @@ namespace RogueSimulator.Classes.Level
             foreach (Character character in Characters)
                 character.Update(gameTime, this);
 
+            foreach (Bullet bullet in _shotsFired)
+                bullet.Update(gameTime);
+
             Player.Update(gameTime, this);
             Camera.UpdatePosition(Player.GetPosition(), this);
 
@@ -61,10 +68,7 @@ namespace RogueSimulator.Classes.Level
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(transformMatrix: Camera.GetViewMatrix());
-
-            int amountOfBackgrounds = Size / _background.Width + 1;
-            for (int backgroundNumber = 0; backgroundNumber < amountOfBackgrounds; backgroundNumber++)
-                spriteBatch.Draw(_background, new Vector2(backgroundNumber * _background.Width, 0), Color.White);
+            drawBackGround(spriteBatch);
 
             foreach (Tile tile in _tiles)
                 tile.Draw(spriteBatch);
@@ -72,11 +76,11 @@ namespace RogueSimulator.Classes.Level
             foreach (Character character in Characters)
                 character.Draw(spriteBatch);
 
+            foreach (Bullet bullet in _shotsFired)
+                bullet.Draw(spriteBatch);
+
             Player.Draw(spriteBatch);
-
-            if (FinisherPortal != null)
-                FinisherPortal.Draw(spriteBatch);
-
+            FinisherPortal?.Draw(spriteBatch);
             spriteBatch.End();
         }
 
@@ -90,6 +94,18 @@ namespace RogueSimulator.Classes.Level
                     collisionBlocks.Add(tile);
             }
             return collisionBlocks.ToArray();
+        }
+
+        public void AddFiredShot(Bullet bullet)
+        {
+            if (bullet != null) _shotsFired.Add(bullet);
+        }
+
+        private void drawBackGround(SpriteBatch spriteBatch)
+        {
+            int amountOfBackgrounds = Size / _background.Width + 1;
+            for (int backgroundNumber = 0; backgroundNumber < amountOfBackgrounds; backgroundNumber++)
+                spriteBatch.Draw(_background, new Vector2(backgroundNumber * _background.Width, 0), Color.White);
         }
     }
 }

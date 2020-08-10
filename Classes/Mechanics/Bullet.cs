@@ -7,20 +7,23 @@ namespace RogueSimulator.Classes.Mechanics
 {
     public class Bullet : Interfaces.IDrawable, IUpdatable, ICollidable
     {
+        private Texture2D _texture;
+        private Vector2 _position;
+        public Bullet(Texture2D bulletTexture, Vector2 from, Vector2 to)
+        {
+            _texture = bulletTexture;
+            _position = from;
+            System.Console.WriteLine("Pang");
+        }
         public Rectangle CollisionRectangle { get; set; }
 
         public void Update(GameTime gameTime)
         {
-            throw new System.NotImplementedException();
+            System.Console.WriteLine("Flying bullet....");
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            throw new System.NotImplementedException();
+            spriteBatch.Draw(_texture, _position, Color.White);
         }
-        public void Shoot()
-        {
-            throw new System.NotImplementedException();
-        }
-
     }
 }

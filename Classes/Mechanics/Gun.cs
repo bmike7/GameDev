@@ -1,21 +1,23 @@
-using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace RogueSimulator.Classes.Mechanics
 {
     public class Gun
     {
-        private List<Bullet> _ammo;
-        public Gun(int numberOfBullets = 50)
+        private Texture2D _bulletTexture;
+        public Gun(Texture2D bulletTexture, int numberOfBullets = 50)
         {
-            _ammo = new List<Bullet>();
-
-            for (int amount = 0; amount < numberOfBullets; amount++)
-                _ammo.Add(new Bullet());
+            _bulletTexture = bulletTexture;
+            Ammo = numberOfBullets;
         }
+        public int Ammo { get; set; }
 
-        public void FireBullet()
+        public Bullet FireBullet(Vector2 from, Vector2 to)
         {
-            System.Console.WriteLine("Pang");
+            if (Ammo < 1) return null;
+
+            return new Bullet(_bulletTexture, from, to);
         }
     }
 }
