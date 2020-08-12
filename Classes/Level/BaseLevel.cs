@@ -56,14 +56,13 @@ namespace RogueSimulator.Classes.Level
             foreach (Bullet bullet in _shotsFired)
                 bullet.Update(gameTime);
 
-
             Player.Update(gameTime, this);
             Camera.UpdatePosition(Player.GetPosition(), this);
 
-            if (FinisherPortal != null && Player.CollisionRectangle.Intersects(FinisherPortal.CollisionRectangle))
-                _game.ChangeGameState(GameState.LEVEL_SELECTOR);
             if (Player.GetPosition().Y > _viewport.Height)
                 _game.ChangeGameState(GameState.GAME_OVER);
+
+            checkAndHandleCollisions();
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -107,6 +106,32 @@ namespace RogueSimulator.Classes.Level
             int amountOfBackgrounds = Size / _background.Width + 1;
             for (int backgroundNumber = 0; backgroundNumber < amountOfBackgrounds; backgroundNumber++)
                 spriteBatch.Draw(_background, new Vector2(backgroundNumber * _background.Width, 0), Color.White);
+        }
+
+        private void checkAndHandleCollisions()
+        {
+            List<ICollidable> collidablesToRemove = new List<ICollidable>();
+
+            foreach (Bullet bullet in _shotsFired)
+            {
+                foreach (Character character in Characters)
+                {
+                    if (bullet.CollisionRectangle.Intersects(character.CollisionRectangle))
+                    {
+                        collidablesToRemove.Add(bullet);
+                        collidablesToRemove.Add(character);
+                    }
+                }
+            }
+
+            foreach (ICollidable collidable in collidablesToRemove)
+            {
+                if (collidable is Character) Characters.Remove((Character)collidable);
+                if (collidable is Bullet) _shotsFired.Remove((Bullet)collidable);
+            }
+
+            if (FinisherPortal != null && Player.CollisionRectangle.Intersects(FinisherPortal.CollisionRectangle))
+                _game.ChangeGameState(GameState.LEVEL_SELECTOR);
         }
     }
 }
