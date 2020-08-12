@@ -56,6 +56,7 @@ namespace RogueSimulator.Classes.Level
             foreach (Bullet bullet in _shotsFired)
                 bullet.Update(gameTime);
 
+
             Player.Update(gameTime, this);
             Camera.UpdatePosition(Player.GetPosition(), this);
 

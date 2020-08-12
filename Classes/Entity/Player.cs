@@ -50,8 +50,12 @@ namespace RogueSimulator.Classes.Entity
 
         private Bullet shoot(double elapsedMs, Vector2 from, Vector2 to)
         {
-            _movement.Action = MovementAction.SHOOT;
-            return Gun?.FireBullet(elapsedMs, from, to);
+            Bullet firedBullet = Gun?.FireBullet(elapsedMs, from, to);
+
+            if (firedBullet != null)
+                _movement.Action = MovementAction.SHOOT;
+
+            return firedBullet;
         }
     }
 }
