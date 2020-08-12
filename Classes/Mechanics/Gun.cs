@@ -13,11 +13,7 @@ namespace RogueSimulator.Classes.Mechanics
         }
         public int Ammo { get; set; }
 
-        public Bullet FireBullet(Vector2 from, Vector2 to)
-        {
-            if (Ammo < 1) return null;
-
-            return new Bullet(_bulletTexture, from, to);
-        }
+        public Bullet FireBullet(double initialFireTime, Vector2 from, Vector2 to)
+            => Ammo < 1 ? null : new Bullet(initialFireTime, _bulletTexture, from, to);
     }
 }

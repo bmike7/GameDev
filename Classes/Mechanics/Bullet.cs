@@ -9,17 +9,17 @@ namespace RogueSimulator.Classes.Mechanics
     {
         private Texture2D _texture;
         private Vector2 _position;
-        public Bullet(Texture2D bulletTexture, Vector2 from, Vector2 to)
+        private double _prevElapsedMs;
+        public Bullet(double initialFireTime, Texture2D bulletTexture, Vector2 from, Vector2 to)
         {
+            _prevElapsedMs = initialFireTime;
             _texture = bulletTexture;
             _position = from;
-            System.Console.WriteLine("Pang");
         }
         public Rectangle CollisionRectangle { get; set; }
 
         public void Update(GameTime gameTime)
         {
-            System.Console.WriteLine("Flying bullet....");
         }
         public void Draw(SpriteBatch spriteBatch)
         {

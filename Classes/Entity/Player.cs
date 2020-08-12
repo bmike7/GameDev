@@ -36,20 +36,22 @@ namespace RogueSimulator.Classes.Entity
             base.Update(gameTime, level);
 
             MouseState mouseState = Mouse.GetState();
-            if (Utility.isMouseLeftButtonClicked(mouseState, _prevMouseState))
-                Shoot(level, new Vector2(mouseState.X, mouseState.Y));
+            if (Utility.isMouseLeftButtonClicked(mouseState, _prevMouseState) && CanChangeAnimation())
+                level.AddFiredShot(
+                    shoot(
+                        elapsedMs: gameTime.TotalGameTime.TotalMilliseconds,
+                        from: new Vector2(CollisionRectangle.X + CollisionRectangle.Width, CollisionRectangle.Y),
+                        to: new Vector2(mouseState.X, mouseState.Y)
+                    )
+                );
+
             _prevMouseState = mouseState;
         }
 
-        public void Shoot(BaseLevel level, Vector2 destination)
+        private Bullet shoot(double elapsedMs, Vector2 from, Vector2 to)
         {
-            if (CanChangeAnimation())
-            {
-                _movement.Action = MovementAction.SHOOT;
-                Vector2 bulletStartingPoint = new Vector2(CollisionRectangle.X + CollisionRectangle.Width, CollisionRectangle.Y);
-                Bullet firedBullet = Gun?.FireBullet(bulletStartingPoint, destination);
-                level.AddFiredShot(firedBullet);
-            }
+            _movement.Action = MovementAction.SHOOT;
+            return Gun?.FireBullet(elapsedMs, from, to);
         }
     }
 }

@@ -8,6 +8,5 @@ namespace RogueSimulator.Interfaces
     public interface IShooter
     {
         Gun Gun { get; set; }
-        void Shoot(BaseLevel level, Vector2 destination);
     }
 }
