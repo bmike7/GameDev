@@ -41,16 +41,16 @@ namespace RogueSimulator.Classes.Entity
                     shoot(
                         elapsedMs: gameTime.TotalGameTime.TotalMilliseconds,
                         from: new Vector2(CollisionRectangle.X + CollisionRectangle.Width, CollisionRectangle.Y),
-                        to: new Vector2(mouseState.X, mouseState.Y)
+                        direction: _movement.Direction
                     )
                 );
 
             _prevMouseState = mouseState;
         }
 
-        private Bullet shoot(double elapsedMs, Vector2 from, Vector2 to)
+        private Bullet shoot(double elapsedMs, Vector2 from, MovementDirection direction)
         {
-            Bullet firedBullet = Gun?.FireBullet(elapsedMs, from, to);
+            Bullet firedBullet = Gun?.FireBullet(elapsedMs, from, direction);
 
             if (firedBullet != null)
                 _movement.Action = MovementAction.SHOOT;

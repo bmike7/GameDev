@@ -10,10 +10,13 @@ namespace RogueSimulator.Classes.Mechanics
         private const int DEFAULT_VELOCITY = 550;
         private Texture2D _texture;
         private double _prevElapsedMs;
-        public Bullet(double initialFireTime, Texture2D bulletTexture, Vector2 from, Vector2 to, int velocity = DEFAULT_VELOCITY)
+        private MovementDirection _direction;
+
+        public Bullet(double initialFireTime, Texture2D bulletTexture, Vector2 from, MovementDirection direction, int velocity = DEFAULT_VELOCITY)
         {
             _prevElapsedMs = initialFireTime;
             _texture = bulletTexture;
+            _direction = direction;
             CollisionRectangle = new Rectangle((int)from.X, (int)from.Y, 10, 10);
             Velocity = velocity;
         }
@@ -23,8 +26,11 @@ namespace RogueSimulator.Classes.Mechanics
         public void Update(GameTime gameTime)
         {
             double elapsed = gameTime.TotalGameTime.TotalMilliseconds;
+            float toTravel = _direction == MovementDirection.RIGHT
+                ? Utility.PixelsToTravel(_prevElapsedMs, elapsed, Velocity)
+                : -Utility.PixelsToTravel(_prevElapsedMs, elapsed, Velocity);
             Rectangle updatedCollisionRectangle = new Rectangle(
-                x: (int)(CollisionRectangle.X + Utility.PixelsToTravel(_prevElapsedMs, elapsed, Velocity)),
+                x: (int)(CollisionRectangle.X + toTravel),
                 y: CollisionRectangle.Y,
                 width: CollisionRectangle.Width,
                 height: CollisionRectangle.Height
@@ -34,7 +40,17 @@ namespace RogueSimulator.Classes.Mechanics
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, new Vector2(CollisionRectangle.X, CollisionRectangle.Y), Color.White);
+            spriteBatch.Draw(
+                texture: _texture,
+                position: new Vector2(CollisionRectangle.X, CollisionRectangle.Y),
+                sourceRectangle: null,
+                color: Color.White,
+                rotation: 0,
+                origin: new Vector2(0, 0),
+                scale: 1,
+                effects: _direction == MovementDirection.RIGHT ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
+                layerDepth: 0
+            );
         }
     }
 }
