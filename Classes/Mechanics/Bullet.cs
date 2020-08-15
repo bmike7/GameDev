@@ -26,9 +26,10 @@ namespace RogueSimulator.Classes.Mechanics
         public void Update(GameTime gameTime)
         {
             double elapsed = gameTime.TotalGameTime.TotalMilliseconds;
+            float pixelsToTravel = Utility.PixelsToTravel(_prevElapsedMs, elapsed, Velocity);
             float toTravel = _direction == MovementDirection.RIGHT
-                ? Utility.PixelsToTravel(_prevElapsedMs, elapsed, Velocity)
-                : -Utility.PixelsToTravel(_prevElapsedMs, elapsed, Velocity);
+                ? pixelsToTravel
+                : -pixelsToTravel;
             Rectangle updatedCollisionRectangle = new Rectangle(
                 x: (int)(CollisionRectangle.X + toTravel),
                 y: CollisionRectangle.Y,
