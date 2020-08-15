@@ -3,10 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace RogueSimulator.Interfaces
 {
-    public interface IState
+    public interface IState : IUpdatable, Interfaces.IDrawable
     {
         void LoadContent();
-        void Update(GameTime gameTime);
-        void Draw(SpriteBatch spriteBatch);
     }
 }
