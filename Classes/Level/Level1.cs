@@ -25,7 +25,7 @@ namespace RogueSimulator.Classes.Level
         private const int NUMBER_OF_COLUMNS = 30;
         private int[,] _levelDesign = new int[NUMBER_OF_LINES, NUMBER_OF_COLUMNS]
         {
-            {0,0,0,0,0,0,4,0,0,4,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,4,0,0,4,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,-1,0},
             {0,0,0,0,0,2,3,0,0,4,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
         };
@@ -50,13 +50,20 @@ namespace RogueSimulator.Classes.Level
                 {
                     int startY = _viewport.Height - NUMBER_OF_LINES * Tile.SIZE;
                     Vector2 position = new Vector2(block * Tile.SIZE, line * Tile.SIZE + startY);
-
-                    TileType type = (TileType)_levelDesign[line, block];
-
-                    if (type != TileType.NONE)
+                    if (_levelDesign[line, block] == -1)
                     {
-                        Tile newTile = new Tile(_texture, position, _tileTypes[type]);
-                        _tiles.Add(newTile);
+                        FinisherPortal = new FinisherPortal(_portalTexture, position);
+                    }
+                    else
+                    {
+
+                        TileType type = (TileType)_levelDesign[line, block];
+
+                        if (type != TileType.NONE)
+                        {
+                            Tile newTile = new Tile(_texture, position, _tileTypes[type]);
+                            _tiles.Add(newTile);
+                        }
                     }
                 }
             }
