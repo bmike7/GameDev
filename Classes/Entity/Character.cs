@@ -14,13 +14,15 @@ namespace RogueSimulator.Classes.Entity
         protected Texture2D _texture;
         protected Rectangle _collisionRectangle;
         protected float _scale = 1;
+        protected int _health;
         protected Dictionary<MovementAction, Animation> _actionAnimations = new Dictionary<MovementAction, Animation>();
 
-        public Character(IInput input, Texture2D texture, Vector2 position, Rectangle collisionRectangle)
+        public Character(IInput input, Texture2D texture, Vector2 position, Rectangle collisionRectangle, int health = 100)
         {
             _texture = texture;
             _movement = new Movement(input, position);
             _collisionRectangle = collisionRectangle;
+            _health = health;
         }
 
         public Rectangle CollisionRectangle { get { return _collisionRectangle; } }
@@ -33,6 +35,9 @@ namespace RogueSimulator.Classes.Entity
             _movement.Update(this, gameTime, level);
             _collisionRectangle.X = (int)_movement.Position.X;
             _collisionRectangle.Y = (int)_movement.Position.Y;
+
+            if (_health < 1)
+                level.AddToRemove(this);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -51,6 +56,7 @@ namespace RogueSimulator.Classes.Entity
         }
         public Vector2 GetPosition() => new Vector2(_movement.Position.X, _movement.Position.Y);
         public Movement GetMovement() => _movement;
+        public void GetsAttacked(int damage) => _health -= damage;
         public bool CanChangeAnimation() => getCurrentAnimation().CanChangeAnimation();
         private Animation getCurrentAnimation() => _actionAnimations.ContainsKey(_movement.Action)
             ? _actionAnimations[_movement.Action]

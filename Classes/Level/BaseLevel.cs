@@ -18,6 +18,7 @@ namespace RogueSimulator.Classes.Level
         protected Viewport _viewport;
         protected List<Tile> _tiles;
         private List<Bullet> _shotsFired;
+        private List<ICollidable> _collidablesToRemove;
 
         public BaseLevel(Game1 game, Texture2D texture, Texture2D background, Texture2D portalTexture, int size)
         {
@@ -28,6 +29,7 @@ namespace RogueSimulator.Classes.Level
             _viewport = game.GraphicsDevice.Viewport;
             _tiles = new List<Tile>();
             _shotsFired = new List<Bullet>();
+            _collidablesToRemove = new List<ICollidable>();
             Size = size;
 
             Player = new Player(
@@ -63,6 +65,7 @@ namespace RogueSimulator.Classes.Level
                 _game.ChangeGameState(GameState.GAME_OVER);
 
             checkAndHandleCollisions();
+            removeItems();
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -101,6 +104,8 @@ namespace RogueSimulator.Classes.Level
             if (bullet != null) _shotsFired.Add(bullet);
         }
 
+        public void AddToRemove(ICollidable collidable) => _collidablesToRemove.Add(collidable);
+
         private void drawBackGround(SpriteBatch spriteBatch)
         {
             int amountOfBackgrounds = Size / _background.Width + 1;
@@ -110,28 +115,29 @@ namespace RogueSimulator.Classes.Level
 
         private void checkAndHandleCollisions()
         {
-            List<ICollidable> collidablesToRemove = new List<ICollidable>();
-
             foreach (Bullet bullet in _shotsFired)
             {
                 foreach (Character character in Characters)
                 {
                     if (bullet.CollisionRectangle.Intersects(character.CollisionRectangle))
                     {
-                        collidablesToRemove.Add(bullet);
-                        collidablesToRemove.Add(character);
+                        character.GetsAttacked(bullet.Damage);
+                        AddToRemove(bullet);
                     }
                 }
             }
 
-            foreach (ICollidable collidable in collidablesToRemove)
+            if (FinisherPortal != null && Player.CollisionRectangle.Intersects(FinisherPortal.CollisionRectangle))
+                _game.ChangeGameState(GameState.LEVEL_SELECTOR);
+        }
+
+        private void removeItems()
+        {
+            foreach (ICollidable collidable in _collidablesToRemove)
             {
                 if (collidable is Character) Characters.Remove((Character)collidable);
                 if (collidable is Bullet) _shotsFired.Remove((Bullet)collidable);
             }
-
-            if (FinisherPortal != null && Player.CollisionRectangle.Intersects(FinisherPortal.CollisionRectangle))
-                _game.ChangeGameState(GameState.LEVEL_SELECTOR);
         }
     }
 }
