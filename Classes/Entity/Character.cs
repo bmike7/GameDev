@@ -36,7 +36,7 @@ namespace RogueSimulator.Classes.Entity
             _collisionRectangle.X = (int)_movement.Position.X;
             _collisionRectangle.Y = (int)_movement.Position.Y;
 
-            if (_health < 1)
+            if (_health < 1 && CanChangeAnimation())
                 level.AddToRemove(this);
         }
 
@@ -56,7 +56,11 @@ namespace RogueSimulator.Classes.Entity
         }
         public Vector2 GetPosition() => new Vector2(_movement.Position.X, _movement.Position.Y);
         public Movement GetMovement() => _movement;
-        public void GetsAttacked(int damage) => _health -= damage;
+        public void GetsAttacked(int damage)
+        {
+            _health -= damage;
+            _movement.Action = _health < 1 ? MovementAction.DIE : MovementAction.HIT;
+        }
         public bool CanChangeAnimation() => getCurrentAnimation().CanChangeAnimation();
         private Animation getCurrentAnimation() => _actionAnimations.ContainsKey(_movement.Action)
             ? _actionAnimations[_movement.Action]

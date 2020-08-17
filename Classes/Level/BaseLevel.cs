@@ -12,10 +12,10 @@ namespace RogueSimulator.Classes.Level
     {
         private const int NEAR_DISTANCE = 200;
         protected Game1 _game;
+        protected Viewport _viewport;
         protected Texture2D _texture;
         protected Texture2D _portalTexture;
         protected Texture2D _background;
-        protected Viewport _viewport;
         protected List<Tile> _tiles;
         private List<Bullet> _shotsFired;
         private List<ICollidable> _collidablesToRemove;
@@ -40,7 +40,6 @@ namespace RogueSimulator.Classes.Level
             Camera = new Camera2D(_viewport);
             Characters = game.CurrentPlayingState.Characters.Count > 0 ? game.CurrentPlayingState.Characters : new List<Character>();
         }
-
         public int Size { get; private set; }
         public Player Player { get; protected set; }
         public Camera2D Camera { get; protected set; }
