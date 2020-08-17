@@ -15,6 +15,8 @@ namespace RogueSimulator
         JUMP,
         FALL,
         SHOOT,
+        HIT,
+        DIE,
     }
 
     public enum MovementDirection

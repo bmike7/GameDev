@@ -8,19 +8,29 @@ namespace RogueSimulator.Classes.Mechanics
     public class Bullet : Interfaces.IDrawable, IUpdatable, ICollidable
     {
         private const int DEFAULT_VELOCITY = 550;
+        private const int DEFAULT_DAMAGE = 50;
         private Texture2D _texture;
         private double _prevElapsedMs;
         private MovementDirection _direction;
 
-        public Bullet(double initialFireTime, Texture2D bulletTexture, Vector2 from, MovementDirection direction, int velocity = DEFAULT_VELOCITY)
+        public Bullet(
+            double initialFireTime,
+            Texture2D bulletTexture,
+            Vector2 from,
+            MovementDirection direction,
+            int damage = DEFAULT_DAMAGE,
+            int velocity = DEFAULT_VELOCITY
+        )
         {
             _prevElapsedMs = initialFireTime;
             _texture = bulletTexture;
             _direction = direction;
             CollisionRectangle = new Rectangle((int)from.X, (int)from.Y, 10, 10);
+            Damage = damage;
             Velocity = velocity;
         }
         public int Velocity { get; set; }
+        public int Damage { get; set; }
         public Rectangle CollisionRectangle { get; set; }
 
         public void Update(GameTime gameTime)

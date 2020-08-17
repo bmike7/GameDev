@@ -20,6 +20,8 @@ namespace RogueSimulator.Classes.Entity
             _movement.HorizontalVelocity = 150;
             _actionAnimations.Add(MovementAction.IDLE, new Animation(63, 379, 34, 37, 150, 4));
             _actionAnimations.Add(MovementAction.RUN, new Animation(61, 532, 36, 40, 150, 8));
+            _actionAnimations.Add(MovementAction.HIT, new Animation(63, 690, 34, 37, 150, 4, true));
+            _actionAnimations.Add(MovementAction.DIE, new Animation(63, 222, 43, 39, 150, 4, true));
         }
     }
 }
