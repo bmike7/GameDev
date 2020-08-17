@@ -51,20 +51,21 @@ namespace RogueSimulator.Classes.Level
 
         public virtual void Update(GameTime gameTime)
         {
+            Player.Update(gameTime, this);
+
             foreach (Character character in Characters)
                 character.Update(gameTime, this);
 
             foreach (Bullet bullet in _shotsFired)
                 bullet.Update(gameTime);
 
-            Player.Update(gameTime, this);
             Camera.UpdatePosition(Player.GetPosition(), this);
-
-            if (Player.GetPosition().Y > _viewport.Height)
-                _game.ChangeGameState(GameState.GAME_OVER);
 
             checkAndHandleCollisions();
             removeItems();
+
+            if (Player.GetPosition().Y > _viewport.Height)
+                _game.ChangeGameState(GameState.GAME_OVER);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
