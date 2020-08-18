@@ -34,7 +34,6 @@ namespace RogueSimulator.Classes.Mechanics.State
                 _game.CurrentPlayingState.Characters.Clear();
             }
 
-            _currentLevel = _levelFactory.LoadLevel(_game.CurrentPlayingState.SelectedLevel);
             _pauseButton = new Button(
                 onClickAction: () =>
                 {
@@ -48,6 +47,7 @@ namespace RogueSimulator.Classes.Mechanics.State
                 height: 20
             );
 
+            _currentLevel = _levelFactory.LoadLevel(_game.CurrentPlayingState.SelectedLevel);
             _currentLevel.Create();
         }
 
