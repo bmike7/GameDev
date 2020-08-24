@@ -29,9 +29,6 @@ namespace RogueSimulator.Classes.Mechanics
                 newPosition = currentLevel.Size - _viewport.Width;
 
             _position.X = newPosition;
-            // Example of updating camera before camera followed player
-            // But removed those because it was obselete and KISS
-            // if (Utility.IsKeyPressed(Keys.F3)) Rotation += .1f;
         }
 
         public Vector2 ViewportCenter

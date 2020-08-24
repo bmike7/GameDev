@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 
 using RogueSimulator.Interfaces;
 
-// using RogueSimulator;
 using RogueSimulator.Classes.Entity;
 using RogueSimulator.Classes.Level;
 

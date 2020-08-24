@@ -8,7 +8,7 @@ namespace RogueSimulator.Classes.Mechanics
 {
     public class Movement
     {
-        public static int ADD_ON_GROUND_CHECKER = 7;
+        public const int ADD_ON_GROUND_CHECKER = 7;
         private const int SECOND = 1000;
         private const float TIME_OF_JUMP_MS = 0.3f;
         private IInput _input;
