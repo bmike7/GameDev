@@ -33,7 +33,16 @@ namespace RogueSimulator.Classes.Entity
             if (!CanChangeAnimation()) return;
 
             _movement.Action = MovementAction.ATTACK;
-            characterToAttack.GetsAttacked(ATTACK_DAMAGE);
+            if (swordRectangle().Intersects(characterToAttack.CollisionRectangle))
+                characterToAttack.GetsAttacked(ATTACK_DAMAGE);
         }
+
+        private Rectangle swordRectangle()
+            => new Rectangle(
+                x: _movement.Direction == MovementDirection.RIGHT ? CollisionRectangle.X : CollisionRectangle.X + 15,
+                y: CollisionRectangle.Y + 15,
+                width: 120,
+                height: 30
+            );
     }
 }

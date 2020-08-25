@@ -27,9 +27,10 @@ namespace RogueSimulator.Classes.Mechanics
 
             if (!isOnGround()) return;
 
-            if (self is IAttacker && playerIsNearby(self, level.Player))
+            Player player = level.Player;
+            if (self is IAttacker && playerIsNearby(self, player))
             {
-                attack(self as IAttacker, level.Player);
+                attack(self as IAttacker, player);
                 return;
             }
 
