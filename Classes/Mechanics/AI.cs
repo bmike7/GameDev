@@ -8,6 +8,7 @@ namespace RogueSimulator.Classes.Mechanics
 {
     public class AI : IInput
     {
+        private const int NEARBY_DISTANCE = 100;
         private MovementDirection _currentDir = MovementDirection.RIGHT;
         private Character _tempSelf;
         private Movement _tempMovement;
@@ -79,7 +80,7 @@ namespace RogueSimulator.Classes.Mechanics
             => Utility.WillCollideWithOneOf(possibleNextColRec, _tempBlocks)
                 || possibleNextColRec.X < 0
                 || possibleNextColRec.X + possibleNextColRec.Width > _levelSize;
-        private bool playerIsNearby(Character self, Player player) => Vector2.Distance(self.GetPosition(), player.GetPosition()) < 100;
+        private bool playerIsNearby(Character self, Player player) => Vector2.Distance(self.GetPosition(), player.GetPosition()) < NEARBY_DISTANCE;
         private void attack(IAttacker attacker, Character characterToAttack) => attacker.Attack(characterToAttack);
     }
 }
