@@ -11,9 +11,9 @@ namespace RogueSimulator.Classes.Mechanics.State
     {
         private const int PAUSE_BUTTON_HEIGHT = 20;
         private const int PAUSE_BUTTON_OFFSET = 40;
+        private readonly Game1 _game;
+        private readonly LevelFactory _levelFactory;
         private BaseLevel _currentLevel;
-        private Game1 _game;
-        private LevelFactory _levelFactory;
         private Button _pauseButton;
         private MouseState _prevMouseState;
 

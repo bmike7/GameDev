@@ -8,13 +8,12 @@ namespace RogueSimulator.Classes.Mechanics
     public class Camera2D
     {
         private readonly Viewport _viewport;
-        private Vector2 _position;
 
         public Camera2D(Viewport viewport)
         {
             _viewport = viewport;
-            _position = Vector2.Zero;
 
+            Position = Vector2.Zero;
             Rotation = 0;
             Zoom = 1;
             Origin = new Vector2(viewport.Width * 0.5f, viewport.Height * 0.5f);
@@ -28,7 +27,7 @@ namespace RogueSimulator.Classes.Mechanics
             else if (newPosition > currentLevel.Size - _viewport.Width)
                 newPosition = currentLevel.Size - _viewport.Width;
 
-            _position.X = newPosition;
+            Position = new Vector2(newPosition, 0);
         }
 
         public Vector2 ViewportCenter
@@ -39,11 +38,7 @@ namespace RogueSimulator.Classes.Mechanics
             }
         }
 
-        public Vector2 Position
-        {
-            get { return _position; }
-            set { _position = value; }
-        }
+        public Vector2 Position { get; set; }
 
         public float Rotation { get; set; }
         public float Zoom { get; set; }

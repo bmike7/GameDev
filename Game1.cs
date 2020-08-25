@@ -13,7 +13,7 @@ namespace RogueSimulator
     {
         private GameState _gameState;
         private Dictionary<GameState, IState> _gameStates;
-        private GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
         public Game1()

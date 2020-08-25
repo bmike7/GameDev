@@ -1,6 +1,3 @@
-using Microsoft.Xna.Framework;
-
-using RogueSimulator.Classes.Level;
 using RogueSimulator.Classes.Mechanics;
 
 namespace RogueSimulator.Interfaces

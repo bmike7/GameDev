@@ -5,7 +5,7 @@ namespace RogueSimulator.Classes.Mechanics
 {
     public class Gun
     {
-        private Texture2D _bulletTexture;
+        private readonly Texture2D _bulletTexture;
         public Gun(Texture2D bulletTexture, int numberOfBullets = 10)
         {
             _bulletTexture = bulletTexture;

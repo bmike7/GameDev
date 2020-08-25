@@ -7,7 +7,7 @@ namespace RogueSimulator.Classes.Mechanics
     {
         private const int ELAPSED_MS = 90;
         private int _prevElapsed;
-        private bool _isOneFullCicle;
+        private readonly bool _isOneFullCicle;
         private bool _didAllFrames;
 
         public Animation(int firstX, int y, int width, int height, int offset, int numberOfFrames, bool isOneFullCicle = false)

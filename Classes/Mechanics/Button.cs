@@ -8,11 +8,11 @@ namespace RogueSimulator.Classes.Mechanics
 {
     public class Button : ICollidable, Interfaces.IDrawable, IClickable
     {
-        private Action _onClickAction;
-        private Texture2D _texture;
+        private readonly Action _onClickAction;
+        private readonly Texture2D _texture;
+        private readonly float _scale;
         private Rectangle _buttonRectangle;
         private Vector2 _position;
-        private float _scale;
 
         public Button(Action onClickAction, Texture2D buttonTexture, Vector2 position, Rectangle buttonSpriteRectangle, int height = 45)
         {

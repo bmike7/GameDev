@@ -6,10 +6,11 @@ namespace RogueSimulator.Classes.Mechanics.Menu
 {
     public abstract class Menu : Interfaces.IDrawable
     {
+        private readonly Texture2D _background;
         protected Viewport _viewport;
-        private Texture2D _background;
         protected List<Button> _buttonList;
-        public Menu(Viewport viewport, Texture2D background)
+
+        protected Menu(Viewport viewport, Texture2D background)
         {
             _viewport = viewport;
             _background = background;

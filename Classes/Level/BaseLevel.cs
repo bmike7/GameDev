@@ -17,10 +17,10 @@ namespace RogueSimulator.Classes.Level
         protected Texture2D _portalTexture;
         protected Texture2D _background;
         protected List<Tile> _tiles;
-        private List<Bullet> _shotsFired;
-        private List<ICollidable> _collidablesToRemove;
+        private readonly List<Bullet> _shotsFired;
+        private readonly List<ICollidable> _collidablesToRemove;
 
-        public BaseLevel(Game1 game, Texture2D texture, Texture2D background, Texture2D portalTexture, int size)
+        protected BaseLevel(Game1 game, Texture2D texture, Texture2D background, Texture2D portalTexture, int size)
         {
             _game = game;
             _texture = texture;
@@ -40,6 +40,7 @@ namespace RogueSimulator.Classes.Level
             Camera = new Camera2D(_viewport);
             Characters = game.CurrentPlayingState.Characters.Count > 0 ? game.CurrentPlayingState.Characters : new List<Character>();
         }
+
         public int Size { get; private set; }
         public Player Player { get; protected set; }
         public Camera2D Camera { get; protected set; }
@@ -135,8 +136,8 @@ namespace RogueSimulator.Classes.Level
         {
             foreach (ICollidable collidable in _collidablesToRemove)
             {
-                if (collidable is Character) Characters.Remove((Character)collidable);
-                if (collidable is Bullet) _shotsFired.Remove((Bullet)collidable);
+                if (collidable is Character) Characters.Remove(collidable as Character);
+                if (collidable is Bullet) _shotsFired.Remove(collidable as Bullet);
             }
         }
     }

@@ -11,7 +11,7 @@ namespace RogueSimulator.Classes.Mechanics
         public const int ADD_ON_GROUND_CHECKER = 7;
         private const int SECOND = 1000;
         private const float TIME_OF_JUMP_MS = 0.3f;
-        private IInput _input;
+        private readonly IInput _input;
         private IInput _prevInput;
         private double _tempElapsedMs;
         private double _prevElapsedMs = 0;
@@ -40,8 +40,8 @@ namespace RogueSimulator.Classes.Mechanics
             _tempElapsedMs = gameTime.TotalGameTime.TotalMilliseconds;
             _tempCollisionBlocks = level.GetNearCollidableBlocks(Position);
 
-            if (_input is Input) ((Input)_input).Update();
-            if (_input is AI) ((AI)_input).Update(selfChar, level, _tempElapsedMs, _prevElapsedMs);
+            if (_input is Input) (_input as Input).Update();
+            if (_input is AI) (_input as AI).Update(selfChar, level, _tempElapsedMs, _prevElapsedMs);
 
             if (_input != _prevInput || _tempElapsedMs - SECOND > _prevElapsedMs)
                 _prevElapsedMs = _tempElapsedMs;
