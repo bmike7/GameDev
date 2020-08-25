@@ -33,6 +33,7 @@ namespace RogueSimulator.Classes.Level
             Size = size;
 
             Player = new Player(
+                graphicsDevice: _game.GraphicsDevice,
                 texture: Utility.LoadTexture(game, Player.ASSET_NAME),
                 position: game.CurrentPlayingState.Movement.Position,
                 bulletTexture: Utility.LoadTexture(game, "SpriteSheets/Wizard/wizardBullet")

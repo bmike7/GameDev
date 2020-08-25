@@ -13,7 +13,7 @@ namespace RogueSimulator.Classes.Entity
     {
         private MouseState _prevMouseState;
         public const string ASSET_NAME = "SpriteSheets/Wizard/allActions";
-        public Player(Texture2D texture, Vector2 position, Texture2D bulletTexture)
+        public Player(GraphicsDevice graphicsDevice, Texture2D texture, Vector2 position, Texture2D bulletTexture)
             : base(
                 input: new Input(),
                 texture: texture,
@@ -22,6 +22,7 @@ namespace RogueSimulator.Classes.Entity
             )
         {
             Gun = new Gun(bulletTexture);
+            InfoBoard = new PlayerInfoBoard(graphicsDevice, this);
             _actionAnimations.Add(MovementAction.IDLE, new Animation(87, 1035, 58, 87, 231, 6));
             _actionAnimations.Add(MovementAction.RUN, new Animation(75, 1432, 78, 85, 231, 8));
             _actionAnimations.Add(MovementAction.JUMP, new Animation(68, 1229, 65, 87, 231, 2));
@@ -30,6 +31,7 @@ namespace RogueSimulator.Classes.Entity
         }
 
         public Gun Gun { get; set; }
+        public PlayerInfoBoard InfoBoard { get; set; }
 
         public override void Update(GameTime gameTime, BaseLevel level)
         {
