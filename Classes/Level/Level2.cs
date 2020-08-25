@@ -87,9 +87,11 @@ namespace RogueSimulator.Classes.Level
         private void createEnemies()
         {
             Texture2D goblinTexture = Utility.LoadTexture(_game, Goblin.ASSET_NAME);
+            Texture2D skeletonTexture = Utility.LoadTexture(_game, Skeleton.ASSET_NAME);
 
             Characters.Add(new Goblin(goblinTexture, new Vector2(100, 200)));
             Characters.Add(new Goblin(goblinTexture, new Vector2(800, 200)));
+            Characters.Add(new Skeleton(skeletonTexture, new Vector2(1900, 200)));
         }
     }
 }

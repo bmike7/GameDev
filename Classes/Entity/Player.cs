@@ -28,6 +28,8 @@ namespace RogueSimulator.Classes.Entity
             _actionAnimations.Add(MovementAction.JUMP, new Animation(68, 1229, 65, 87, 231, 2));
             _actionAnimations.Add(MovementAction.FALL, new Animation(74, 621, 59, 100, 231, 2));
             _actionAnimations.Add(MovementAction.SHOOT, new Animation(91, 258, 135, 84, 231, 8, true));
+            _actionAnimations.Add(MovementAction.HIT, new Animation(87, 840, 55, 86, 231, 4, true));
+            _actionAnimations.Add(MovementAction.DIE, new Animation(81, 436, 85, 100, 231, 7, true));
         }
 
         public Gun Gun { get; set; }

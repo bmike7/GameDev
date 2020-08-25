@@ -14,6 +14,7 @@ namespace RogueSimulator
         RUN,
         JUMP,
         FALL,
+        ATTACK,
         SHOOT,
         HIT,
         DIE,
