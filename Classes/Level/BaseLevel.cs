@@ -66,7 +66,7 @@ namespace RogueSimulator.Classes.Level
             checkAndHandleCollisions();
             removeItems();
 
-            if (Player.GetPosition().Y > _viewport.Height)
+            if (Player.GetPosition().Y > _viewport.Height || (Player.Health <= 0 && Player.CanChangeAnimation()))
                 _game.ChangeGameState(GameState.GAME_OVER);
         }
 

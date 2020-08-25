@@ -91,7 +91,7 @@ namespace RogueSimulator.Classes.Level
 
             Characters.Add(new Goblin(goblinTexture, new Vector2(100, 200)));
             Characters.Add(new Goblin(goblinTexture, new Vector2(800, 200)));
-            Characters.Add(new Skeleton(skeletonTexture, new Vector2(2200, 200)));
+            Characters.Add(new Skeleton(skeletonTexture, new Vector2(1900, 200)));
         }
     }
 }

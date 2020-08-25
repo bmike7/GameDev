@@ -1,9 +1,8 @@
 using Microsoft.Xna.Framework;
 
-using RogueSimulator.Interfaces;
-
 using RogueSimulator.Classes.Entity;
 using RogueSimulator.Classes.Level;
+using RogueSimulator.Interfaces;
 
 namespace RogueSimulator.Classes.Mechanics
 {
@@ -15,8 +14,8 @@ namespace RogueSimulator.Classes.Mechanics
         private int _levelSize;
         private ICollidable[] _tempBlocks;
 
-        public bool IsRight { get => _currentDir == MovementDirection.RIGHT; }
-        public bool IsLeft { get => _currentDir == MovementDirection.LEFT; }
+        public bool IsRight { get => _currentDir == MovementDirection.RIGHT && _tempMovement.Action != MovementAction.ATTACK; }
+        public bool IsLeft { get => _currentDir == MovementDirection.LEFT && _tempMovement.Action != MovementAction.ATTACK; }
         public bool IsStartedJumping { get; set; } = false;
 
         public void Update(Character self, BaseLevel level, double tempElapsedMs, double prevElapsedMs)
@@ -27,6 +26,12 @@ namespace RogueSimulator.Classes.Mechanics
             _tempBlocks = level.GetNearCollidableBlocks(self.GetPosition());
 
             if (!isOnGround()) return;
+
+            if (self is IAttacker && playerIsNearby(self, level.Player))
+            {
+                attack(self as IAttacker, level.Player);
+                return;
+            }
 
             updateDirection(tempElapsedMs, prevElapsedMs);
         }
@@ -73,5 +78,7 @@ namespace RogueSimulator.Classes.Mechanics
             => Utility.WillCollideWithOneOf(possibleNextColRec, _tempBlocks)
                 || possibleNextColRec.X < 0
                 || possibleNextColRec.X + possibleNextColRec.Width > _levelSize;
+        private bool playerIsNearby(Character self, Player player) => Vector2.Distance(self.GetPosition(), player.GetPosition()) < 100;
+        private void attack(IAttacker attacker, Character characterToAttack) => attacker.Attack(characterToAttack);
     }
 }
