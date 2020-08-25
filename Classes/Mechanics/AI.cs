@@ -9,59 +9,69 @@ namespace RogueSimulator.Classes.Mechanics
 {
     public class AI : IInput
     {
-        public bool IsRight { get; set; } = false;
-        public bool IsLeft { get; set; } = false;
+        private MovementDirection _currentDir = MovementDirection.RIGHT;
+        private Character _tempSelf;
+        private Movement _tempMovement;
+        private int _levelSize;
+        private ICollidable[] _tempBlocks;
+
+        public bool IsRight { get => _currentDir == MovementDirection.RIGHT; }
+        public bool IsLeft { get => _currentDir == MovementDirection.LEFT; }
         public bool IsStartedJumping { get; set; } = false;
 
         public void Update(Character self, BaseLevel level, double tempElapsedMs, double prevElapsedMs)
         {
-            // if takes the step => !onGround || colliding ==> turn around
-            Movement movement = self.GetMovement();
-            MovementDirection currentDir = movement.Direction;
-            ICollidable[] blocks = level.GetNearCollidableBlocks(self.GetPosition());
+            _tempSelf = self;
+            _tempMovement = self.GetMovement();
+            _levelSize = level.Size;
+            _tempBlocks = level.GetNearCollidableBlocks(self.GetPosition());
 
-            float pixelsToTravel = Utility.PixelsToTravel(prevElapsedMs, tempElapsedMs, movement.HorizontalVelocity);
-            float step = currentDir == MovementDirection.RIGHT ? pixelsToTravel : -pixelsToTravel;
+            if (!isOnGround()) return;
 
-            // does it collide or will it fall? If so turn around.
-            bool onGround = Utility.WillCollideWithOneOf(
-                ownCollisionRectangle: new Rectangle(
-                    x: (int)(movement.Position.X),
-                    y: (int)(movement.Position.Y + Movement.ADD_ON_GROUND_CHECKER),
-                    width: self.CollisionRectangle.Width,
-                    height: self.CollisionRectangle.Height
-                ),
-                collisionBlocks: blocks
-            );
-            if (!onGround)
-                return;
-
-            bool willFall = Utility.WillCollideWithOneOf(
-                ownCollisionRectangle: new Rectangle(
-                    x: (int)(movement.Position.X + step),
-                    y: (int)(movement.Position.Y + Movement.ADD_ON_GROUND_CHECKER),
-                    width: self.CollisionRectangle.Width,
-                    height: self.CollisionRectangle.Height
-                ),
-                collisionBlocks: blocks
-            );
-            Rectangle newOwnCollisionRectangle = new Rectangle(
-                x: (int)(movement.Position.X + step),
-                y: (int)movement.Position.Y,
-                width: self.CollisionRectangle.Width,
-                height: self.CollisionRectangle.Height
-            );
-            bool collides = Utility.WillCollideWithOneOf(newOwnCollisionRectangle, blocks)
-                || newOwnCollisionRectangle.X < 0
-                || newOwnCollisionRectangle.X + newOwnCollisionRectangle.Width > level.Size;
-
-
-            if (!willFall || collides)
-                movement.Direction = currentDir == MovementDirection.RIGHT ? MovementDirection.LEFT : MovementDirection.RIGHT;
-
-            currentDir = movement.Direction;
-            IsRight = currentDir == MovementDirection.RIGHT;
-            IsLeft = currentDir == MovementDirection.LEFT;
+            updateDirection(tempElapsedMs, prevElapsedMs);
         }
+
+        private void updateDirection(double tempElapsedMs, double prevElapsedMs)
+        {
+            float pixelsToTravel = Utility.PixelsToTravel(prevElapsedMs, tempElapsedMs, _tempMovement.HorizontalVelocity);
+            float step = _tempMovement.Direction == MovementDirection.RIGHT ? pixelsToTravel : -pixelsToTravel;
+            Rectangle possibleNextCollisionRectangle = newOwnCollisionRectangle(step);
+
+            if (!willFall(step) || willCollide(possibleNextCollisionRectangle))
+                _tempMovement.Direction = _tempMovement.Direction == MovementDirection.RIGHT ? MovementDirection.LEFT : MovementDirection.RIGHT;
+
+            _currentDir = _tempMovement.Direction;
+        }
+        private bool isOnGround() =>
+            Utility.WillCollideWithOneOf(
+                ownCollisionRectangle: new Rectangle(
+                    x: (int)(_tempMovement.Position.X),
+                    y: (int)(_tempMovement.Position.Y + Movement.ADD_ON_GROUND_CHECKER),
+                    width: _tempSelf.CollisionRectangle.Width,
+                    height: _tempSelf.CollisionRectangle.Height
+                ),
+                collisionBlocks: _tempBlocks
+            );
+        private bool willFall(float step) =>
+            Utility.WillCollideWithOneOf(
+                ownCollisionRectangle: new Rectangle(
+                    x: (int)(_tempMovement.Position.X + step),
+                    y: (int)(_tempMovement.Position.Y + Movement.ADD_ON_GROUND_CHECKER),
+                    width: _tempSelf.CollisionRectangle.Width,
+                    height: _tempSelf.CollisionRectangle.Height
+                ),
+                collisionBlocks: _tempBlocks
+            );
+        private Rectangle newOwnCollisionRectangle(float step) =>
+            new Rectangle(
+                x: (int)(_tempMovement.Position.X + step),
+                y: (int)_tempMovement.Position.Y,
+                width: _tempSelf.CollisionRectangle.Width,
+                height: _tempSelf.CollisionRectangle.Height
+            );
+        private bool willCollide(Rectangle possibleNextColRec)
+            => Utility.WillCollideWithOneOf(possibleNextColRec, _tempBlocks)
+                || possibleNextColRec.X < 0
+                || possibleNextColRec.X + possibleNextColRec.Width > _levelSize;
     }
 }
