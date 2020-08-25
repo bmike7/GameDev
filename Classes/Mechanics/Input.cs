@@ -6,15 +6,19 @@ namespace RogueSimulator.Classes.Mechanics
 {
     public class Input : IInput
     {
-        public bool IsRight { get; set; } = false;
-        public bool IsLeft { get; set; } = false;
-        public bool IsStartedJumping { get; set; } = false;
+        private bool _isRightPressed = false;
+        private bool _isLeftPressed = false;
+        private bool _isSpacePressed = false;
+
+        public bool IsRight { get => _isRightPressed; }
+        public bool IsLeft { get => _isLeftPressed; }
+        public bool IsStartedJumping { get => _isSpacePressed; }
 
         public void Update()
         {
-            IsRight = Utility.IsKeyPressed(Keys.D);
-            IsLeft = Utility.IsKeyPressed(Keys.A);
-            IsStartedJumping = Utility.IsKeyPressed(Keys.Space);
+            _isRightPressed = Utility.IsKeyPressed(Keys.D);
+            _isLeftPressed = Utility.IsKeyPressed(Keys.A);
+            _isSpacePressed = Utility.IsKeyPressed(Keys.Space);
         }
     }
 }
