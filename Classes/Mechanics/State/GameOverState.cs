@@ -9,9 +9,9 @@ namespace RogueSimulator.Classes.Mechanics.State
 {
     public class GameOverState : IState
     {
+        private readonly Game1 _game;
         private GameOverMenu _gameOverMenu;
         private MouseState _prevMouseState;
-        private Game1 _game;
         public GameOverState(Game1 game)
         {
             _game = game;

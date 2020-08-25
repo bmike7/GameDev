@@ -9,9 +9,9 @@ namespace RogueSimulator.Classes.Mechanics
     {
         private const int DEFAULT_VELOCITY = 550;
         private const int DEFAULT_DAMAGE = 50;
-        private Texture2D _texture;
+        private readonly Texture2D _texture;
+        private readonly MovementDirection _direction;
         private double _prevElapsedMs;
-        private MovementDirection _direction;
 
         public Bullet(
             double initialFireTime,

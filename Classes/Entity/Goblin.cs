@@ -7,7 +7,7 @@ namespace RogueSimulator.Classes.Entity
 {
     public class Goblin : Character
     {
-        public static string ASSET_NAME = "SpriteSheets/Enemies/Goblin/AllGoblinActions";
+        public const string ASSET_NAME = "SpriteSheets/Enemies/Goblin/AllGoblinActions";
         public Goblin(Texture2D texture, Vector2 position)
             : base(
                 input: new AI(),

@@ -12,7 +12,7 @@ namespace RogueSimulator.Classes.Entity
     public class Player : Character, IShooter
     {
         private MouseState _prevMouseState;
-        public static string ASSET_NAME = "SpriteSheets/Wizard/allActions";
+        public const string ASSET_NAME = "SpriteSheets/Wizard/allActions";
         public Player(Texture2D texture, Vector2 position, Texture2D bulletTexture)
             : base(
                 input: new Input(),

@@ -15,7 +15,7 @@ namespace RogueSimulator.Classes.Level
             _levels = new Dictionary<LevelType, Func<BaseLevel>>();
         }
         public BaseLevel LoadLevel(LevelType levelType) => _levels[levelType]();
-        public LevelType[] RegisteredTypes => _levels.Keys.ToArray();
+        public LevelType[] RegisteredTypes() { return _levels.Keys.ToArray(); }
         public void RegisterLevel(LevelType levelType, Func<BaseLevel> factoryMethod)
         {
             if (factoryMethod is null) return;

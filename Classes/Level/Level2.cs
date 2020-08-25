@@ -23,7 +23,7 @@ namespace RogueSimulator.Classes.Level
             RIGHTSIDE_FLOATING_BLOCK,
         }
 
-        private Dictionary<TileType, Rectangle> _tileTypes = new Dictionary<TileType, Rectangle> {
+        private readonly Dictionary<TileType, Rectangle> _tileTypes = new Dictionary<TileType, Rectangle> {
             {TileType.GROUND, new Rectangle(90, 30, 30, 30)},
             {TileType.LEFTWALL, new Rectangle(64, 56, 30, 30)},
             {TileType.LEFTWALL_GROUND_LEVEL, new Rectangle(257, 273, 30, 30)},
@@ -38,7 +38,7 @@ namespace RogueSimulator.Classes.Level
 
         private const int NUMBER_OF_LINES = 5;
         private const int NUMBER_OF_COLUMNS = 50;
-        private int[,] _levelDesign = new int[NUMBER_OF_LINES, NUMBER_OF_COLUMNS]
+        private readonly int[,] _levelDesign = new int[NUMBER_OF_LINES, NUMBER_OF_COLUMNS]
         {
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
