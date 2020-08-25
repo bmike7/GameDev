@@ -16,15 +16,17 @@ namespace RogueSimulator.Classes.Entity
         protected float _scale = 1;
         protected Dictionary<MovementAction, Animation> _actionAnimations = new Dictionary<MovementAction, Animation>();
 
-        protected Character(IInput input, Texture2D texture, Vector2 position, Rectangle collisionRectangle, int health = 100)
+        protected Character(IInput input, Texture2D texture, Vector2 position, Rectangle collisionRectangle, int health = 100, int maxHealth = 100)
         {
             _texture = texture;
             _movement = new Movement(input, position);
             _collisionRectangle = collisionRectangle;
             Health = health;
+            MaxHealth = maxHealth;
         }
 
         public int Health { get; protected set; }
+        public int MaxHealth { get; protected set; }
         public Rectangle CollisionRectangle { get { return _collisionRectangle; } }
 
         public virtual void Update(GameTime gameTime, BaseLevel level)

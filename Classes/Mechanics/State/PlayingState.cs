@@ -62,8 +62,7 @@ namespace RogueSimulator.Classes.Mechanics.State
             _currentLevel.Draw(spriteBatch);
 
             spriteBatch.Begin();
-            //Here will come other stuff that needs to be displayed always in the same spot (healthbar for instance)
-            // _currentLevel.Player.Healthbar.Draw(spriteBatch)
+            _currentLevel.Player.InfoBoard.Draw(spriteBatch);
             _pauseButton.Draw(spriteBatch);
             spriteBatch.End();
         }
