@@ -52,7 +52,7 @@ namespace RogueSimulator
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Utility.IsKeyPressed(Keys.Escape))
+            if (Utility.IsKeyPressed(Keys.Escape))
                 Exit();
 
             _gameStates[_gameState].Update(gameTime);
