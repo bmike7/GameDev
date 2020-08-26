@@ -11,14 +11,14 @@ namespace RogueSimulator.Classes.Level
     public abstract class BaseLevel : Interfaces.IDrawable, IUpdatable
     {
         private const int NEAR_DISTANCE = 200;
-        protected Game1 _game;
-        protected Viewport _viewport;
-        protected Texture2D _texture;
-        protected Texture2D _portalTexture;
-        protected Texture2D _background;
-        protected List<Tile> _tiles;
         private readonly List<Bullet> _shotsFired;
         private readonly List<ICollidable> _collidablesToRemove;
+        protected readonly Game1 _game;
+        protected readonly Viewport _viewport;
+        protected readonly Texture2D _texture;
+        protected readonly Texture2D _portalTexture;
+        protected readonly Texture2D _background;
+        protected readonly List<Tile> _tiles;
 
         protected BaseLevel(Game1 game, Texture2D texture, Texture2D background, Texture2D portalTexture, int size)
         {

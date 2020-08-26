@@ -1,6 +1,6 @@
 namespace RogueSimulator.Interfaces
 {
-    public interface IState : IUpdatable, Interfaces.IDrawable
+    public interface IState : IUpdatable, IDrawable
     {
         void LoadContent();
     }

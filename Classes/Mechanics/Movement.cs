@@ -69,12 +69,12 @@ namespace RogueSimulator.Classes.Mechanics
             float moveRight = Position.X + xStep;
             float moveLeft = Position.X - xStep;
 
-            bool goesRight = _input.IsRight && !willCollide(CollisionSide.RIGHT, (int)moveRight);
-            bool goesLeft = _input.IsLeft && !willCollide(CollisionSide.LEFT, (int)moveLeft);
+            bool shouldGoRight = _input.IsRight && !willCollide(CollisionSide.RIGHT, (int)moveRight);
+            bool shouldGoLeft = _input.IsLeft && !willCollide(CollisionSide.LEFT, (int)moveLeft);
 
-            return goesRight
+            return shouldGoRight
                 ? moveRight
-                : goesLeft
+                : shouldGoLeft
                     ? moveLeft
                     : Position.X;
         }

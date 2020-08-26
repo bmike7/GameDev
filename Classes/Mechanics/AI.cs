@@ -31,7 +31,7 @@ namespace RogueSimulator.Classes.Mechanics
             Player player = level.Player;
             if (self is IAttacker && playerIsNearby(self, player))
             {
-                attack(self as IAttacker, player);
+                (self as IAttacker).Attack(player);
                 return;
             }
 
@@ -81,6 +81,5 @@ namespace RogueSimulator.Classes.Mechanics
                 || possibleNextColRec.X < 0
                 || possibleNextColRec.X + possibleNextColRec.Width > _levelSize;
         private bool playerIsNearby(Character self, Player player) => Vector2.Distance(self.GetPosition(), player.GetPosition()) < NEARBY_DISTANCE;
-        private void attack(IAttacker attacker, Character characterToAttack) => attacker.Attack(characterToAttack);
     }
 }
